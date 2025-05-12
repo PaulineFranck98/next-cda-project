@@ -10,6 +10,40 @@ generator client {
     // previewFeatures = ["fullTextSearch", "fullTextIndex", "prismaSchemaFolder"]
 }
 
+model Itinerary {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    title String 
+    description String
+
+    locations ItineraryLocation[]
+}
+
+model Location {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    locationName String
+    description String 
+    address String
+    latitude Float
+    longitude Float
+    mustSee Boolean @default(false)
+
+    itineraries ItineraryLocation[]
+
+}
+
+model ItineraryLocation {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    order Int 
+
+    itineraryId String @db.ObjectId
+    locationId  String @db.ObjectId
+
+    itinerary Itinerary @relation(fields: [itineraryId], references: [id], onDelete: Cascade)
+    location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+}
+
+
+
 
 // npx prisma generate
 // npx prisma db push
