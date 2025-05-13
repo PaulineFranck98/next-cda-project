@@ -24,7 +24,7 @@ export async function PUT(req: NextRequest, { params }: { params: { locationId: 
     try{
         const { locationId } = params
         const body = await req.json();
-        const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, isApproved, isActive } = body;
+        const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, website, isApproved, isActive } = body;
 
         const updatedLocation = await db.location.update({
             where: { id: locationId },
@@ -37,6 +37,7 @@ export async function PUT(req: NextRequest, { params }: { params: { locationId: 
                 city,
                 zipcode,
                 phoneNumber,
+                website,
                 isApproved,
                 isActive
             },

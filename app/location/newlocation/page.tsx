@@ -15,6 +15,7 @@ const AddLocation: React.FC = () => {
     const [city, setCity] = useState("");
     const [zipcode, setZipcode] = useState("");
     const [phoneNumber, setPhoneNumber] = useState("");
+    const [website, setWebsite] = useState("");
 
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -32,6 +33,7 @@ const AddLocation: React.FC = () => {
                 city,
                 zipcode,
                 phoneNumber,
+                website,
                 latitude,
                 longitude
             };
@@ -43,7 +45,7 @@ const AddLocation: React.FC = () => {
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify(locationPayload),
             });
-            
+
         } catch(error){
             console.error("Error submitting location: ", error);
         }
@@ -96,7 +98,7 @@ const AddLocation: React.FC = () => {
                         className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
                     />
                 </div>
-                  <div className='flex flex-col gap-2 w-80 mt-2'>
+                <div className='flex flex-col gap-2 w-80 mt-2'>
                     <label htmlFor="zipcode">Code postal</label>
                     <input 
                         id="zipcode"
@@ -107,13 +109,24 @@ const AddLocation: React.FC = () => {
                         className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
                     />
                 </div>
-                        <div className='flex flex-col gap-2 w-80 mt-2'>
+                <div className='flex flex-col gap-2 w-80 mt-2'>
                     <label htmlFor="phoneNumber">Numéro de téléphone</label>
                     <input 
                         id="phoneNumber"
                         type="text" 
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
+                        required
+                        className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
+                    />
+                </div>
+                <div className='flex flex-col gap-2 w-80 mt-2'>
+                    <label htmlFor="website">Site web</label>
+                    <input 
+                        id="website"
+                        type="text" 
+                        value={website}
+                        onChange={(e) => setWebsite(e.target.value)}
                         required
                         className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
                     />

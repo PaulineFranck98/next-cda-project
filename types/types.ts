@@ -10,4 +10,5 @@ interface LocationType {
     isApproved: boolean;
     isActive: boolean;
     phoneNumber: string;
+    website: string;
 }
