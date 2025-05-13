@@ -73,7 +73,7 @@ model ThemeLocation{
     location Location? @relation(fields: [locationId], references: [id], onDelete: Cascade)
     theme Theme? @relation(fields: [themeId], references: [id], onDelete: Cascade)
 
-    // @@index([locationId, themeId])
+    @@index([locationId, themeId])
 }
 
 model Companion{
@@ -92,7 +92,7 @@ model CompanionLocation{
     location Location? @relation(fields: [locationId], references: [id], onDelete: Cascade)
     companion Companion? @relation(fields: [companionId], references: [id], onDelete: Cascade)
 
-    // @@index([locationId, companionId])
+    @@index([locationId, companionId])
 }
 
 
@@ -123,7 +123,7 @@ model Location {
     confort Confort? @relation(fields: [confortId], references: [id], onDelete: Cascade)
     intensity Intensity? @relation(fields: [intensityId], references: [id], onDelete: Cascade)
 
-    // @@index([typeId, durationId, priceId, confortId])
+    @@index([typeId, durationId, priceId, confortId])
 
     images Image[]
     themes ThemeLocation[]

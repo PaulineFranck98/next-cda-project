@@ -2,26 +2,21 @@ import { db } from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
 
 
-
 export async function PUT(req: NextRequest, { params }: { params: { locationId: string } })
 {
     try{
         const { locationId } = params
         const body = await req.json();
-        const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, website } = body;
+        const {  type, duration, price, confort, intensity } = body;
 
         const updatedLocation = await db.location.update({
             where: { id: locationId },
             data: {
-                locationName,
-                description,
-                address,
-                latitude,
-                longitude, 
-                city,
-                zipcode,
-                phoneNumber,
-                website,
+                type, 
+                duration, 
+                price, 
+                confort,
+                intensity
             },
         })
 
