@@ -26,7 +26,7 @@ const LocationDetailPage = () => {
     
   return (
     <div>
-        {location && (
+        { location && (
             <div>
                 <p>{location.locationName}</p>
                 <p>{location.description}</p>

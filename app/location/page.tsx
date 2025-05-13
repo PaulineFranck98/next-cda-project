@@ -11,7 +11,7 @@ const LocationPage = () => {
     useEffect(() => {
         const fetchLocations = async () => {
             const response = await fetch('/api/location')
-            const data = await response.json()
+            const data: LocationType[] = await response.json()
             setLocations(data)
         }
 

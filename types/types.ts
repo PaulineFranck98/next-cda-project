@@ -5,5 +5,9 @@ interface LocationType {
     address: string;
     latitude: number;
     longitude: number;
-    mustSee: boolean;
+    city: string;
+    zipcode: string;
+    isApproved: boolean;
+    isActive: boolean;
+    phoneNumber: string;
 }

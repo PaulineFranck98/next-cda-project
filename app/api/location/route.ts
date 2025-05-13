@@ -21,16 +21,20 @@ export async function GET ()
 export async function POST(req: NextRequest)
 {
     try {
-        const { locationName, description, address, latitude, longitude, mustSee } = await req.json();
+        const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, isApproved, isActive } = await req.json();
 
         const location = await db.location.create({
             data: {
                 locationName,
                 description,
                 address,
-                latitude,
-                longitude,
-                mustSee: mustSee ?? false
+                latitude:  parseFloat(latitude),
+                longitude:  parseFloat(longitude),
+                city,
+                zipcode,
+                phoneNumber,
+                isApproved: isApproved ?? false,
+                isActive: isActive ?? false,
             },
         })
 
