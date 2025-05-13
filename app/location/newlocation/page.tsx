@@ -63,7 +63,7 @@ const AddLocation: React.FC = () => {
                         value={locationName}
                         onChange={(e) => setLocationName(e.target.value)}
                         required
-                        className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
+                        className='bg-gray-100 rounded-md border-gray-300 border-1 h-9'
                     />
                 </div>
                 <div className='flex flex-col gap-2 w-80 mt-2'>
@@ -73,7 +73,7 @@ const AddLocation: React.FC = () => {
                         value={description} 
                         onChange={(e) => setDescription(e.target.value)}
                         required
-                        className='bg-gray-100 rounded-md resize-none border-gray-200 border-1'
+                        className='bg-gray-100 rounded-md resize-none border-gray-300 border-1'
                     />
                 </div>
                 <div className='flex flex-col gap-2 w-80 mt-2'>
@@ -84,7 +84,7 @@ const AddLocation: React.FC = () => {
                         value={address}
                         onChange={(e) => setAddress(e.target.value)}
                         required
-                        className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
+                        className='bg-gray-100 rounded-md border-gray-300 border-1 h-9'
                     />
                 </div>
                 <div className='flex flex-col gap-2 w-80 mt-2'>
@@ -95,7 +95,7 @@ const AddLocation: React.FC = () => {
                         value={city}
                         onChange={(e) => setCity(e.target.value)}
                         required
-                        className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
+                        className='bg-gray-100 rounded-md border-gray-300 border-1 h-9'
                     />
                 </div>
                 <div className='flex flex-col gap-2 w-80 mt-2'>
@@ -106,7 +106,7 @@ const AddLocation: React.FC = () => {
                         value={zipcode}
                         onChange={(e) => setZipcode(e.target.value)}
                         required
-                        className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
+                        className='bg-gray-100 rounded-md border-gray-300 border-1 h-9'
                     />
                 </div>
                 <div className='flex flex-col gap-2 w-80 mt-2'>
@@ -117,7 +117,7 @@ const AddLocation: React.FC = () => {
                         value={phoneNumber}
                         onChange={(e) => setPhoneNumber(e.target.value)}
                         required
-                        className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
+                        className='bg-gray-100 rounded-md border-gray-300 border-1 h-9'
                     />
                 </div>
                 <div className='flex flex-col gap-2 w-80 mt-2'>
@@ -128,7 +128,7 @@ const AddLocation: React.FC = () => {
                         value={website}
                         onChange={(e) => setWebsite(e.target.value)}
                         required
-                        className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
+                        className='bg-gray-100 rounded-md border-gray-300 border-1 h-9'
                     />
                 </div>
                 <div className='flex flex-col gap-2 w-80 mt-2'>
@@ -139,7 +139,7 @@ const AddLocation: React.FC = () => {
                         value={latitude}
                         onChange={(e) => setLatitude(e.target.value)}
                         required
-                        className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
+                        className='bg-gray-100 rounded-md border-gray-300 border-1 h-9'
                     />
                 </div>
                 <div className='flex flex-col gap-2 w-80 mt-2'>
@@ -150,7 +150,7 @@ const AddLocation: React.FC = () => {
                         value={longitude}
                         onChange={(e) => setLongitude(e.target.value)}
                         required
-                        className='bg-gray-100 rounded-md border-gray-200 border-1 h-9'
+                        className='bg-gray-100 rounded-md border-gray-300 border-1 h-9'
                     />
                 </div>
             

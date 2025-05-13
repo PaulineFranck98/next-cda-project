@@ -7,8 +7,6 @@ interface LocationType {
     longitude: number;
     city: string;
     zipcode: string;
-    isApproved: boolean;
-    isActive: boolean;
     phoneNumber: string;
     website: string;
 }

@@ -67,13 +67,13 @@ model Theme{
 model ThemeLocation{
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    locationId String @db.ObjectId
-    themeId String @db.ObjectId
+    locationId String? @db.ObjectId
+    themeId String? @db.ObjectId
 
-    location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
-    theme Theme @relation(fields: [themeId], references: [id], onDelete: Cascade)
+    location Location? @relation(fields: [locationId], references: [id], onDelete: Cascade)
+    theme Theme? @relation(fields: [themeId], references: [id], onDelete: Cascade)
 
-    @@index([locationId, themeId])
+    // @@index([locationId, themeId])
 }
 
 model Companion{
@@ -86,13 +86,13 @@ model Companion{
 model CompanionLocation{
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    locationId String @db.ObjectId
-    companionId String @db.ObjectId
+    locationId String? @db.ObjectId
+    companionId String? @db.ObjectId
 
-    location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
-    companion Companion @relation(fields: [companionId], references: [id], onDelete: Cascade)
+    location Location? @relation(fields: [locationId], references: [id], onDelete: Cascade)
+    companion Companion? @relation(fields: [companionId], references: [id], onDelete: Cascade)
 
-    @@index([locationId, companionId])
+    // @@index([locationId, companionId])
 }
 
 
@@ -108,22 +108,22 @@ model Location {
     latitude Float 
     longitude Float
 
-    isApproved Boolean @default(false)
-    isActive Boolean @default(false)
+    isApproved Boolean? @default(false)
+    isActive Boolean? @default(false)
 
-    typeId String @db.ObjectId
-    durationId String @db.ObjectId
-    priceId String @db.ObjectId
-    confortId String @db.ObjectId
-    intensityId String @db.ObjectId
+    typeId String? @db.ObjectId
+    durationId String? @db.ObjectId
+    priceId String? @db.ObjectId
+    confortId String? @db.ObjectId
+    intensityId String? @db.ObjectId
 
-    type Type @relation(fields: [typeId], references: [id], onDelete: Cascade)
-    duration Duration @relation(fields: [durationId], references: [id], onDelete: Cascade)
-    price Price @relation(fields: [priceId], references: [id], onDelete: Cascade)
-    confort Confort @relation(fields: [confortId], references: [id], onDelete: Cascade)
-    intensity Intensity @relation(fields: [intensityId], references: [id], onDelete: Cascade)
+    type Type? @relation(fields: [typeId], references: [id], onDelete: Cascade)
+    duration Duration? @relation(fields: [durationId], references: [id], onDelete: Cascade)
+    price Price? @relation(fields: [priceId], references: [id], onDelete: Cascade)
+    confort Confort? @relation(fields: [confortId], references: [id], onDelete: Cascade)
+    intensity Intensity? @relation(fields: [intensityId], references: [id], onDelete: Cascade)
 
-    @@index([typeId, durationId, priceId, confortId])
+    // @@index([typeId, durationId, priceId, confortId])
 
     images Image[]
     themes ThemeLocation[]
