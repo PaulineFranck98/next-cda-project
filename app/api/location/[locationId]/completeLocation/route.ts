@@ -7,18 +7,18 @@ export async function PUT(req: NextRequest, { params }: { params: { locationId: 
     try{
         const { locationId } = params
         const body = await req.json();
-        const {  type, duration, price, confort, intensity } = body;
+        const { typeId, durationId, priceId, confortId, intensityId } = body;
 
         const updatedLocation = await db.location.update({
             where: { id: locationId },
             data: {
-                type, 
-                duration, 
-                price, 
-                confort,
-                intensity
+                typeId, 
+                durationId, 
+                priceId, 
+                confortId,
+                intensityId
             },
-        })
+        });
 
         return NextResponse.json(updatedLocation, { status: 200 })
     } catch(error) {

@@ -4,6 +4,7 @@
 import React , { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useUser } from  '@clerk/nextjs'
+import Link from 'next/link'
 
 const LocationDetailPage = () => {
 
@@ -30,6 +31,7 @@ const LocationDetailPage = () => {
             <div>
                 <p>{location.locationName}</p>
                 <p>{location.description}</p>
+                <Link href={`/location/${location.id}/completeLocation`}>Compléter les informations</Link>
             </div>
         )}
       
