@@ -3,11 +3,14 @@
 import React, {useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import TypeSelector from '@/components/location/TypeSelector';
-import { Type, Duration, Price, Confort, Intensity } from '@prisma/client';
+import { Type, Duration, Price, Confort, Intensity, Theme, Companion } from '@prisma/client';
 import DurationSelector from '@/components/location/DurationSelector';
 import PriceSelector from '@/components/location/PriceSelector';
 import ConfortSelector from '@/components/location/ConfortSelector';
 import IntensitySelector from '@/components/location/IntensitySelector';
+import ThemeCheckboxGroup from '@/components/location/ThemeCheckboxGroup';
+import CompanionCheckboxGroup from '@/components/location/CompanionCheckboxGroup';
+import ImageUploader from '@/components/location/ImageUploader';
 
 interface Props {
     locationId: string;
@@ -30,6 +33,14 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
 
     const [intensities, setIntensities] = useState<Intensity[]>([]);
     const [selectedIntensityId, setSelectedIntensityId] = useState<string>('');
+
+    const [themes, setThemes] = useState<Theme[]>([]);
+    const [selectedThemeIds, setSelectedThemeIds] = useState<string[]>([]);
+
+    const [companions, setCompanions] = useState<Companion[]>([]);
+    const [selectedCompanionIds, setSelectedCompanionIds] = useState<string[]>([]);
+
+    const [uploadedImages, setUploadedImages] = useState<string[]>([]);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -85,11 +96,33 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
             };
         }
 
+        const fetchThemes = async () => {
+            try {
+                const response = await fetch('/api/theme');
+                const data = await response.json();
+                setThemes(data);
+            } catch(error) {
+                console.error("Error fetching themes: ", error);
+            }
+        }
+
+        const fetchCompanions = async () => {
+            try {
+                const response = await fetch('/api/companion')
+                const data = await response.json();
+                setCompanions(data);
+            } catch(error) {
+                console.error("Error fetching companions: ", error);
+            }
+        }
+
         fetchTypes();
         fetchDurations();
         fetchPrices();
         fetchConforts();
         fetchIntensities();
+        fetchThemes();
+        fetchCompanions();
     }, []);
 
     useEffect(() => {
@@ -103,6 +136,9 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                 setSelectedPriceId(location.priceId ?? '');
                 setSelectedConfortId(location.confortId ?? '');
                 setSelectedIntensityId(location.intensityId ?? '');
+                setSelectedThemeIds(location.themes?.map((theme: any) => theme.themeId) ?? []);
+                setSelectedCompanionIds(location.companions?.map((companion: any) => companion.companionId) ?? []);
+                setUploadedImages(location.images?.map((img: any) => img.imageName) ?? []);
             } catch(error)
             {
                 console.error("Error fetching location: ", error);
@@ -120,17 +156,21 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
         e.preventDefault();
         if(locationId == null) return;
 
-        // pour permettre d'enregistrer sans tout ajouter
-        const updateData: Record<string, string> = {};
-        if(selectedTypeId) updateData.typeId = selectedTypeId;
-        if(selectedDurationId) updateData.durationId = selectedDurationId;
-        if(selectedPriceId) updateData.priceId = selectedPriceId;
-        if(selectedConfortId) updateData.confortId = selectedConfortId;
-        if(selectedIntensityId) updateData.intensityId = selectedIntensityId;
-
-
         setIsSubmitting(true);
+
         try {
+
+            // pour permettre d'enregistrer sans tout ajouter
+            const updateData: Record<string, any> = {};
+            if(selectedTypeId) updateData.typeId = selectedTypeId;
+            if(selectedDurationId) updateData.durationId = selectedDurationId;
+            if(selectedPriceId) updateData.priceId = selectedPriceId;
+            if(selectedConfortId) updateData.confortId = selectedConfortId;
+            if(selectedIntensityId) updateData.intensityId = selectedIntensityId;
+            if(selectedThemeIds.length > 0) updateData.themeIds = selectedThemeIds;
+            if(selectedCompanionIds.length > 0) updateData.companionIds = selectedCompanionIds;
+
+      
             const response = await fetch(`/api/location/${locationId}/completeLocation`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -152,8 +192,8 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
 
     return(
         <div className="max-w-xl mx-auto p-4">
-            <h1 className='text-2xl font-bold mb-4'>Compléter les informations du lieu</h1>
-            <form onSubmit={handleSubmit} className='space-y-4'>
+            <h1 className='text-2xl font-bold mb-4 text-center'>Compléter les informations du lieu</h1>
+            <form onSubmit={handleSubmit} className='space-y-4  flex flex-col'>
                 <TypeSelector 
                     types={types}
                     selectedTypeId={selectedTypeId}
@@ -179,11 +219,26 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                     selectedIntensityId={selectedIntensityId}
                     onChange={(id) => setSelectedIntensityId(id)}
                 />
+                <ThemeCheckboxGroup 
+                    themes={themes}
+                    selectedThemeIds={selectedThemeIds}
+                    onChange={setSelectedThemeIds}
+                />
+                <CompanionCheckboxGroup
+                    companions={companions}
+                    selectedCompanionIds={selectedCompanionIds}
+                    onChange={setSelectedCompanionIds}
+                />
+                <ImageUploader 
+                    locationId={locationId}
+                    initialImages={uploadedImages}
+                    onImagesUpdated={(images) => setUploadedImages(images)}
+                />
 
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className='bg-indigo-600 text-white px-4 py-2 rounded disabled:opacity-50'
+                    className='bg-violet-700 text-white px-4 py-2 rounded disabled:opacity-50 cursor-pointer hover:opacity-80 duration-300 transition-all'
                     >
                         {isSubmitting ? 'Enregistrement ...' : 'Enregistrer'}
 

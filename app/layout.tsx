@@ -1,18 +1,34 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Poppins } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import Loading from "@/components/Loading";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
+
+// const poppins = Poppins({
+//   subsets: ['latin'],
+//   weight: ['400', '500', '600', '700'], 
+//   display: 'swap',
+//   variable: '--font-poppins'
+// });
+
+
+const nunito = Nunito({
+  subsets: ['latin'],
+  weight: ['400', '600', '700'], // choisis les poids que tu veux utiliser
+  display: 'swap',
+  variable: '--font-nunito'
 });
 
 export const metadata: Metadata = {
@@ -29,7 +45,7 @@ export default function RootLayout({
     <ClerkProvider afterSignOutUrl='/'>
       <html lang="fr">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${nunito.className} antialiased`}
         >
           <Loading/>
           <header>

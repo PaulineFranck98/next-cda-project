@@ -22,7 +22,7 @@ const Loading = () => {
 
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-70 backdrop-blur-sm">
-            <PulseLoader color="#602DB9" size={12} />
+            <PulseLoader color="#6838BC" size={14} />
         </div>
     );
 };

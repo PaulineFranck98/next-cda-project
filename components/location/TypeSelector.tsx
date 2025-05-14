@@ -15,7 +15,7 @@ const TypeSelector: React.FC<Props> = ({ types, selectedTypeId, onChange}) => {
                 id="type"
                 value={selectedTypeId}
                 onChange={(e) => onChange(e.target.value)}
-                className="border p-2 rounded w-full"
+                className="border border-gray-300 p-2 rounded w-full cursor-pointer"
             >
                 <option value="">Sélectionner un type</option>
                 {types.map((type) => (

@@ -15,7 +15,7 @@ const PriceSelector: React.FC<Props> = ({ prices, selectedPriceId, onChange}) =>
                 id="price"
                 value={selectedPriceId}
                 onChange={(e) => onChange(e.target.value)}
-                className="border p-2 rounded w-full"
+                className="border border-gray-300 p-2 rounded w-full cursor-pointer"
             >
                 <option value="">Sélectionner un prix moyen</option>
                 {prices.map((price) => (

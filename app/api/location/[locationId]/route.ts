@@ -9,6 +9,11 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
         const location = await db.location.findUnique({
             where: {
                 id: locationId
+            },
+            include: {
+                themes: true,
+                companions: true,
+                images: true
             }
         })
         return NextResponse.json(location)

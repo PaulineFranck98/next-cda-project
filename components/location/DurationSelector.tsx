@@ -35,7 +35,7 @@ const DurationSelector: React.FC<Props> = ({ durations, selectedDurationId, onCh
                 id="duration"
                 value={selectedDurationId}
                 onChange={(e) => onChange(e.target.value)}
-                className="border p-2 rounded w-full"
+                className="border  border-gray-300 p-2 rounded w-full cursor-pointer"
             >
                 <option value="">Sélectionner une durée</option>
                 {durations.map((duration) => (
