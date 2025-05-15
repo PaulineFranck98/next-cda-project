@@ -41,6 +41,7 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
     const [selectedCompanionIds, setSelectedCompanionIds] = useState<string[]>([]);
 
     const [uploadedImages, setUploadedImages] = useState<string[]>([]);
+    const [deletedImagesUrls, setDeletedImagesUrls] =  useState<string[]>([]);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -139,6 +140,7 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                 setSelectedThemeIds(location.themes?.map((theme: any) => theme.themeId) ?? []);
                 setSelectedCompanionIds(location.companions?.map((companion: any) => companion.companionId) ?? []);
                 setUploadedImages(location.images?.map((img: any) => img.imageName) ?? []);
+
             } catch(error)
             {
                 console.error("Error fetching location: ", error);
@@ -169,6 +171,9 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
             if(selectedIntensityId) updateData.intensityId = selectedIntensityId;
             if(selectedThemeIds.length > 0) updateData.themeIds = selectedThemeIds;
             if(selectedCompanionIds.length > 0) updateData.companionIds = selectedCompanionIds;
+            if(deletedImagesUrls.length > 0 ) updateData.deletedImagesUrls = deletedImagesUrls;
+
+            console.log("Deleted images : ", deletedImagesUrls); // TODO : delete
 
       
             const response = await fetch(`/api/location/${locationId}/completeLocation`, {
@@ -178,15 +183,36 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
             });
 
             if(response.ok){
+                console.log("response ok : ", response);  // TODO : delete
+                for (const url of deletedImagesUrls) {
+                    const publicId = extractPublicIdFromUrl(url);
+                    console.log('public ID' , publicId);
+                    if(publicId){
+                        console.log('public ID ? ', publicId); // TODO : delete
+                        await fetch('/api/image/delete', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({publicId}),
+                        });
+                    }
+                }
+                    
                 router.push('/profile'); // TODO : change route
             } else {
                 console.error('Error updating')
             }
         } catch(error) {
             console.error('Error during request :', error)
-        } finally { // to keep ?
+        } finally { 
             setIsSubmitting(false)
         }
+
+        // extracts public id
+        function extractPublicIdFromUrl(url: string): string | null {
+            const match = url.match(/\/v\d+\/(.+?)\.(jpg|png|jpeg|webp)$/);
+            return match ? match[1] : null;
+        }
+
     };
 
 
@@ -233,12 +259,13 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                     locationId={locationId}
                     initialImages={uploadedImages}
                     onImagesUpdated={(images) => setUploadedImages(images)}
+                    onImagesDeleted={(deleted) => setDeletedImagesUrls(deleted)}
                 />
 
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className='bg-violet-700 text-white px-4 py-2 rounded disabled:opacity-50 cursor-pointer hover:opacity-80 duration-300 transition-all'
+                    className='bg-violet-800 text-white px-4 py-2 rounded disabled:opacity-50 cursor-pointer hover:opacity-80 duration-300 transition-all'
                     >
                         {isSubmitting ? 'Enregistrement ...' : 'Enregistrer'}
 

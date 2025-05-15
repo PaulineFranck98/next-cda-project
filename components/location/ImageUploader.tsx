@@ -1,15 +1,21 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface Props {
     locationId: string;
     initialImages?: string[]; // images déjà existantes
     onImagesUpdated?: (images: string[]) => void; // callback pour le parent
+    onImagesDeleted?: (images: string[]) => void;
 }
 
-const ImageUploader: React.FC<Props> = ({ locationId, initialImages = [], onImagesUpdated }) => {
+const ImageUploader: React.FC<Props> = ({ locationId, initialImages = [], onImagesUpdated, onImagesDeleted }) => {
 const [selectedImages, setSelectedImages] = useState<string[]>(initialImages);
+const [deletedImages, setDeletedImages] = useState<string[]>([]);
+
+useEffect(() => {
+  setSelectedImages(initialImages);
+}, [initialImages]);
 
 
 const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,24 +31,29 @@ const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     
 };
 
-// suppression cloudinary et bdd
-const handleRemove = async (imageUrl: string) => {
-    const updated = selectedImages.filter(img => img !== imageUrl);
 
-    setSelectedImages(updated);
-    onImagesUpdated?.(updated);
-    
+const handleRemove = async (imageUrl: string) => {
+  const updated = selectedImages.filter((img) => img !== imageUrl);
+  setSelectedImages(updated);
+  onImagesUpdated?.(updated);
+
+  if (initialImages.includes(imageUrl)) {
+    const updatedDeleted = [...deletedImages, imageUrl];
+    setDeletedImages(updatedDeleted);
+    onImagesDeleted?.(updatedDeleted); 
+  }
 };
+
 
 return (
     <div className="mb-4">
         <label className="block mb-2 font-medium">Ajouter des images</label>
         <input
-        type="file"
-        accept="image/*"
-        multiple
-        onChange={handleFileChange}
-        className="mb-4"
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={handleFileChange}
+            className="mb-4"
         />
 
         <div className="grid grid-cols-3 gap-4">

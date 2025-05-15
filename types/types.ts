@@ -9,4 +9,6 @@ interface LocationType {
     zipcode: string;
     phoneNumber: string;
     website: string;
+
+    images: {id: string, imageName: string} [];
 }

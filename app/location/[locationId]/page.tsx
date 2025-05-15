@@ -5,6 +5,8 @@ import React , { useEffect, useState } from 'react'
 import { useParams } from 'next/navigation'
 import { useUser } from  '@clerk/nextjs'
 import Link from 'next/link'
+import Image from 'next/image'
+
 
 const LocationDetailPage = () => {
 
@@ -32,6 +34,18 @@ const LocationDetailPage = () => {
                 <p>{location.locationName}</p>
                 <p>{location.description}</p>
                 <Link href={`/location/${location.id}/completeLocation`}>Compléter les informations</Link>
+               
+                <div className='flex gap-5'>
+                    {location.images.map((image)=> (
+                        <Image 
+                            src={image.imageName}
+                            alt={image.imageName}
+                            key={image.id}
+                            width={150}
+                            height={150}
+                        />
+                    ))}
+                </div>
             </div>
         )}
       
