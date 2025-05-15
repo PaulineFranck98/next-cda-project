@@ -53,7 +53,7 @@ return (
             accept="image/*"
             multiple
             onChange={handleFileChange}
-            className="mb-4"
+            className="bg-gray-100 rounded-md border-gray-300 border-1 mb-4 px-2 py-1 cursor-pointer hover:bg-gray-300 transition-all ease-in-out duration-300"
         />
 
         <div className="grid grid-cols-3 gap-4">
