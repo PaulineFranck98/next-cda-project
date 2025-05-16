@@ -19,15 +19,35 @@ useEffect(() => {
 
 
 const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if(!files || files.length == 0) return;
 
-    const newFileArray = Array.from(files);
-    const previews = newFileArray.map((file) => URL.createObjectURL(file));
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
   
-    const updatedImages = [...selectedImages, ...previews];
-    setSelectedImages(updatedImages);
-    onImagesUpdated?.(updatedImages);
+    const formData = new FormData();
+    formData.append("locationId", locationId);
+    for (let i = 0; i < files.length; i++) {
+      formData.append("images", files[i]);
+    }
+  
+    try {
+      const response = await fetch("/api/image/upload", {
+        method: "POST",
+        body: formData,
+      });
+  
+      if (response.ok) {
+        const result = await response.json(); 
+        const updatedImages = [...selectedImages, ...result.uploaded];
+  
+        setSelectedImages(updatedImages);
+        onImagesUpdated?.(updatedImages);
+      } else {
+        const errorText = await response.text();
+        console.error("Erreur upload: ", errorText);
+      }
+    } catch (error) {
+      console.error("Erreur lors de l'upload: ", error);
+    }
     
 };
 
