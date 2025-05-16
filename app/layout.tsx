@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Poppins } from "next/font/google";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import Loading from "@/components/Loading";
 import { SignedIn, SignedOut, SignOutButton } from '@clerk/nextjs'
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { frFR } from '@clerk/localizations'
 
 
 const nunito = Nunito({
@@ -23,27 +24,29 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>)  {  
 
   return (
-    <ClerkProvider afterSignOutUrl='/'>
-      <html lang="fr">
+      <html lang="fr" suppressHydrationWarning>
         <body
           className={`${nunito.className} antialiased`}
         >
+    <ClerkProvider localization={frFR} afterSignOutUrl='/'>
+       <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <Loading/>
           <header className="flex gap-2">
             <SignedOut>
               <a href='/sign-up'><p>Sign up</p></a>
               <a href='/sign-in'><p>Sign in</p></a>
             </SignedOut>
-            <SignedIn>
+            {/* <SignedIn>
               <p>Hello</p>
               <SignOutButton />
-            </SignedIn>
+            </SignedIn> */}
           </header>
           <main>
             {children}
           </main>
+          </ThemeProvider>
+        </ClerkProvider>
         </body>
       </html>
-    </ClerkProvider>
   );
 }
