@@ -108,6 +108,8 @@ model Location {
     latitude Float 
     longitude Float
 
+    userId String
+
     isApproved Boolean? @default(false)
     isActive Boolean? @default(false)
 

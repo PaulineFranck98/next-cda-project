@@ -1,7 +1,9 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
+import { Location } from "@prisma/client";
 import Link from "next/link";
-import { UserProfile } from "@clerk/nextjs";
+import LocationCard from "@/components/location/LocationCard"; 
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import {
@@ -10,12 +12,24 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator
+  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-export default function AccountPage() {
+const LocationsListPage = () => {
+  const [locations, setLocations] = useState<Location[]>([]);
+
+  useEffect(() => {
+    const fetchLocations = async () => {
+      const response = await fetch("/api/location");
+      const data = await response.json();
+      setLocations(data);
+    };
+
+    fetchLocations();
+  }, []);
+
   return (
-    <ContentLayout title="Profil">
+    <ContentLayout title="Liste des établissements">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -31,15 +45,18 @@ export default function AccountPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Profil</BreadcrumbPage>
+            <BreadcrumbPage>Liste des établissements</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* Clerk profile component */}
-      <div className="mt-6 flex justify-center">
-        <UserProfile path="/dashboard/profile" routing="path" />
+      <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {locations.map((location) => (
+          <LocationCard key={location.id} location={location} />
+        ))}
       </div>
     </ContentLayout>
   );
-}
+};
+
+export default LocationsListPage;

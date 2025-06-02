@@ -4,7 +4,7 @@ import { SidebarToggle } from "@/components/admin-panel/sidebar-toggle";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/hooks/use-sidebar";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 import { PanelsTopLeft } from "lucide-react";
 import Link from "next/link";
 
@@ -46,7 +46,7 @@ export function Sidebar() {
                   : "translate-x-0 opacity-100"
               )}
             >
-              Brand
+              L&apos;Excapade
             </h1>
           </Link>
         </Button>

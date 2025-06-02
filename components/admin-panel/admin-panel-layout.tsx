@@ -3,15 +3,14 @@
 import { Footer } from "@/components/admin-panel/footer";
 import { Sidebar } from "@/components/admin-panel/sidebar";
 import { useSidebar } from "@/hooks/use-sidebar";
-import { useStore } from "@/hooks/use-store";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/utils/utils";
 
 export default function AdminPanelLayout({
   children
 }: {
   children: React.ReactNode;
 }) {
-  // const sidebar = useStore(useSidebar, (x) => x);
+
   const sidebar = useSidebar();
 
   if (!sidebar) return null;

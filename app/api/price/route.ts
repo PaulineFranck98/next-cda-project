@@ -9,7 +9,6 @@ export async function GET () {
             },
         })
 
-        // retourne une réponse au format JSON
         return NextResponse.json(prices)
     } catch(error) {
         console.log("[PRICES]", error)

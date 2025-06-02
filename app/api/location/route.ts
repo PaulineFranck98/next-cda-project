@@ -1,10 +1,19 @@
 import { db } from "@/lib/db"
 import { NextResponse, NextRequest } from "next/server"
+import { auth } from "@clerk/nextjs/server";
 
 export async function GET ()
 {
     try {
+
+        const { userId } = await auth();
+
+        if(!userId){
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+
         const locations = await db.location.findMany({
+            where: { userId },
             orderBy: {
                locationName: "asc"
             }
@@ -21,6 +30,11 @@ export async function GET ()
 export async function POST(req: NextRequest)
 {
     try {
+        const { userId } = await auth();
+
+        if(!userId){
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
         const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, website} = await req.json();
 
         const location = await db.location.create({
@@ -34,6 +48,7 @@ export async function POST(req: NextRequest)
                 zipcode,
                 phoneNumber,
                 website,
+                userId
             },
         })
 

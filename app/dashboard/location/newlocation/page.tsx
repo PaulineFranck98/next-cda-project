@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { UserProfile } from "@clerk/nextjs";
+import AddLocation from "@/components/location/AddLocation";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import {
@@ -31,14 +31,14 @@ export default function AccountPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Profil</BreadcrumbPage>
+            <BreadcrumbPage>Nouvel établissement</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* Clerk profile component */}
-      <div className="mt-6 flex justify-center">
-        <UserProfile path="/dashboard/profile" routing="path" />
+
+      <div className="mt-6">
+        <AddLocation />
       </div>
     </ContentLayout>
   );

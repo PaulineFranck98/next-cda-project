@@ -1,5 +1,6 @@
 import { db } from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
+import { auth } from "@clerk/nextjs/server"
 
 export async function GET(req: NextRequest, { params }: { params: Promise<{ locationId: string}>}) 
 {
@@ -11,8 +12,21 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
                 id: locationId
             },
             include: {
-                themes: true,
-                companions: true,
+                type: true,
+                duration: true,
+                price: true,
+                confort: true,
+                intensity: true,
+                themes: {
+                    include: {
+                        theme: true,
+                    },
+                },
+                companions: {
+                    include: {
+                        companion: true,
+                    },
+                },
                 images: true
             }
         })
@@ -28,6 +42,13 @@ export async function PUT(req: NextRequest, { params }: { params: { locationId: 
 {
     try{
         const { locationId } = params
+        const { userId } = await auth();
+
+        if(!userId){
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+
+
         const body = await req.json();
         const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, website } = body;
 
@@ -57,6 +78,12 @@ export async function DELETE(req: NextRequest, { params }: { params: { locationI
 {
     try {
         const { locationId } = params;
+        const { userId } = await auth();
+
+        if(!userId){
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
+
 
         await db.location.delete({
             where: { id: locationId }

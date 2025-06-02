@@ -29,7 +29,7 @@ const DurationSelector: React.FC<Props> = ({ durations, selectedDurationId, onCh
     return (
         <div>
             <label htmlFor="duration" className="block mb-1 font-medium">
-                Combien de temps en moyenne les clients restent dans votre établissement ?
+                Combien de temps les clients restent dans votre établissement ?
             </label>
             <select
                 id="duration"

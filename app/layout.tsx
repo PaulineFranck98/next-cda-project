@@ -2,11 +2,13 @@ import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Nunito } from "next/font/google";
 import "./globals.css";
-import Link from "next/link";
+// import Link from "next/link";
+import { LoadingProvider } from "@/context/LoadingContext";
 import Loading from "@/components/Loading";
-import { SignedIn, SignedOut, SignOutButton } from '@clerk/nextjs'
+import {SignedOut} from '@clerk/nextjs'
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { frFR } from '@clerk/localizations'
+import Link from "next/link";
 
 
 const nunito = Nunito({
@@ -30,20 +32,18 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
         >
     <ClerkProvider localization={frFR} afterSignOutUrl='/'>
        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <LoadingProvider>
           <Loading/>
           <header className="flex gap-2">
             <SignedOut>
-              <a href='/sign-up'><p>Sign up</p></a>
-              <a href='/sign-in'><p>Sign in</p></a>
+              <Link href='/sign-up'><p>Sign up</p></Link>
+              <Link href='/sign-in'><p>Sign in</p></Link>
             </SignedOut>
-            {/* <SignedIn>
-              <p>Hello</p>
-              <SignOutButton />
-            </SignedIn> */}
           </header>
           <main>
             {children}
           </main>
+          </LoadingProvider>
           </ThemeProvider>
         </ClerkProvider>
         </body>

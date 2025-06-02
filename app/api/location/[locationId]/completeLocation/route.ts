@@ -1,13 +1,19 @@
 import { db } from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
+import { auth } from "@clerk/nextjs/server";
 
   
 export async function PUT(req: NextRequest, { params }: { params: { locationId: string } })
 {
     try{
+        const { userId } = await auth();
+
+        if(!userId){
+            return new NextResponse("Unauthorized", { status: 401 });
+        }
         const { locationId } = params
         const body = await req.json();
-        const { typeId, durationId, priceId, confortId, intensityId, themeIds, companionIds, deletedImageUrls } = body;
+        const { typeId, durationId, priceId, confortId, intensityId, themeIds, companionIds } = body;
 
         const updatedLocation = await db.location.update({
             where: { id: locationId },

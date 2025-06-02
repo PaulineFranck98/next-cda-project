@@ -1,21 +1,30 @@
 "use client";
 
 import Link from "next/link";
-import { UserProfile } from "@clerk/nextjs";
-
+import { useParams } from "next/navigation";
+import CompleteLocation from "@/components/location/CompleteLocation";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator
+  } from "@/components/ui/breadcrumb";
 
-export default function AccountPage() {
+export default function CompleteLocationPage() {
+  const { locationId } = useParams(); 
+
+  
+  if (!locationId || typeof locationId !== "string") {
+    return <div>Invalid location ID</div>;
+  }
+ 
+  
+
   return (
-    <ContentLayout title="Profil">
+    <ContentLayout title="Compléter l'établissement">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -31,14 +40,13 @@ export default function AccountPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Profil</BreadcrumbPage>
+            <BreadcrumbPage>Compléter l&apos;établissement</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
-      {/* Clerk profile component */}
-      <div className="mt-6 flex justify-center">
-        <UserProfile path="/dashboard/profile" routing="path" />
+      <div className="mt-6">
+        <CompleteLocation locationId={locationId}/>
       </div>
     </ContentLayout>
   );

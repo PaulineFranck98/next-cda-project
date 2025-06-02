@@ -1,10 +1,4 @@
-import {
-  Building2,
-  CalendarCheck,
-  CircleUser,
-  LayoutGrid,
-  LucideIcon
-} from "lucide-react";
+import { Building2, CalendarCheck, CircleUser, LayoutGrid, LucideIcon } from "lucide-react";
 
 type Submenu = {
   href: string;
@@ -15,7 +9,7 @@ type Submenu = {
 type Menu = {
   href: string;
   label: string;
-  active?: boolean;
+  active: boolean;
   icon: LucideIcon;
   submenus?: Submenu[];
 };
@@ -34,25 +28,27 @@ export function getMenuList(pathname: string): Group[] {
           href: "/dashboard",
           label: "Dashboard",
           icon: LayoutGrid,
+          active: pathname === "/dashboard",
           submenus: []
         }
       ]
     },
     {
-      groupLabel: "Contents",
+      groupLabel: "",
       menus: [
         {
           href: "",
           label: "Établissements",
           icon: Building2,
+          active: pathname.startsWith("/dashboard/location"),
           submenus: [
             {
-              href: "/posts",
+              href: "/dashboard/location",
               label: "Mes établissements"
             },
             {
-              href: "/posts/new",
-              label: "New Post"
+              href: "/dashboard/location/newlocation",
+              label: "Nouvel établissement"
             }
           ]
         },
@@ -60,6 +56,7 @@ export function getMenuList(pathname: string): Group[] {
           href: "",
           label: "Abonnement",
           icon: CalendarCheck,
+          active: pathname.startsWith("/dashboard/subscription"),
           submenus: [
             {
               href: "/posts",
@@ -82,8 +79,9 @@ export function getMenuList(pathname: string): Group[] {
       menus: [
         {
           href: "/dashboard/profile",
-          label: "Profile",
-          icon: CircleUser
+          label: "Profil",
+          icon: CircleUser,
+          active: pathname.startsWith("/dashboard/profile"),
         }
       ]
     }

@@ -1,4 +1,55 @@
-interface LocationType {
+export interface TypeType {
+    id: string;
+    typeName: string;
+}
+
+export interface DurationType {
+    id: string;
+    onSiteTime: number;
+}
+
+export interface PriceType {
+    id: string;
+    priceRange: string;
+}
+
+export interface ConfortType {
+    id: string;
+    confortLevel: string;
+}
+
+export interface IntensityType {
+    id: string;
+    intensityLevel: string;
+}
+
+
+export interface ThemeLocationType {
+    id: string;
+    themeId?: string;
+    locationId?: string;
+    theme: {
+      id: string;
+      themeName: string;
+    } | null;
+  }
+  
+export interface CompanionLocationType {
+    id: string;
+    companionId?: string;
+    locationId?: string;
+    companion: {
+        id: string;
+        companionName: string;
+    } | null;
+}
+
+export interface ImageType {
+    id: string;
+    imageName: string;
+}
+  
+export interface LocationType {
     id: string;
     locationName: string;
     description: string; 
@@ -10,5 +61,16 @@ interface LocationType {
     phoneNumber: string;
     website: string;
 
-    images: {id: string, imageName: string} [];
+    userId: string;
+
+    type?: TypeType | null; 
+    duration?: DurationType | null;   
+    price?: PriceType | null; 
+    confort?: ConfortType | null; 
+    intensity?: IntensityType | null; 
+
+    themes: ThemeLocationType[];
+    companions: CompanionLocationType[];
+
+    images: ImageType[];
 }
