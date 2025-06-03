@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useRouter } from 'next/navigation';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const AddLocation: React.FC = () => {
 

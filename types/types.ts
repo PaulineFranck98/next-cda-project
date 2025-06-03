@@ -29,6 +29,7 @@ export interface DiscountType {
     endDate: Date;
     percentage: number;
     code: number;
+    isActive: boolean;
 }
 
 export interface ThemeLocationType {

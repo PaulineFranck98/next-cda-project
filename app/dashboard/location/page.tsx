@@ -23,7 +23,7 @@ const LocationsListPage = () => {
           const data = await response.json();
           setLocations(data);
         } catch(error) {
-          console.error("Erro fetching locations:", location);
+          console.error("Erro fetching locations:", error);
         } finally {
           setLoading(false);
         }          

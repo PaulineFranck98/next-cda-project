@@ -1,4 +1,6 @@
-export function calculateCompletion(location: any): number {
+import { LocationType } from '@/types/types'; 
+
+export function calculateCompletion(location: LocationType): number { 
   const fields = [
     location.locationName,
     location.description,
@@ -9,12 +11,12 @@ export function calculateCompletion(location: any): number {
     location.website,
     location.latitude,
     location.longitude,
-    location.typeId,
-    location.durationId,
-    location.priceId,
-    location.confortId,
-    location.intensityId,
-    location.images?.length > 0, 
+    location.type?.id,
+    location.duration?.id,
+    location.price?.id,
+    location.confort?.id,
+    location.intensity?.id,
+    location.images?.length > 0,
     location.themes?.length > 0,
     location.companions?.length > 0,
   ];

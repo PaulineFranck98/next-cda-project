@@ -1,14 +1,14 @@
 import BaseInfoCard from './BaseInfoCard';
 import AdvancedInfoCard from './AdvancedInfoCard';
 import DiscountCard from './DiscountCard';
-import { LocationType, DiscountType } from '@/types/types';
+import { LocationType } from '@/types/types';
 
 import { calculateCompletion } from '@/lib/utils/location-completion';
 import ProgressBar from '../ui/progress-bar';
 
 interface LocationDetailProps {
   location: LocationType | null;
-  // discount: DiscountType;
+
 }
 
 const LocationDetail = ({ location }: LocationDetailProps) => {
@@ -28,7 +28,7 @@ const LocationDetail = ({ location }: LocationDetailProps) => {
             </div>
           <BaseInfoCard location={location} />
           <AdvancedInfoCard location={location} />
-          {/* <DiscountCard discount={discount} /> */}
+          <DiscountCard discounts={location.discounts} locationId={location.id} />
         </div>
       )}
     </div>

@@ -27,7 +27,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
                         companion: true,
                     },
                 },
-                images: true
+                images: true,
+                discounts: true,
             }
         })
         return NextResponse.json(location)

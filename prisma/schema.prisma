@@ -103,6 +103,8 @@ model Discount{
     percentage Int
     code Int
 
+    isActive    Boolean  @default(false) 
+
     locationId String @db.ObjectId 
 
     location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
@@ -146,7 +148,7 @@ model Location {
     themes ThemeLocation[]
     companions CompanionLocation[]
 
-    discount Discount[]
+    discounts Discount[]
 }
 
 

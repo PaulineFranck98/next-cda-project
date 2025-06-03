@@ -1,29 +1,66 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import { Discount } from "@prisma/client";
-import { formatDate } from '@/lib/utils/utils';
+import { BadgePercent } from "lucide-react";
+import { formatDate } from "@/lib/utils/utils";
+import { DiscountType } from "@/types/types";
+import { cn } from "@/lib/utils/utils";
+import TailwindSwitch from "@/components/ui/switch";
+import { useDiscounts } from "@/hooks/use-discounts";
 
-type DiscountCardProps = {
-  discount: Discount;
-};
+interface DiscountCardProps {
+  discounts: DiscountType[];
+  locationId: string;
+}
 
-const DiscountCard: React.FC<DiscountCardProps> = ({ discount }) => {
+const DiscountCard = ({ discounts, locationId }: DiscountCardProps) => {
+  const { localDiscounts, toggleDiscount } = useDiscounts(discounts);
+
+  if (!localDiscounts || localDiscounts.length === 0) {
+    return (
+      <div className="border border-gray-300 rounded-lg py-6 px-8 shadow mb-8">
+        <h2 className="text-xl font-semibold mb-6">Promotions</h2>
+        <p className="text-gray-700">Aucune promotion ajoutée pour cet établissement.</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="border border-gray-300 p-4 rounded-lg shadow hover:shadow-md transition duration-200">
-      <h3 className="text-xl font-semibold mb-2">Réduction</h3>
-        <p>Date de début : {formatDate(discount.startDate)}</p>
-        <p>Date de fin : {formatDate(discount.endDate)}</p>
-        <p>Pourcentage : {discount.percentage}%</p>
-        <p>Code promotionnel : {discount.code}</p>
-      <Link
-        href={`/dashboard/location/discount/${discount.id}`}
-        className="text-violet-600 hover:underline"
-      >
-        Voir les détails
-      </Link>
+    <div className="border border-gray-300 rounded-lg py-6 px-8 shadow mb-8">
+      <h2 className="text-xl font-semibold mb-6">Promotions</h2>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {localDiscounts.map((discount) => (
+          <div
+            key={discount.id}
+            className={cn(
+              "relative rounded-md p-4 shadow-sm transition",
+              discount.isActive
+                ? "border-2 border-violet-500 bg-violet-50"
+                : "border border-gray-200 bg-white"
+            )}
+          >
+            <div className="absolute top-2 right-2">
+              <TailwindSwitch
+                checked={discount.isActive}
+                onChange={(checked) => toggleDiscount(discount.id, locationId, checked)}
+              />
+            </div>
+
+            <div className="flex items-center gap-2 mb-2">
+              <BadgePercent size={20} className="text-violet-500" />
+              <span className="text-lg font-bold">{discount.percentage}%</span>
+            </div>
+            <div className="text-gray-700 mb-1">
+              <strong>Code :</strong> {discount.code}
+            </div>
+            <div className="text-gray-700 mb-1">
+              <strong>Début :</strong> {formatDate(new Date(discount.startDate))}
+            </div>
+            <div className="text-gray-700">
+              <strong>Fin :</strong> {formatDate(new Date(discount.endDate))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
