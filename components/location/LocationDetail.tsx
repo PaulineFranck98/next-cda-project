@@ -1,7 +1,7 @@
 import BaseInfoCard from './BaseInfoCard';
 import AdvancedInfoCard from './AdvancedInfoCard';
 import { LocationType } from '@/types/types';
-import { calculateCompletion } from '@/lib/utils/locationCompletion';
+import { calculateCompletion } from '@/lib/utils/location-completion';
 import ProgressBar from '../ui/progress-bar';
 
 interface LocationDetailProps {

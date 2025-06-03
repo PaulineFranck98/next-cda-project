@@ -1,4 +1,3 @@
-
 export function calculateCompletion(location: any): number {
   const fields = [
     location.locationName,
