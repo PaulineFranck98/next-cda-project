@@ -26,7 +26,7 @@ export default function LocationDetailPage() {
         const data: LocationType = await response.json();
         setLocation(data);
       } catch (error) {
-        console.error("Error fetching location:", error);
+          console.error("Error fetching location:", error);
       } finally {
         setLoading(false);
       }
@@ -43,7 +43,7 @@ export default function LocationDetailPage() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">Home</Link>
+              <Link href="/dashboard">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />

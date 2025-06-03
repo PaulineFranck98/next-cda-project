@@ -20,7 +20,7 @@ export default function AccountPage() {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">Home</Link>
+              <Link href="/dashboard">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -35,8 +35,6 @@ export default function AccountPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-
-      {/* Clerk profile component */}
       <div className="mt-6 flex justify-center">
         <UserProfile path="/dashboard/profile" routing="path" />
       </div>

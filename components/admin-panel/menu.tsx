@@ -87,7 +87,7 @@ export function Menu({ isOpen }: MenuProps) {
                   <SignOutButton>
                     <Button
                       variant="outline"
-                      className="w-full justify-center h-10 mt-5 border-gray-300 hover:bg-violet-100 hover:text-violet-800 transition-all duration-300 hover:border-violet-400"
+                      className="w-full justify-center h-10 mt-5 border-gray-300 hover:bg-violet-100 hover:text-violet-800 transition-all duration-300 hover:border-violet-400 cursor-pointer"
                     >
                       <span className={cn(isOpen === false ? "" : "mr-4")}>
                         <LogOut size={18} />

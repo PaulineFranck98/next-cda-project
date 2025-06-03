@@ -4,29 +4,33 @@ import React, { useState, useEffect } from "react";
 import { Location } from "@prisma/client";
 import Link from "next/link";
 import LocationCard from "@/components/location/LocationCard"; 
-
 import { ContentLayout } from "@/components/admin-panel/content-layout";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator} from "@/components/ui/breadcrumb";
+import { useLoading } from "@/context/LoadingContext";
+
 
 const LocationsListPage = () => {
+
+  const { setLoading } = useLoading();
   const [locations, setLocations] = useState<Location[]>([]);
 
   useEffect(() => {
-    const fetchLocations = async () => {
-      const response = await fetch("/api/location");
-      const data = await response.json();
-      setLocations(data);
+
+      const fetchLocations = async () => {
+        try{
+          setLoading(true);
+          const response = await fetch("/api/location");
+          const data = await response.json();
+          setLocations(data);
+        } catch(error) {
+          console.error("Erro fetching locations:", location);
+        } finally {
+          setLoading(false);
+        }          
     };
 
     fetchLocations();
-  }, []);
+  }, [setLoading]);
 
   return (
     <ContentLayout title="Liste des établissements">
@@ -34,7 +38,7 @@ const LocationsListPage = () => {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">Home</Link>
+              <Link href="/dashboard">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />

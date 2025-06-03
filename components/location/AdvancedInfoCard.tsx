@@ -77,7 +77,7 @@ const AdvancedInfoCard = ({ location }: { location: LocationType }) => {
 
       <div className="mt-6 flex justify-end">
         <Link
-          href={`/dashboard/location/${location.id}/completeLocation`}
+          href={`/dashboard/location/${location.id}/complete-location`}
           className="bg-violet-600 text-white py-2 px-4 rounded hover:bg-violet-700"
         >
           Compléter / Modifier

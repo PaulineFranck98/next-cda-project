@@ -189,7 +189,7 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
             console.log("Deleted images : ", deletedImagesUrls); // TODO : delete
 
       
-            const response = await fetch(`/api/location/${locationId}/completeLocation`, {
+            const response = await fetch(`/api/location/${locationId}/complete-location`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updateData)

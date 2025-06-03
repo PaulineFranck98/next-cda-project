@@ -47,7 +47,7 @@ export function getMenuList(pathname: string): Group[] {
               label: "Mes établissements"
             },
             {
-              href: "/dashboard/location/newlocation",
+              href: "/dashboard/location/new-location",
               label: "Nouvel établissement"
             }
           ]

@@ -9,7 +9,7 @@ import { PanelsTopLeft } from "lucide-react";
 import Link from "next/link";
 
 export function Sidebar() {
-  // const sidebar = useStore(useSidebar, (x) => x);
+
   const sidebar = useSidebar();
 
   if (!sidebar) return null;

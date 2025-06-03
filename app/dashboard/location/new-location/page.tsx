@@ -1,35 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
-import CompleteLocation from "@/components/location/CompleteLocation";
+import AddLocation from "@/components/location/AddLocation";
+
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import {
-    Breadcrumb,
-    BreadcrumbItem,
-    BreadcrumbLink,
-    BreadcrumbList,
-    BreadcrumbPage,
-    BreadcrumbSeparator
-  } from "@/components/ui/breadcrumb";
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator
+} from "@/components/ui/breadcrumb";
 
-export default function CompleteLocationPage() {
-  const { locationId } = useParams(); 
-
-  
-  if (!locationId || typeof locationId !== "string") {
-    return <div>Invalid location ID</div>;
-  }
- 
-  
-
+export default function AccountPage() {
   return (
-    <ContentLayout title="Compléter l'établissement">
+    <ContentLayout title="Profil">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/">Home</Link>
+              <Link href="/dashboard">Home</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -40,13 +31,14 @@ export default function CompleteLocationPage() {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Compléter l&apos;établissement</BreadcrumbPage>
+            <BreadcrumbPage>Nouvel établissement</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
+
       <div className="mt-6">
-        <CompleteLocation locationId={locationId}/>
+        <AddLocation />
       </div>
     </ContentLayout>
   );
