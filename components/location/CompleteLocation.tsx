@@ -11,6 +11,8 @@ import CompanionCheckboxGroup from '@/components/location/CompanionCheckboxGroup
 import ImageUploader from '@/components/location/ImageUploader';
 import { useAuth } from '@clerk/nextjs';
 import { ThemeLocationType, CompanionLocationType, ImageType } from "@/types/types";
+import toast from 'react-hot-toast';
+import { useLoading } from '@/context/LoadingContext';
 
 interface Props {
     locationId: string;
@@ -59,6 +61,8 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
     const [deletedImagesUrls, setDeletedImagesUrls] =  useState<string[]>([]);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const { setLoading } = useLoading();
 
     useEffect(() => {
         const fetchTypes = async () => {
@@ -144,6 +148,8 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
     useEffect(() => {
         const fetchLocation = async () => {
             try {
+                setLoading(true);
+
                 const response = await fetch(`/api/location/${locationId}`);
                 const location = await response.json();
                 setSelectedTypeId(location.typeId ?? '');
@@ -158,13 +164,15 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
             } catch(error)
             {
                 console.error("Error fetching location: ", error);
+            } finally {
+                setLoading(false)
             }
         };
 
         if(locationId){
             fetchLocation()
         }
-    }, [locationId, userId])
+    }, [locationId, userId, setLoading])
 
 
 
@@ -189,7 +197,7 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
             console.log("Deleted images : ", deletedImagesUrls); // TODO : delete
 
       
-            const response = await fetch(`/api/location/${locationId}/complete-location`, {
+            const response = await fetch(`/api/location/${locationId}/completeLocation`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updateData)
@@ -207,13 +215,15 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                         });
                     }
                 }                    
-                router.push(`/dashboard//location/${locationId}`); 
+                router.push(`/dashboard/location/${locationId}`); 
             } else {
                 console.error('Error updating')
             }
         } catch(error) {
             console.error('Error during request :', error)
+            toast.error('Erreur lors de la modification', { duration: 3000,  style: { background: '#FFC8C9' } });
         } finally { 
+            toast.success('Enregistré avec succès', { duration: 3000 });
             setIsSubmitting(false)
         }
 

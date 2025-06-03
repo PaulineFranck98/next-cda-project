@@ -12,7 +12,7 @@ export default function CompleteLocationPage() {
 
   
   if (!locationId || typeof locationId !== "string") {
-    return <div>Invalid location ID</div>;
+    return;
   }
  
 

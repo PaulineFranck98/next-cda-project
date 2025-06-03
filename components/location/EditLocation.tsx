@@ -1,8 +1,14 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useRouter } from 'next/navigation';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
+import { useLoading } from '@/context/LoadingContext';
 
-const AddLocation: React.FC = () => {
+
+interface Props {
+    locationId: string;
+}
+
+const EditLocation: React.FC<Props> = ({ locationId }) => {
 
     const router = useRouter();
 
@@ -18,9 +24,43 @@ const AddLocation: React.FC = () => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
+    const { setLoading } = useLoading();
+
+    useEffect(() => {
+        const fetchLocation = async () => {
+            try {
+                setLoading(true);
+
+                const response = await fetch(`/api/location/${locationId}`);
+                const location = await response.json();
+
+                setLocationName(location.locationName ?? '');
+                setDescription(location.description ?? '');
+                setAddress(location.address ?? '');
+                setLatitude(location.latitude ?? '');
+                setLongitude(location.longitude ?? '');
+                setCity(location.city ?? '');
+                setZipcode(location.zipcode ?? '');
+                setPhoneNumber(location.phoneNumber ?? '');
+                setWebsite(location.website ?? '');
+
+            } catch(error) {
+                console.error("Error fetching location: ", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if(locationId) {
+            fetchLocation()
+        }
+    }, [locationId, setLoading]);
+
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        if(locationId == null) return;
+
         setIsSubmitting(true);
 
         try {
@@ -38,22 +78,23 @@ const AddLocation: React.FC = () => {
 
             console.log("locationPayload : ", locationPayload)
 
-            const response = await fetch('/api/location', {
-                method: 'POST',
+            const response = await fetch(`/api/location/${locationId}`, {
+                method: 'PUT',
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify(locationPayload),
             });
 
             if(response.ok)
             {
-                const location = await response.json();
-                router.push(`/dashboard/location/${location.id}`)
+                router.push(`/dashboard/location/${locationId}`)
+            } else {
+                console.error('Error updating');
             }
         } catch(error){
             console.error("Error submitting location: ", error);
-            toast.error("Erreur lors de l'ajout", { duration: 3000,  style: { background: '#FFC8C9' } });
+            toast.error('Erreur lors de la modification', { duration: 3000,  style: { background: '#FFC8C9' } });
         } finally {
-            toast.success('Ajouté avec succès', { duration: 3000 });
+            toast.success('Enregistré avec succès', { duration: 3000 });
             setIsSubmitting(false);
         }
     }
@@ -162,21 +203,22 @@ const AddLocation: React.FC = () => {
                         />
                     </div>
                 </div>        
-               <div className="mt-6 flex justify-center">
+                <div className="mt-6 flex justify-center">
                     <button
                         type="submit"
                         disabled={isSubmitting}
                         className="bg-violet-800 text-white px-6 py-3 rounded-md disabled:opacity-50 cursor-pointer hover:opacity-80 transition-all"
                         >
                             {isSubmitting ? 'Enregistrement ...' : 'Enregistrer'}
-                    </button>            
+                    </button>
+             
                 </div>
             </form>
         </div>
     )
 }
 
-export default AddLocation
+export default EditLocation
 
 
 

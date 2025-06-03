@@ -47,7 +47,7 @@ const BaseInfoCard = ({ location }: { location: LocationType }) => {
         </ul>
 
       <div className="mt-6 flex justify-end">
-        <Link href={`/dashboard/location/${location.id}/edit-basic`} className="bg-violet-600 text-white py-2 px-4 rounded hover:bg-violet-700">
+        <Link href={`/dashboard/location/${location.id}/edit-location`} className="bg-violet-600 text-white py-2 px-4 rounded hover:bg-violet-700">
           Modifier
         </Link>
       </div>

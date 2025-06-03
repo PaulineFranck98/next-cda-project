@@ -33,7 +33,7 @@ const LocationsListPage = () => {
   }, [setLoading]);
 
   return (
-    <ContentLayout title="Liste des établissements">
+    <ContentLayout title="Mes établissements">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -49,7 +49,7 @@ const LocationsListPage = () => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>Liste des établissements</BreadcrumbPage>
+            <BreadcrumbPage>Mes établissements</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>

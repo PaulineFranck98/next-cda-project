@@ -9,6 +9,7 @@ import {SignedOut} from '@clerk/nextjs'
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { frFR } from '@clerk/localizations'
 import Link from "next/link";
+import { Toaster } from "react-hot-toast";
 
 
 const nunito = Nunito({
@@ -41,6 +42,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
             </SignedOut>
           </header>
           <main>
+             <Toaster position="top-center" />
             {children}
           </main>
           </LoadingProvider>
