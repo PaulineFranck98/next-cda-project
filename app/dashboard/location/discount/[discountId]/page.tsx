@@ -5,40 +5,41 @@ import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { useLoading } from "@/context/LoadingContext";
 
-import LocationDetail from "@/components/location/LocationDetail";
+import DiscountDetail from "@/components/location/DiscountDetail";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator} from "@/components/ui/breadcrumb";
-import { LocationType } from "@/types/types"; 
+import { DiscountType } from "@/types/types";
 
 
 
-export default function LocationDetailPage() {
+export default function DiscountDetailPage() {
   const params = useParams();
   const { setLoading } = useLoading();
 
-  const [location, setLocation] = useState<LocationType | null>(null);
+  const [discount, setDiscount] = useState<DiscountType | null>(null);
 
   useEffect(() => {
-    const fetchLocation = async () => {
+    const fetchDiscount = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/location/${params.locationId}`);
-        const data: LocationType = await response.json();
-        setLocation(data);
+        const response = await fetch(`/api/discount/${params.discountId}`);
+        const data: DiscountType = await response.json();
+        setDiscount(data);
       } catch (error) {
-          console.error("Error fetching location:", error);
+          console.error("Error fetching discount:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    if (params.locationId) {
-      fetchLocation();
+    if (params.discountId) {
+      fetchDiscount();
     }
-  }, [params.locationId, setLoading]);
+  }, [params.discountId, setLoading]);
 
   return (
-    <ContentLayout title={location?.locationName ?? "Mon établissement"}>
+    // TODO : revoir le title
+    <ContentLayout title={"Réduction"}>  
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -61,15 +62,14 @@ export default function LocationDetailPage() {
           <BreadcrumbSeparator />
           <BreadcrumbItem>
             <BreadcrumbPage>
-              {location?.locationName ?? "Mon établissement"}
+               Réduction
             </BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
 
       <div className="mt-6">
-        <LocationDetail location={location} /> 
-
+        <DiscountDetail discount={discount} /> 
       </div>
     </ContentLayout>
   );

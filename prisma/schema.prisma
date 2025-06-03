@@ -95,6 +95,21 @@ model CompanionLocation{
     @@index([locationId, companionId])
 }
 
+model Discount{
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    startDate DateTime
+    endDate DateTime
+    percentage Int
+    code Int
+
+    locationId String @db.ObjectId 
+
+    location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+    @@index([locationId])   
+}
+
 
 model Location {
     id String @id @default(auto()) @map("_id") @db.ObjectId
@@ -130,6 +145,8 @@ model Location {
     images Image[]
     themes ThemeLocation[]
     companions CompanionLocation[]
+
+    discount Discount[]
 }
 
 

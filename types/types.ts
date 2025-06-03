@@ -23,6 +23,13 @@ export interface IntensityType {
     intensityLevel: string;
 }
 
+export interface DiscountType {
+    id: string;
+    startDate: Date;
+    endDate: Date;
+    percentage: number;
+    code: number;
+}
 
 export interface ThemeLocationType {
     id: string;
@@ -73,4 +80,5 @@ export interface LocationType {
     companions: CompanionLocationType[];
 
     images: ImageType[];
+    discounts: DiscountType[];
 }
