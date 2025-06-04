@@ -38,10 +38,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
     }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { locationId: string } })
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ locationId: string}>})
 {
     try{
-        const { locationId } = params
+        const { locationId } = await params
         const { userId } = await auth();
 
         if(!userId){

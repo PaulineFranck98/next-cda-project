@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@clerk/nextjs/server";
 
   
-export async function PUT(req: NextRequest, { params }: { params: { locationId: string } })
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ locationId: string}>})
 {
     try{
         const { userId } = await auth();
@@ -11,7 +11,7 @@ export async function PUT(req: NextRequest, { params }: { params: { locationId: 
         if(!userId){
             return new NextResponse("Unauthorized", { status: 401 });
         }
-        const { locationId } = params
+        const { locationId } = await params
         const body = await req.json();
         const { typeId, durationId, priceId, confortId, intensityId, themeIds, companionIds } = body;
 
