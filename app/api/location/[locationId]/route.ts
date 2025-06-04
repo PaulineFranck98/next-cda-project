@@ -32,10 +32,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
             }
         })
         return NextResponse.json(location)
-    } catch(error)
-    {
-        console.log("[LOCATION]", error)
-        return new NextResponse("Internal Error", { status: 500 })
+     } catch(error) {
+        console.error("[LOCATION]", error);
+        return new NextResponse("Internal Server Error", { status: 500 })
     }
 }
 
@@ -70,6 +69,7 @@ export async function PUT(req: NextRequest, { params }: { params: { locationId: 
 
         return NextResponse.json(updatedLocation, { status: 200 })
     } catch(error) {
+
         console.log("[PUT_LOCATION]", error)
         return new NextResponse("Internal Server Error", { status: 500 })
     }

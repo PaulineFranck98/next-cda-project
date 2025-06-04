@@ -46,16 +46,7 @@ model Intensity{
     locations Location[]
 }
 
-model Image{
-    id String @id @default(auto()) @map("_id") @db.ObjectId
-    imageName String
 
-    locationId String @db.ObjectId
-
-    location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
-
-    @@index([locationId])
-}
 
 model Theme{
     id String @id @default(auto()) @map("_id") @db.ObjectId
@@ -95,14 +86,24 @@ model CompanionLocation{
     @@index([locationId, companionId])
 }
 
+model Image{
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    imageName String
+
+    locationId String @db.ObjectId
+
+    location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+    @@index([locationId])
+}
+
+
 model Discount{
     id String @id @default(auto()) @map("_id") @db.ObjectId
-
     startDate DateTime
     endDate DateTime
     percentage Int
     code Int
-
     isActive    Boolean  @default(false) 
 
     locationId String @db.ObjectId 
