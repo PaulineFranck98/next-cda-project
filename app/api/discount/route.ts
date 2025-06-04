@@ -27,16 +27,16 @@ export async function POST(req: NextRequest)
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const { startDate, endDate, percentage, code, isActive, locationId } = await req.json();
+        const { startDate, endDate, percentage, code, isActive } = await req.json();
 
         const discount = await db.discount.create({
+            where: { id: locationId}
             data: {
                 startDate,
                 endDate,
                 percentage,
                 code,
                 isActive,
-                locationId
             },
         })
 

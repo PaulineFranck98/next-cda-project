@@ -2,11 +2,19 @@
 
 import Link from "next/link";
 import AddDiscount from "@/components/location/AddDiscount";
+import { useParams } from "next/navigation";
 
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
 export default function AccountPage() {
+
+   const { locationId } = useParams(); 
+  
+    
+    if (!locationId || typeof locationId !== "string") {
+      return;
+    }
   return (
     <ContentLayout title="Profil">
       <Breadcrumb>
@@ -29,7 +37,7 @@ export default function AccountPage() {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="mt-6">
-        <AddDiscount />
+        <AddDiscount locationId={locationId} />
       </div>
     </ContentLayout>
   );
