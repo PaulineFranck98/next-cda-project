@@ -6,6 +6,7 @@ import { DiscountType } from "@/types/types";
 import { cn } from "@/lib/utils/utils";
 import TailwindSwitch from "@/components/ui/switch";
 import { useDiscounts } from "@/hooks/use-discounts";
+import Link from "next/link";
 
 interface DiscountCardProps {
   discounts: DiscountType[];
@@ -60,6 +61,11 @@ const DiscountCard = ({ discounts, locationId }: DiscountCardProps) => {
             </div>
           </div>
         ))}
+      </div>
+       <div className="mt-6 flex justify-end">
+        <Link href={`/dashboard/location/${locationId}/new-discount`} className="bg-violet-600 text-white py-2 px-4 rounded hover:bg-violet-700">
+          Ajouter une promotion
+        </Link>
       </div>
     </div>
   );

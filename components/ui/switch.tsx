@@ -13,7 +13,7 @@ const TailwindSwitch = ({ checked, onChange }: TailwindSwitchProps) => {
       type="button"
       onClick={() => onChange(!checked)}
       className={cn(
-        "relative inline-flex h-6 w-11 items-center rounded-full transition",
+        "relative inline-flex h-6 w-11 items-center rounded-full transition cursor-pointer",
         checked ? "bg-violet-500" : "bg-gray-300"
       )}
     >
