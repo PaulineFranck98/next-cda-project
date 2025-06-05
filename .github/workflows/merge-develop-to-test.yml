@@ -1,4 +1,33 @@
-name: Auto Merge develop into test
+# name: Auto Merge develop into test
+
+# on:
+#   repository_dispatch:
+#     types: [trigger-merge]
+
+# jobs:
+#   merge:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Checkout test branch
+#         uses: actions/checkout@v4
+#         with:
+#           ref: test
+#           token: ${{ secrets.GITHUB_TOKEN }}
+
+#       - name: Configure Git
+#         run: |
+#           git config user.name "github-actions[bot]"
+#           git config user.email "github-actions[bot]@users.noreply.github.com"
+
+#       - name: Fetch develop branch
+#         run: git fetch origin develop:develop
+
+#       - name: Merge develop into test
+#         run: |
+#           git merge develop --no-ff -m "Auto-merge develop into test [skip ci]"
+#           git push origin test
+
+name: Merge develop to test
 
 on:
   repository_dispatch:
@@ -8,21 +37,15 @@ jobs:
   merge:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout test branch
+      - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          ref: test
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Configure Git
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Fetch develop branch
-        run: git fetch origin develop:develop
 
       - name: Merge develop into test
         run: |
-          git merge develop --no-ff -m "Auto-merge develop into test [skip ci]"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git fetch origin
+          git checkout test
+          git merge origin/develop -m "Auto-merge from develop to test after tests passed"
           git push origin test
