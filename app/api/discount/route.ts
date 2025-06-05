@@ -18,7 +18,7 @@ export async function GET () {
     }
 }
 
-export async function POST(req: NextRequest)
+export async function POST(req: NextRequest, { params }: { params: Promise<{ locationId: string}>})
 {
     try {
         const { userId } = await auth();
@@ -27,16 +27,18 @@ export async function POST(req: NextRequest)
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+        const { locationId } = await params
+
         const { startDate, endDate, percentage, code, isActive } = await req.json();
 
         const discount = await db.discount.create({
-            where: { id: locationId}
             data: {
-                startDate,
-                endDate,
+                startDate: new Date(startDate),
+                endDate: new Date(endDate),
                 percentage,
                 code,
                 isActive,
+                locationId
             },
         })
 
