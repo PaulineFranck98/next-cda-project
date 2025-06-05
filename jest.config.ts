@@ -5,13 +5,42 @@
  */
 
 /** @type {import('jest').Config} */
-const config = {
-  clearMocks: true,
-  testEnvironment: 'jsdom',
-  transform: {
-    "^.+\\.(ts|tsx|js|jsx)$": "babel-jest",
-  },
+// const config = {
+//   clearMocks: true,
+//   testEnvironment: 'jsdom',
+//   transform: {
+//     "^.+\\.(ts|tsx|js|jsx)$": "babel-jest",
+//   },
 
+// import type { Config } from 'jest';
+ 
+// const config: Config = {
+//   preset: 'ts-jest',
+//   testEnvironment: 'jsdom',
+//   moduleNameMapper: {
+//     '^next/font/(.*)$': '<rootDir>/__mocks__/next/font/$1.js',
+//   },
+//   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+// };
+ 
+// export default config;
+import nextJest from 'next/jest';
+
+const createJestConfig = nextJest({
+  dir: './',
+});
+
+const customJestConfig = {
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  moduleNameMapper: {
+    '^@/components/(.*)$': '<rootDir>/components/$1',
+    '^@/app/(.*)$': '<rootDir>/app/$1',
+    '^next/font/(.*)$': '<rootDir>/__mocks__/next/font/$1.js',  // ton mock pour next/font
+  },
+  testEnvironment: 'jsdom',
+};
+
+export default createJestConfig(customJestConfig);
 
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -203,6 +232,4 @@ const config = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
-};
 
-module.exports = config;
