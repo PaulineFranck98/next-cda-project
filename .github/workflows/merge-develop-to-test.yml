@@ -1,32 +1,3 @@
-# name: Auto Merge develop into test
-
-# on:
-#   repository_dispatch:
-#     types: [trigger-merge]
-
-# jobs:
-#   merge:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout test branch
-#         uses: actions/checkout@v4
-#         with:
-#           ref: test
-#           token: ${{ secrets.GITHUB_TOKEN }}
-
-#       - name: Configure Git
-#         run: |
-#           git config user.name "github-actions[bot]"
-#           git config user.email "github-actions[bot]@users.noreply.github.com"
-
-#       - name: Fetch develop branch
-#         run: git fetch origin develop:develop
-
-#       - name: Merge develop into test
-#         run: |
-#           git merge develop --no-ff -m "Auto-merge develop into test [skip ci]"
-#           git push origin test
-
 name: Merge develop to test
 
 on:
