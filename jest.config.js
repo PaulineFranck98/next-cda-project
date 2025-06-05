@@ -1,26 +1,16 @@
+
 /**
  * For a detailed explanation regarding each configuration property, visit:
  * https://jestjs.io/docs/configuration
  */
 
 /** @type {import('jest').Config} */
-// const config = {
-//   clearMocks: true,
-//   testEnvironment: 'jsdom',
-//   transform: {
-//     "^.+\\.(ts|tsx|js|jsx)$": "babel-jest",
-//   },
-import nextJest from 'next/jest';
-
-const createJestConfig = nextJest({
-  dir: './',
-});
-
-const customJestConfig = {
+const config = {
   clearMocks: true,
-  testEnvironment: 'jsdom', 
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'], 
-  moduleDirectories: ['node_modules', '<rootDir>/'], 
+  testEnvironment: 'jsdom',
+  transform: {
+    "^.+\\.(ts|tsx|js|jsx)$": "babel-jest",
+  },
 
 
   // All imported modules in your tests should be mocked automatically
@@ -215,5 +205,4 @@ const customJestConfig = {
   // watchman: true,
 };
 
-module.exports = createJestConfig(customJestConfig);
-// module.exports = config;
+module.exports = config;
