@@ -4,12 +4,25 @@
  */
 
 /** @type {import('jest').Config} */
-const config = {
+// const config = {
+//   clearMocks: true,
+//   testEnvironment: 'jsdom',
+//   transform: {
+//     "^.+\\.(ts|tsx|js|jsx)$": "babel-jest",
+//   },
+import nextJest from 'next/jest';
+
+const createJestConfig = nextJest({
+  dir: './',
+});
+
+const customJestConfig = {
   clearMocks: true,
-  testEnvironment: 'jsdom',
-  transform: {
-    "^.+\\.(ts|tsx|js|jsx)$": "babel-jest",
-  },
+  testEnvironment: 'jsdom', 
+  setupFilesAfterEnv: ['<rootDir>/jest.setup.js'], 
+  moduleDirectories: ['node_modules', '<rootDir>/'], 
+
+
   // All imported modules in your tests should be mocked automatically
   // automock: false,
 
@@ -202,4 +215,5 @@ const config = {
   // watchman: true,
 };
 
-module.exports = config;
+module.exports = createJestConfig(customJestConfig);
+// module.exports = config;
