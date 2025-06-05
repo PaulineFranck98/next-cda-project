@@ -14,7 +14,6 @@ const AddDiscount: React.FC<Props> = ({ locationId }) => {
     const [endDate, setEndDate] = useState('');
     const [percentage, setPercentage] = useState('');
     const [code, setCode] = useState('');
-    const [isActive, setIsActive] = useState(false);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -27,14 +26,14 @@ const AddDiscount: React.FC<Props> = ({ locationId }) => {
             const discountPayload = {
               startDate,
               endDate,
-              percentage,
-              code,
-              isActive,
+              percentage: parseInt(percentage, 10),
+              code: parseInt(code),
+              isActive: false,
             };
 
             console.log("discountPayload : ", discountPayload)
 
-            const response = await fetch('/api/discount', {
+            const response = await fetch(`/api/location/${locationId}/discount`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify(discountPayload),
@@ -42,15 +41,16 @@ const AddDiscount: React.FC<Props> = ({ locationId }) => {
 
             if(response.ok)
             {
-                const discount = await response.json();
-                setIsActive(false);
+                toast.success('Ajouté avec succès', { duration: 3000 });
                 router.push(`/dashboard/location/${locationId}`)
+            } else {
+                toast.error("Erreur lors de l'ajout", { duration: 3000, style: { background: '#FFC8C9' } });
             }
         } catch(error){
             console.error("Error submitting discount: ", error);
             toast.error("Erreur lors de l'ajout", { duration: 3000,  style: { background: '#FFC8C9' } });
         } finally {
-            toast.success('Ajouté avec succès', { duration: 3000 });
+            
             setIsSubmitting(false);
         }
     }
