@@ -4,25 +4,7 @@
  */
 
 /** @type {import('jest').Config} */
-// const config = {
-//   clearMocks: true,
-//   testEnvironment: 'jsdom',
-//   transform: {
-//     "^.+\\.(ts|tsx|js|jsx)$": "babel-jest",
-//   },
 
-// import type { Config } from 'jest';
- 
-// const config: Config = {
-//   preset: 'ts-jest',
-//   testEnvironment: 'jsdom',
-//   moduleNameMapper: {
-//     '^next/font/(.*)$': '<rootDir>/__mocks__/next/font/$1.js',
-//   },
-//   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-// };
- 
-// export default config;
 import nextJest from 'next/jest';
 
 const createJestConfig = nextJest({
@@ -34,7 +16,7 @@ const customJestConfig = {
   moduleNameMapper: {
     '^@/components/(.*)$': '<rootDir>/components/$1',
     '^@/app/(.*)$': '<rootDir>/app/$1',
-    '^next/font/(.*)$': '<rootDir>/__mocks__/next/font/$1.js',  // ton mock pour next/font
+    '^next/font/(.*)$': '<rootDir>/__mocks__/next/font/$1.js', 
   },
   testEnvironment: 'jsdom',
 };
