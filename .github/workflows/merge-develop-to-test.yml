@@ -24,5 +24,5 @@ jobs:
 
       - name: Merge develop into test
         run: |
-          git merge develop --allow-unrelated-histories --no-ff -m "Auto-merge develop into test [skip ci]"
+          git merge develop --no-ff -m "Auto-merge develop into test [skip ci]"
           git push origin test
