@@ -2,7 +2,7 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.1.1
-  cypress: cypress-io/cypress@3.3.1
+  cypress: cypress-io/cypress@3.1.0
 
 jobs:
   build-and-test:
@@ -40,6 +40,6 @@ workflows:
       - cypress/run:
           requires:
             - build-and-test
-          start-command: 'npm run dev:test'
+          start: npm run dev:test
           wait-on: 'http://localhost:3000'
           wait-on-timeout: 120
