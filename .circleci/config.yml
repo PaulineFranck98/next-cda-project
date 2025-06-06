@@ -1,8 +1,8 @@
-version: 2.1 
+version: 2.1
 
 orbs:
   node: circleci/node@5.1.1
-  cypress: cypress-io/cypress@3.1.0
+  cypress: cypress-io/cypress@4
 
 jobs:
   build-and-test:
@@ -30,6 +30,28 @@ jobs:
               -H "Authorization: token $GH_PAT" \
               -d '{"event_type":"trigger-merge"}'
 
+  cypress-tests:
+    docker:
+      - image: cypress/browsers:node18.12.0-chrome107-ff107
+    steps:
+      - checkout
+
+      - run:
+          name: Set up environment file
+          command: |
+            echo "DATABASE_URL=${DATABASE_URL_TEST}" > .env.local
+
+      - run:
+          name: Install Dependencies
+          command: npm ci
+
+      - run:
+          name: Start App + Run Cypress
+          command: |
+            npm run dev:test &
+            npx wait-on http://localhost:3000
+            npx cypress run
+
 workflows:
   build-and-test:
     jobs:
@@ -37,9 +59,6 @@ workflows:
           filters:
             branches:
               only: develop
-      - cypress/run:
+      - cypress-tests:
           requires:
             - build-and-test
-          start: npm run dev:test
-          wait-on: 'http://localhost:3000'
-          wait-on-timeout: 120
