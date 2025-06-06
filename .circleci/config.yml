@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   node: circleci/node@5.1.1
-  cypress: cypress-io/cypress@4
 
 jobs:
   build-and-test:
@@ -22,17 +21,9 @@ jobs:
           name: Run tests
           command: npm run test
 
-      - run:
-          name: Notify GitHub if tests pass
-          command: |
-            curl -X POST https://api.github.com/repos/PaulineFranck98/next-cda-project/dispatches \
-              -H "Accept: application/vnd.github.v3+json" \
-              -H "Authorization: token $GH_PAT" \
-              -d '{"event_type":"trigger-merge"}'
-
   cypress-tests:
     docker:
-      - image: cypress/browsers:node18.12.0-chrome107-ff107
+      - image: cypress/included:13.9.0 
     steps:
       - checkout
 
@@ -52,6 +43,18 @@ jobs:
             npx wait-on http://localhost:3000
             npx cypress run
 
+  notify-github:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - run:
+          name: Notify GitHub if tests pass
+          command: |
+            curl -X POST https://api.github.com/repos/PaulineFranck98/next-cda-project/dispatches \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token $GH_PAT" \
+              -d '{"event_type":"trigger-merge"}'
+
 workflows:
   build-and-test:
     jobs:
@@ -62,3 +65,7 @@ workflows:
       - cypress-tests:
           requires:
             - build-and-test
+      - notify-github:
+          requires:
+            - build-and-test
+            - cypress-tests

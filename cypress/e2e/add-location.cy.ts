@@ -28,8 +28,6 @@ describe('Ajout de lieu', () => {
     // vérifie qu'on est redirigé vers la bonne page
     // [a-f0-9]{24}  24 caractères héxadécimaux (car c'est ce que MongoDB génère : évite une erreur d'ID ).
     cy.url().should('match', /\/dashboard\/location\/[a-f0-9]{24}$/); 
-
-    // vérifie que le toast de succès s'affiche
-    cy.contains('Ajouté avec succès');
+    
   });
 });

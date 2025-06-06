@@ -14,12 +14,9 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
-
 Cypress.on('uncaught:exception', (err) => {
-  if (err.message.includes("Failed to execute 'removeChild' on 'Node'")) {
-    return false; // Ignore l'exception "removeChild" : pour le toast par exemple
+  if (err.message.includes('NEXT_REDIRECT')) {
+    return false; // On ignore l'exception
   }
-
-  return true; // Laisse planter pour les autres erreurs
+  return true; // On fail toutes les autres
 });
