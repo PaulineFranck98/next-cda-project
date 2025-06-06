@@ -24,6 +24,14 @@ jobs:
               -H "Authorization: token $GH_PAT" \
               -d '{"event_type":"trigger-merge"}'
 
+workflows:
+  build-and-test:
+    jobs:
+      - build-and-test:
+          filters:
+            branches:
+              only: develop              
+
 
 
 # version: 2.1
