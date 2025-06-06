@@ -36,7 +36,6 @@ describe("Formulaire d'ajout de lieu", () => {
     );
 
     // Simulation d'un utilisateur qui remplit les champs 
-
     // screen.getByLabelText : cherche un champ par son label
     // fireEvent.change : simule l'événement "change" sur un champ input 
     fireEvent.change(screen.getByLabelText(/Nom du lieu/i), {  
