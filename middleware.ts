@@ -4,7 +4,15 @@ import { NextResponse } from 'next/server'
 const isAdminRoute = createRouteMatcher(['/admin(.*)']);
 const isDashboardRoute = createRouteMatcher(['/dashboard(.*)']);
 
+//  vérifie si on est en mode test Cypress
+const isCypressTesting = process.env.CYPRESS_TESTING === 'true';
+
 export default clerkMiddleware(async (auth, req) => {
+  //  si on est en test Cypress --> bypass totalement les vérifications
+  if (isCypressTesting) {
+    return NextResponse.next(); // pour laisser passer la requête sans auth
+  }
+
   const { userId, sessionClaims } = await auth();
 
   // Admin routes
@@ -26,4 +34,5 @@ export const config = {
     '/(api|trpc)(.*)',
   ],
 };
+
 

@@ -27,34 +27,44 @@ export async function GET ()
     }
 }
 
-export async function POST(req: NextRequest)
-{
-    try {
-        const { userId } = await auth();
+export async function POST(req: NextRequest) {
+  try {
+    // détecte si on est en mode Cypress
+    const isCypressTesting = process.env.CYPRESS_TESTING === 'true';
 
-        if(!userId){
-            return new NextResponse("Unauthorized", { status: 401 });
-        }
-        const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, website} = await req.json();
+    let userId;
 
-        const location = await db.location.create({
-            data: {
-                locationName,
-                description,
-                address,
-                latitude:  parseFloat(latitude),
-                longitude:  parseFloat(longitude),
-                city,
-                zipcode,
-                phoneNumber,
-                website,
-                userId
-            },
-        })
-
-        return NextResponse.json(location, { status: 201 })
-    } catch(error) {
-        console.error("[POST_LOCATION]", error);
-        return new NextResponse("Internal Server Error", { status: 500 })
+    if (isCypressTesting) {
+      userId = "cypress-test-user"; // faux userId pour le test
+    } else {
+      const authResult = await auth();
+      userId = authResult.userId;
     }
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, website } = await req.json();
+
+    const location = await db.location.create({
+      data: {
+        locationName,
+        description,
+        address,
+        latitude: parseFloat(latitude),
+        longitude: parseFloat(longitude),
+        city,
+        zipcode,
+        phoneNumber,
+        website,
+        userId,
+      },
+    });
+
+    return NextResponse.json(location, { status: 201 });
+  } catch (error) {
+    console.error("[POST_LOCATION]", error);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
 }

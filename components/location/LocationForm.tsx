@@ -32,7 +32,7 @@ const LocationForm: React.FC<LocationFormProps> = ({
   onSubmit,
 }) => {
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-6 items-center">
+    <form data-testid="location-form" onSubmit={onSubmit} className="flex flex-col gap-6 items-center">
       <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 w-full mx-auto">
         <div className="flex flex-col gap-2">
           <label htmlFor="locationName">Nom du lieu</label>

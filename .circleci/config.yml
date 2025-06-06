@@ -9,10 +9,44 @@ jobs:
       - image: cimg/node:18.20.2
     steps:
       - checkout
+
+      - run:
+          name: Set up environment file
+          command: |
+            echo "DATABASE_URL=${DATABASE_URL_TEST}" > .env.local
+
       - node/install-packages
+
       - run:
           name: Run tests
           command: npm run test
+
+  cypress-tests:
+    docker:
+      - image: cypress/included:13.9.0 
+    steps:
+      - checkout
+
+      - run:
+          name: Set up environment file
+          command: |
+            echo "DATABASE_URL=${DATABASE_URL_TEST}" > .env.local
+
+      - run:
+          name: Install Dependencies
+          command: npm ci
+
+      - run:
+          name: Start App + Run Cypress
+          command: |
+            npm run dev:test &
+            npx wait-on http://localhost:3000
+            npx cypress run
+
+  notify-github:
+    docker:
+      - image: cimg/base:stable
+    steps:
       - run:
           name: Notify GitHub if tests pass
           command: |
@@ -28,3 +62,10 @@ workflows:
           filters:
             branches:
               only: develop
+      - cypress-tests:
+          requires:
+            - build-and-test
+      - notify-github:
+          requires:
+            - build-and-test
+            - cypress-tests
