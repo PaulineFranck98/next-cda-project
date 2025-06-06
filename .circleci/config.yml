@@ -1,7 +1,8 @@
-version: 2.1
+version: 2.1 
 
 orbs:
   node: circleci/node@5.1.1
+  cypress: cypress-io/cypress@4
 
 jobs:
   build-and-test:
@@ -36,36 +37,9 @@ workflows:
           filters:
             branches:
               only: develop
-
-
-
-# version: 2.1
-
-# orbs:
-#   node: circleci/node@5.1.1
-
-# jobs:
-#   build-and-test:
-#     docker:
-#       - image: cimg/node:18.20.2
-#     steps:
-#       - checkout
-#       - node/install-packages
-#       - run:
-#           name: Run tests
-#           command: npm run test
-#       - run:
-#           name: Notify GitHub if tests pass
-#           command: |
-#             curl -X POST https://api.github.com/repos/PaulineFranck98/next-cda-project/dispatches \
-#               -H "Accept: application/vnd.github.v3+json" \
-#               -H "Authorization: token $GH_PAT" \
-#               -d '{"event_type":"trigger-merge"}'
-
-# workflows:
-#   build-and-test:
-#     jobs:
-#       - build-and-test:
-#           filters:
-#             branches:
-#               only: develop
+      - cypress/run:
+          requires:
+            - build-and-test
+          start-command: 'npm run dev:test'
+          wait-on: 'http://localhost:3000'
+          wait-on-timeout: 120
