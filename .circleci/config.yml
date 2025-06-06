@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  node: circleci/node@5.1.1
+
 jobs:
   build-and-test:
     docker:
@@ -11,7 +14,7 @@ jobs:
           name: Set up environment file
           command: |
             echo "DATABASE_URL=${DATABASE_URL_TEST}" > .env.local
-           
+
       - node/install-packages
 
       - run:
@@ -32,7 +35,7 @@ workflows:
       - build-and-test:
           filters:
             branches:
-              only: develop              
+              only: develop
 
 
 
