@@ -1,8 +1,31 @@
-name: Create PR test → main
+# name: Create PR test → main
+
+# on:
+#   repository_dispatch:
+#     types: [trigger-pr-to-main]
+
+# jobs:
+#   create-pr:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+
+#       - uses: peter-evans/create-pull-request@v5
+#         with:
+#           token: ${{ secrets.GITHUB_TOKEN }}
+#           base: master
+#           head: test
+#           title: "PR automatique : test → main"
+#           body: "Tests E2E validés sur test"
+name: Create PR test → master
 
 on:
   repository_dispatch:
     types: [trigger-pr-to-main]
+
+permissions:
+  contents: write
+  pull-requests: write
 
 jobs:
   create-pr:
@@ -15,5 +38,5 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           base: master
           head: test
-          title: "PR automatique : test → main"
+          title: "PR automatique : test → master"
           body: "Tests E2E validés sur test"
