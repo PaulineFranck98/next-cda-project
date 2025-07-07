@@ -43,6 +43,17 @@ jobs:
             npx wait-on http://localhost:3000
             npx cypress run
 
+  # trigger-dispatches:
+  #   docker:
+  #     - image: cimg/base:stable
+  #   steps:
+  #     - run:
+  #         name: Trigger dispatches for merge and PR
+  #         command: |
+  #           curl -X POST https://api.github.com/repos/PaulineFranck98/next-cda-project/actions/workflows/trigger-dispatches.yml/dispatches \
+  #             -H "Accept: application/vnd.github.v3+json" \
+  #             -H "Authorization: token $GH_PAT" \
+  #             -d '{"ref":"develop"}'
   trigger-dispatches:
     docker:
       - image: cimg/base:stable
@@ -53,7 +64,7 @@ jobs:
             curl -X POST https://api.github.com/repos/PaulineFranck98/next-cda-project/actions/workflows/trigger-dispatches.yml/dispatches \
               -H "Accept: application/vnd.github.v3+json" \
               -H "Authorization: token $GH_PAT" \
-              -d '{"ref":"develop"}'
+              -d '{"ref":"develop", "inputs": {"manual": "true"}}'
 
 workflows:
   build-and-test:

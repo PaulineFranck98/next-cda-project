@@ -1,7 +1,37 @@
+# name: Trigger merge and PR dispatches
+
+# on:
+#   workflow_dispatch:
+
+# jobs:
+#   trigger-merge-to-test:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Trigger merge develop to test
+#         run: |
+#           curl -X POST https://api.github.com/repos/PaulineFranck98/next-cda-project/dispatches \
+#             -H "Accept: application/vnd.github.v3+json" \
+#             -H "Authorization: token $GH_PAT" \
+#             -d '{"event_type":"trigger-merge-to-test"}'
+
+#   trigger-pr-to-main:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Trigger PR test to main
+#         run: |
+#           curl -X POST https://api.github.com/repos/PaulineFranck98/next-cda-project/dispatches \
+#             -H "Accept: application/vnd.github.v3+json" \
+#             -H "Authorization: token $GH_PAT" \
+#             -d '{"event_type":"trigger-pr-to-main"}'
+
 name: Trigger merge and PR dispatches
 
 on:
   workflow_dispatch:
+    inputs:
+      manual:
+        description: "Manually triggered or from external tool"
+        required: false
 
 jobs:
   trigger-merge-to-test:
