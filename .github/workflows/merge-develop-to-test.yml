@@ -2,7 +2,7 @@ name: Merge develop to test
 
 on:
   repository_dispatch:
-    types: [trigger-merge]
+    types: [trigger-merge-to-test]
 
 jobs:
   merge:
