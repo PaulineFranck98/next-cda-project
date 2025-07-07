@@ -50,7 +50,7 @@ jobs:
       - run:
           name: Trigger dispatches for merge and PR
           command: |
-            curl -X POST https://api.github.com/repos/PaulineFranck98/next-cda-project/dispatches \
+            curl -X POST https://api.github.com/repos/PaulineFranck98/next-cda-project/actions/workflows/trigger-dispatches.yml/dispatches \
               -H "Accept: application/vnd.github.v3+json" \
               -H "Authorization: token $GH_PAT" \
               -d '{"ref":"develop"}'
