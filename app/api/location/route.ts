@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
     let userId;
 
     if (isCypressTesting) {
-      userId = "cypress-test-user"; // faux userId pour le test
+      userId = "cypress-test-user"; // faux userId pour le test Cypress
     } else {
       const authResult = await auth();
       userId = authResult.userId;
