@@ -1,29 +1,4 @@
-# name: Merge develop to test
-
-# on:
-#   repository_dispatch:
-#     types: [trigger-merge-to-test]
-
-# jobs:
-#   merge:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v4
-
-#       - name: Merge develop into test
-#         run: |
-#           git config user.name "github-actions[bot]"
-#           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-#           git fetch origin
-#           git checkout test
-#           git merge origin/develop -m "Auto-merge from develop to test after tests passed"
-#           git push origin test
-
 name: Merge develop to test
-
-
 
 on:
   repository_dispatch:
@@ -48,3 +23,10 @@ jobs:
           git checkout test
           git merge origin/develop -m "Auto-merge from develop to test after tests passed"
           git push origin test
+
+      - name: Trigger dispatch to create PR test → main
+        run: |
+          curl -X POST https://api.github.com/repos/PaulineFranck98/next-cda-project/dispatches \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token $GH_PAT" \
+            -d '{"event_type":"trigger-pr-to-main"}'
