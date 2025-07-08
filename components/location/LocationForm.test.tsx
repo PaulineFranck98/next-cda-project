@@ -1,5 +1,5 @@
 
-import "@testing-library/jest-dom/extend-expect";
+// import "@testing-library/jest-dom/extend-expect";
 import { expect } from '@jest/globals';
 
 //  render : pour afficher un composant de un environnement de test
