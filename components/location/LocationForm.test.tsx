@@ -6,6 +6,7 @@ import { expect } from '@jest/globals';
 //  screen : pour accéder aux éléments rendus 
 //  fireEvent : pour simuler des événements utilisateur
 //  waitFor : pour attendre une action asynchrone 
+
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 
 //  composant à tester
