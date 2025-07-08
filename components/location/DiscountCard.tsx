@@ -18,10 +18,18 @@ const DiscountCard = ({ discounts, locationId }: DiscountCardProps) => {
 
   if (!localDiscounts || localDiscounts.length === 0) {
     return (
-      <div className="border border-gray-300 rounded-lg py-6 px-8 shadow mb-8">
-        <h2 className="text-xl font-semibold mb-6">Promotions</h2>
-        <p className="text-gray-700">Aucune promotion ajoutée pour cet établissement.</p>
-      </div>
+    <div className="border border-gray-300 rounded-lg py-6 px-8 shadow mb-8">
+        <div>
+            <h2 className="text-xl font-semibold mb-6">Promotions</h2>
+            <p className="text-gray-700">Aucune promotion ajoutée pour cet établissement.</p>
+        </div>
+        <div className="mt-6 flex justify-end">
+            <Link href={`/dashboard/location/${locationId}/new-discount`} className="bg-violet-600 text-white py-2 px-4 rounded hover:bg-violet-700">
+                Ajouter une promotion
+            </Link>
+        </div>
+    </div>
+      
     );
   }
 

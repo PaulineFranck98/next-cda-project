@@ -3,11 +3,7 @@ name: Create PR test → master
 on:
   repository_dispatch:
     types: [trigger-pr-to-main]
-
-permissions:
-  contents: write
-  pull-requests: write
-
+    
 jobs:
   create-pr:
     runs-on: ubuntu-latest
