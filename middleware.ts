@@ -2,7 +2,7 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { isCypressTest, redirectTo } from './lib/middleware/utils'
 
-type SessionClaimsSafe = {
+type SessionClaims = {
   metadata?: {
     role?: string;
   };
@@ -14,12 +14,12 @@ const isDashboardRoute = createRouteMatcher(['/dashboard(.*)']);
 
 // Définition des règles
 const routeRules = [
-  { matcher: isAdminRoute, allowIf: (claims: SessionClaimsSafe) => {
+  { matcher: isAdminRoute, allowIf: (claims: SessionClaims) => {
       const role = claims?.metadata?.role ?? 'user';
       return role === 'admin';
     }, redirectTo: '/',
   },
-  { matcher: isDashboardRoute, allowIf: (_claims: SessionClaimsSafe, userId: string | null) => !!userId, redirectTo: '/sign-in' },
+  { matcher: isDashboardRoute, allowIf: (_claims: SessionClaims, userId: string | null) => !!userId, redirectTo: '/sign-in' },
 ];
 
 export default clerkMiddleware(async (auth, req) => {
