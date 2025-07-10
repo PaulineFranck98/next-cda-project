@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
           await db.user.create({
             data: {
               id: userId,
-              isSubscribed: false,
+              isSubscribed: true,
               createdAt: new Date(),
               endTrialDate: addDays(new Date(), 30),
             },
