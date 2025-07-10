@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
             },
           });
         } else {
-          console.log("Utilisateur existe déjà. Pas de mise à jour prévue pour l’instant.");
+          console.log("Pas de mise à jour prévue pour l’instant.");
         }
 
         break;
