@@ -25,9 +25,9 @@ export async function POST(req: NextRequest) {
               endTrialDate: addDays(new Date(), 30),
             },
           });
-          console.log(" Utilisateur créé en base :", userId);
+          console.log("Utilisateur créé en base :", userId);
         } else {
-          console.log("ℹUtilisateur déjà présent en base :", userId);
+          console.log("Utilisateur déjà présent en base :", userId);
         }
 
         break;

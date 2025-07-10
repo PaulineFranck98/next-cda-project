@@ -1,31 +1,33 @@
 import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
+import { isCypressTest, redirectTo } from './lib/middleware/utils'
 
+// Création des matchers
 const isAdminRoute = createRouteMatcher(['/admin(.*)']);
 const isDashboardRoute = createRouteMatcher(['/dashboard(.*)']);
 
-//  vérifie si on est en mode test Cypress
-const isCypressTesting = process.env.CYPRESS_TESTING === 'true';
+// Définition des règles
+const routeRules = [
+  { matcher: isAdminRoute, allowIf: (claims: any) => {
+      const role = claims?.metadata?.role ?? 'user';
+      return role === 'admin';
+    }, redirectTo: '/',
+  },
+  { matcher: isDashboardRoute, allowIf: (_claims: any, userId: string | null) => !!userId, redirectTo: '/sign-in' },
+];
 
 export default clerkMiddleware(async (auth, req) => {
-  //  si on est en test Cypress --> bypass totalement les vérifications
-  if (isCypressTesting) {
-    return NextResponse.next(); // pour laisser passer la requête sans auth
-  }
+  if (isCypressTest()) return NextResponse.next();
 
   const { userId, sessionClaims } = await auth();
 
-  // Admin routes
-  if (isAdminRoute(req) && sessionClaims?.metadata?.role !== 'admin') {
-    const url = new URL('/', req.url);
-    return NextResponse.redirect(url);
+  for (const rule of routeRules) {
+    if (rule.matcher(req) && !rule.allowIf(sessionClaims, userId)) {
+      return redirectTo(rule.redirectTo, req);
+    }
   }
 
-  // Dashboard routes
-  if (isDashboardRoute(req) && !userId) {
-    const url = new URL('/sign-in', req.url);
-    return NextResponse.redirect(url);
-  }
+  return NextResponse.next();
 });
 
 export const config = {
@@ -34,5 +36,4 @@ export const config = {
     '/(api|trpc)(.*)',
   ],
 };
-
 

@@ -1,3 +1,5 @@
+/// <reference types="jest" />
+
 import { calculateCompletion } from "./location-completion"; 
 import { LocationType } from "@/types/types";
 

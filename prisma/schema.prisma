@@ -159,7 +159,31 @@ model User {
     createdAt DateTime @default(now())
     endTrialDate DateTime
 
+    membership Membership?
+
     locations Location[]
+}
+
+model Membership {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    userId String @unique @db.ObjectId
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    startedAt DateTime
+    endsAt DateTime
+
+    invoices Invoice[]
+}
+
+model Invoice {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+
+    membershipId String @db.ObjectId
+    membership Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+
+    invoiceNumber String @unique
+    amount Int
 }
 
 
