@@ -1,12 +1,17 @@
-import { SignUp } from '@clerk/nextjs';
+import { SignUp } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-const SignUpPage = () => {
-  return (
-    <div className='flex flex-col items-center justify-center'>
-      <h1>Sign Up</h1>
-      <SignUp forceRedirectUrl={"/dashboard"} />
-    </div>
-  );
-};
+export default function SignUpPage() {
+  const { isSignedIn } = useUser();
+  const router = useRouter();
 
-export default SignUpPage;
+  useEffect(() => {
+    if (isSignedIn) {
+      router.push("/dashboard");
+    }
+  }, [isSignedIn, router]);
+
+  return <SignUp />;
+}
