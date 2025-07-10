@@ -2,9 +2,6 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 import { NextResponse } from 'next/server'
 import { isCypressTest, redirectTo } from './lib/middleware/utils'
 
-// test à retirer 
-console.log("middleware executed") 
-
 // Création des matchers
 const isAdminRoute = createRouteMatcher(['/admin(.*)']);
 const isDashboardRoute = createRouteMatcher(['/dashboard(.*)']);
