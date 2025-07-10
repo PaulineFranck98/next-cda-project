@@ -42,7 +42,7 @@ const BaseInfoCard = ({ location }: { location: LocationType }) => {
                     <FileText size={18} className="text-violet-500 flex-shrink-0" />
                     <strong>Description :</strong>
                 </div>
-                <p className="text-gray-700">{location.description}</p>
+                <p className="text-gray-700">« {location.description} »</p>
             </li>
         </ul>
 

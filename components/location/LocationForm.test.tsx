@@ -1,8 +1,12 @@
 
+// import "@testing-library/jest-dom/extend-expect";
+import { expect } from '@jest/globals';
+
 //  render : pour afficher un composant de un environnement de test
 //  screen : pour accéder aux éléments rendus 
 //  fireEvent : pour simuler des événements utilisateur
 //  waitFor : pour attendre une action asynchrone 
+
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 
 //  composant à tester

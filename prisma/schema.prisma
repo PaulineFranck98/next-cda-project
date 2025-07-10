@@ -152,6 +152,13 @@ model Location {
     discounts Discount[]
 }
 
+model User {
+    id String @id @map("_id")
+    isSubscribed Boolean @default(false)
+    createdAt DateTime @default(now())
+    endTrialDate DateTime
+}
+
 
 
 // npx prisma generate
