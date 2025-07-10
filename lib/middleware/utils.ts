@@ -1,10 +1,16 @@
 import { NextResponse } from "next/server";
 
+type SessionClaimsSafe = {
+  metadata?: {
+    role?: string;
+  };
+};
+
 export function isCypressTest(): boolean {
   return process.env.CYPRESS_TESTING === 'true';
 }
 
- export function isNotAdmin(sessionClaims: any): boolean {
+ export function isNotAdmin(sessionClaims: SessionClaimsSafe): boolean {
   const role = sessionClaims?.metadata?.role ?? 'user';
   return role !== 'admin';
 }
