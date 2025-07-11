@@ -5,6 +5,7 @@ import { LocationType } from '@/types/types';
 
 import { calculateCompletion } from '@/lib/utils/location-completion';
 import ProgressBar from '../ui/progress-bar';
+import DangerZone from './LocationDangerZone';
 
 interface LocationDetailProps {
   location: LocationType | null;
@@ -29,6 +30,7 @@ const LocationDetail = ({ location }: LocationDetailProps) => {
           <BaseInfoCard location={location} />
           <AdvancedInfoCard location={location} />
           <DiscountCard discounts={location.discounts} locationId={location.id} />
+          <DangerZone locationId={location.id} />
         </div>
       )}
     </div>

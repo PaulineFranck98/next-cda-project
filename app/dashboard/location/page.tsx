@@ -7,6 +7,7 @@ import LocationCard from "@/components/location/LocationCard";
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator} from "@/components/ui/breadcrumb";
 import { useLoading } from "@/context/LoadingContext";
+import { HousePlus } from 'lucide-react';
 
 
 const LocationsListPage = () => {
@@ -53,12 +54,26 @@ const LocationsListPage = () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-
-      <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {locations.map((location) => (
-          <LocationCard key={location.id} location={location} />
-        ))}
-      </div>
+      { locations.length > 0 ? (
+        <>
+          <div>
+            <Link href={'/dashboard/location/new-location'} className="bg-violet-600 text-white py-2 px-4 rounded hover:bg-violet-700">
+                Ajouter un établissement
+            </Link>
+          </div>
+            <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {locations.map((location) => (
+                <LocationCard key={location.id} location={location} />
+              ))}
+          </div>
+        </>
+      ) : (
+          <Link href={'/dashboard/location/new-location'} className="bg-violet-600 text-white py-2 px-4 rounded hover:bg-violet-700 flex items-center gap-2  max-w-fit mt-8">
+            <HousePlus /> Ajoutez votre premier établissement
+          </Link>
+      )
+    }
+      
     </ContentLayout>
   );
 };

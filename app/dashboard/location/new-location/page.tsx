@@ -61,7 +61,7 @@ export default function AccountPage() {
   };
 
   return (
-    <ContentLayout title="Profil">
+    <ContentLayout title="Nouvel établissement">
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
