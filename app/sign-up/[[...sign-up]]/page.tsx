@@ -11,8 +11,10 @@ export default function SignUpPage() {
 
   useEffect(() => {
     if (isSignedIn) {
+      console.log("User is signed in");
       router.push("/dashboard");
-    }
+    } else {
+      console.log("User is not signed in");}
   }, [isSignedIn, router]);
 
   return <SignUp />;
