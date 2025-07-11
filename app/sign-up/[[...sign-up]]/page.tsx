@@ -1,9 +1,9 @@
 'use client';
 
 import { SignUp } from "@clerk/nextjs";
-import { useUser } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+// import { useUser } from "@clerk/nextjs";
+// import { useRouter } from "next/navigation";
+// import { useEffect } from "react";
 
 // export default function SignUpPage() {
 //   const { isSignedIn } = useUser();
