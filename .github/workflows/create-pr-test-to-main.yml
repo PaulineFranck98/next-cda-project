@@ -2,7 +2,7 @@ name: Create PR test → master
 
 on:
   repository_dispatch:
-    types: [trigger-pr-to-main]
+    types: [trigger-pr-to-master]
     
 jobs:
   create-pr:

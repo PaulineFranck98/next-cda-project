@@ -24,9 +24,9 @@ jobs:
           git merge origin/develop -m "Auto-merge from develop to test after tests passed"
           git push origin test
 
-      - name: Trigger dispatch to create PR test → main
+      - name: Trigger dispatch to create PR test → master
         run: |
           curl -X POST https://api.github.com/repos/PaulineFranck98/next-cda-project/dispatches \
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token ${{ secrets.GH_PAT }}" \
-            -d '{"event_type":"trigger-pr-to-main"}'
+            -d '{"event_type":"trigger-pr-to-master"}'
