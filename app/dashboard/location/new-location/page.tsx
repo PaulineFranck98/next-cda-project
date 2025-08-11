@@ -8,6 +8,8 @@ import toast from 'react-hot-toast';
 import { ContentLayout } from "@/components/admin-panel/content-layout";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import LocationForm from "@/components/location/LocationForm";
+import { useCityAutocomplete, CitySuggestion } from '@/hooks/useCityAutocomplete';
+import { useAddressAutocomplete, AddressSuggestion } from '@/hooks/useAddressAutocomplete';
 
 export default function AccountPage() {
   const router = useRouter();
@@ -26,6 +28,23 @@ export default function AccountPage() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const { suggestions: citySuggestions, loading: cityLoading } = useCityAutocomplete(formData.city);
+  const { suggestions: addressSuggestions, loading: addressLoading } = useAddressAutocomplete(formData.address, formData.city);
+
+  const handleCitySelect = async (city: CitySuggestion) => {
+    setFormData(prev => ({ ...prev, city: city.name }));
+  };
+
+  const handleAddressSelect = (address: AddressSuggestion & { postcode?: string }) => {
+    setFormData(prev => ({
+      ...prev,
+      address: address.name,
+      latitude: String(address.latitude),
+      longitude: String(address.longitude),
+      zipcode: address.postcode || '', 
+    }));
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -37,14 +56,12 @@ export default function AccountPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
     try {
       const response = await fetch('/api/location', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
       if (response.ok) {
         const location = await response.json();
         toast.success('Ajouté avec succès', { duration: 3000 });
@@ -87,6 +104,12 @@ export default function AccountPage() {
           isSubmitting={isSubmitting}
           onChange={handleChange}
           onSubmit={handleSubmit}
+          citySuggestions={citySuggestions}
+          cityLoading={cityLoading}
+          onCitySelect={handleCitySelect}
+          addressSuggestions={addressSuggestions}
+          addressLoading={addressLoading}
+          onAddressSelect={handleAddressSelect}
         />
       </div>
     </ContentLayout>
