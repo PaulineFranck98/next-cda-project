@@ -21,8 +21,8 @@ function getFakeStats(establishments: LocationType[]): EngagementStats[] {
   return establishments.map(e => ({
     id: e.id,
     locationName: e.locationName,
-    favorites: Math.floor(Math.random() * 100),
-    itineraries: Math.floor(Math.random() * 50),
+    favorites: 40,
+    itineraries: 15,
   }));
 }
 

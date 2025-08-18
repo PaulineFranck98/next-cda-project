@@ -23,7 +23,8 @@ const SubscriptionStatusCard: React.FC<SubscriptionStatusCardProps> = ({ renewal
             <button className={`flex items-center px-3 py-1 rounded-lg mx-4 cursor-pointer ${statusClass}`}>
             <CalendarCheck2 className="mr-2" size={18} />
             <span className="font-semibold">
-                {daysLeft > 0 ? `${daysLeft} jours` : "Expiré"}
+                {daysLeft > 0 ? `${daysLeft} jours` :
+                daysLeft === 1 ? `${daysLeft} jour` : "Expiré"}
             </span>
             </button>
         );
@@ -33,7 +34,8 @@ const SubscriptionStatusCard: React.FC<SubscriptionStatusCardProps> = ({ renewal
         <button className={`w-full flex items-center px-3 py-1 rounded-md mb-4 cursor-pointer ${statusClass}`}>
             <CalendarCheck2 className="mr-2" size={18} />
             <span className="font-semibold">
-                {daysLeft > 0 ? `${daysLeft} jours restants` : "Expiré"}
+                {daysLeft > 0 ? `${daysLeft} jours restants` :
+                 daysLeft === 1 ? `${daysLeft} jour restant` : "Expiré"}
             </span>
         </button>
 

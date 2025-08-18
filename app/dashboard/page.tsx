@@ -46,8 +46,8 @@ export default function DashboardPage() {
 
   const stats = establishments.map(e => ({
     locationName: e.locationName,
-    favorites: Math.floor(Math.random() * 100),
-    itineraries: Math.floor(Math.random() * 50),
+    favorites: 40,
+    itineraries: 15,
   }));
 
   if (!sidebar) return null;

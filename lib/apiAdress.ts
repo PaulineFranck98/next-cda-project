@@ -10,7 +10,10 @@ export async function searchAdresses(query: string, city?: string): Promise<Adre
     let url = `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=5`;
     if (city) url += `&city=${encodeURIComponent(city)}`;
     const response = await fetch(url);
-    if (!response.ok) throw new Error('Erreur API Adresse');
+
+    if (!response.ok) 
+        throw new Error('Erreur API Adresse');
+
     const data = await response.json();
     return data.features.map((feature: {
         properties: {

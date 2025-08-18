@@ -16,7 +16,7 @@ export function Navbar({ title }: NavbarProps) {
           <h1 className="font-bold">{title}</h1>
         </div>
         <div className="flex flex-1 items-center justify-end">
-          <SubscriptionStatusCard renewalDate="2025-08-19" compact />
+          <SubscriptionStatusCard renewalDate="2025-08-25" compact />
           <ModeToggle />
           <UserNav />
         </div>
