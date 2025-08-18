@@ -37,6 +37,21 @@ export default function LocationDetailPage() {
     }
   }, [params.locationId, setLoading]);
 
+  useEffect(() => {
+    if (location && typeof window !== "undefined") {
+      const hash = window.location.hash;
+      if (hash === "#discount-section") {
+        // Timeout pour être sûr que le DOM est prêt
+        setTimeout(() => {
+          const element = document.getElementById("discount-section");
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      }
+    }
+  }, [location]);
+
   return (
     <ContentLayout title={location?.locationName ?? "Mon établissement"}>
       <Breadcrumb>
@@ -68,8 +83,7 @@ export default function LocationDetailPage() {
       </Breadcrumb>
 
       <div className="mt-6">
-        <LocationDetail location={location} /> 
-
+        <LocationDetail location={location} />
       </div>
     </ContentLayout>
   );

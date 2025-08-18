@@ -10,6 +10,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 import { Ellipsis, LogOut } from "lucide-react";
 import { SignOutButton } from "@clerk/nextjs";
 import { CollapseMenuButton } from"@/components/admin-panel/collapse-menu-button";
+import SubscriptionStatusCard from "@/components/SubscriptionStatusCard";
 
 interface MenuProps {
   isOpen?: boolean;
@@ -23,6 +24,7 @@ export function Menu({ isOpen }: MenuProps) {
     <ScrollArea className="[&>div>div[style]]:!block">
       <nav className="mt-8 h-full w-full">
         <ul className="flex flex-col min-h-[calc(100vh-48px-36px-16px-32px)] lg:min-h-[calc(100vh-32px-40px-32px)] items-start space-y-1 px-2">
+        <SubscriptionStatusCard renewalDate="2025-08-19" />
           {menuList.map(({ groupLabel, menus }, index) => (
             <li className={cn("w-full", groupLabel ? "pt-5" : "")} key={index}>
               {groupLabel && (

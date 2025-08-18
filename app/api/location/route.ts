@@ -12,10 +12,22 @@ export async function GET ()
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
+
         const locations = await db.location.findMany({
             where: { userId },
             orderBy: {
                locationName: "asc"
+            },
+            include: {
+                type: true,
+                duration: true,
+                price: true,
+                confort: true,
+                intensity: true,
+                images: true,
+                themes: { include: { theme: true } },
+                companions: { include: { companion: true } },
+                discounts: true,
             }
         })
 
