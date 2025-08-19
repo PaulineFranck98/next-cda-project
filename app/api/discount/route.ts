@@ -3,18 +3,17 @@ import { NextResponse, NextRequest } from "next/server"
 import { auth } from "@clerk/nextjs/server";
 
 
-export async function GET () {
+export async function GET(req: NextRequest, { params }: { params: { locationId: string } }) {
     try {
+        const { locationId } = params;
         const discounts = await db.discount.findMany({
-            orderBy: {
-                endDate: 'asc',
-            },
-        })
-
-        return NextResponse.json(discounts)
-    } catch(error) {
-        console.log("[DISCOUNTS]", error)
-        return new NextResponse("Internal Error", { status: 500 })
+            where: { locationId },
+            orderBy: { endDate: "asc" }
+        });
+        return NextResponse.json(discounts);
+    } catch (error) {
+        console.error("[DISCOUNTS_BY_LOCATION]", error);
+        return new NextResponse("Internal Error", { status: 500 });
     }
 }
 
