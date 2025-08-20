@@ -3,9 +3,9 @@ import { NextResponse, NextRequest } from "next/server"
 import { auth } from "@clerk/nextjs/server";
 
 
-export async function GET(req: NextRequest, { params }: { params: { locationId: string } }) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ locationId: string}>}) {
     try {
-        const { locationId } = params;
+        const { locationId } = await params
         const discounts = await db.discount.findMany({
             where: { locationId },
             orderBy: { endDate: "asc" }
