@@ -14,8 +14,8 @@ jobs:
       - checkout
 
       - run:
-        name: Debug DATABASE_URL length
-        command: echo -n "$DATABASE_URL" | wc -c
+          name: Debug DATABASE_URL length
+          command: echo -n "$DATABASE_URL" | wc -c
       
       - run:
           name: Set up environment file
