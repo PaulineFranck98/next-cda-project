@@ -8,7 +8,7 @@ jobs:
     docker:
       - image: cimg/node:18.20.2
     environment:
-      DATABASE_URL: $DATABASE_URL_TEST
+      DATABASE_URL: ${DATABASE_URL_TEST}
     steps:
       - checkout
       
