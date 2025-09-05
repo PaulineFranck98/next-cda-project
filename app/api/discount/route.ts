@@ -17,7 +17,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
     }
 }
 
-export async function POST(req: NextRequest, { params }: { params: Promise<{ locationId: string}>})
+export async function POST(req: NextRequest)
 {
     try {
         const { userId } = await auth();
@@ -26,9 +26,12 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ loc
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const { locationId } = await params
+        const { locationId, startDate, endDate, percentage, code, isActive } = await req.json();
 
-        const { startDate, endDate, percentage, code, isActive } = await req.json();
+        if(percentage < 1 || percentage > 100 )
+        {
+            return new NextResponse("Percentage must be beteween 1 and 100", { status: 400 });
+        }
 
         const discount = await db.discount.create({
             data: {

@@ -13,7 +13,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ loca
         }
         const { locationId } = await params
         const body = await req.json();
-        const { typeId, durationId, priceId, confortId, intensityId, themeIds, companionIds } = body;
+        const { typeId, durationId, priceId, confortId, intensityId, themeIds = [], companionIds = [] } = body;
 
         const updatedLocation = await db.location.update({
             where: { id: locationId },
@@ -26,32 +26,30 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ loca
             },
         });
 
-        await db.themeLocation.deleteMany({
-            where: {locationId}
-        });
+        await db.themeLocation.deleteMany({ where: {locationId} });
 
-        if(Array.isArray(themeIds) && themeIds.length > 0) {
+        if(themeIds.length > 0) {
             await db.themeLocation.createMany({
-                data: themeIds.map((themeId: string) => ({
-                    locationId,
-                    themeId
-                })),
+                data: themeIds.map((themeId: string) => ({ locationId, themeId })),
             });
         }
 
         
-        await db.companionLocation.deleteMany({
-            where: {locationId}
-        });
+        await db.companionLocation.deleteMany({ where: {locationId} });
 
-        if(Array.isArray(companionIds) && companionIds.length > 0) {
+        if(companionIds.length > 0) {
             await db.companionLocation.createMany({
-                data: companionIds.map((companionId: string) => ({
-                    locationId,
-                    companionId
-                })),
+                data: companionIds.map((companionId: string) => ({ locationId, companionId })),
             });
         }
+
+        await db.location.update({
+            where: { id: locationId },
+            data: {
+                themeIds,
+                companionIds,
+            },
+        });
 
 
         return NextResponse.json(updatedLocation, { status: 200 })

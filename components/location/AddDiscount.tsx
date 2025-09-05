@@ -24,16 +24,17 @@ const AddDiscount: React.FC<Props> = ({ locationId }) => {
 
         try {
             const discountPayload = {
-              startDate,
-              endDate,
-              percentage: parseInt(percentage, 10),
-              code: parseInt(code),
-              isActive: false,
+                locationId,
+                startDate,
+                endDate,
+                percentage: parseInt(percentage, 10),
+                code: code,
+                isActive: false,
             };
 
             console.log("discountPayload : ", discountPayload)
 
-            const response = await fetch(`/api/location/${locationId}/discount`, {
+            const response = await fetch(`/api/discount`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
                 body: JSON.stringify(discountPayload),
@@ -70,6 +71,8 @@ const AddDiscount: React.FC<Props> = ({ locationId }) => {
                             value={percentage}
                             onChange={(e) => setPercentage(e.target.value)}
                             required
+                            min={1}
+                            max={100}
                             className="bg-gray-100 rounded-md border border-gray-300 h-9 px-3"
                         />
                     </div> 
@@ -77,7 +80,7 @@ const AddDiscount: React.FC<Props> = ({ locationId }) => {
                         <label htmlFor="code">Code</label>
                         <input
                             id="code"
-                            type="number"
+                            type="text"
                             value={code}
                             onChange={(e) => setCode(e.target.value)}
                             required

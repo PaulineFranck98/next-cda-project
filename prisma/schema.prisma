@@ -65,6 +65,7 @@ model ThemeLocation{
     theme Theme? @relation(fields: [themeId], references: [id], onDelete: Cascade)
 
     @@index([locationId, themeId])
+    @@index([themeId, locationId])
 }
 
 model Companion{
@@ -84,6 +85,7 @@ model CompanionLocation{
     companion Companion? @relation(fields: [companionId], references: [id], onDelete: Cascade)
 
     @@index([locationId, companionId])
+    @@index([companionId, locationId])
 }
 
 model Image{
@@ -103,7 +105,7 @@ model Discount{
     startDate DateTime
     endDate DateTime
     percentage Int
-    code Int
+    code String
     isActive    Boolean  @default(false) 
 
     locationId String @db.ObjectId 
@@ -126,11 +128,15 @@ model Location {
     latitude Float 
     longitude Float
 
+    geo Json?
+
     userId String
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     isApproved Boolean? @default(false)
     isActive Boolean? @default(false)
+
+    @@index([isApproved, isActive])
 
     typeId String? @db.ObjectId
     durationId String? @db.ObjectId
@@ -144,11 +150,22 @@ model Location {
     confort Confort? @relation(fields: [confortId], references: [id], onDelete: Cascade)
     intensity Intensity? @relation(fields: [intensityId], references: [id], onDelete: Cascade)
 
-    @@index([typeId, durationId, priceId, confortId])
+    @@index([typeId])
+    @@index([priceId])
+    @@index([confortId])
+    @@index([intensityId])
+    @@index([durationId])
+    @@index([city])
 
     images Image[]
     themes ThemeLocation[]
     companions CompanionLocation[]
+
+    themeIds String[] @db.ObjectId
+    companionIds String[] @db.ObjectId
+
+    @@index([themeIds])
+    @@index([companionIds])
 
     discounts Discount[]
 }

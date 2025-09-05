@@ -31,12 +31,12 @@ const DangerZone = ({ locationId }: DangerZoneProps) => {
   };
 
   return (
-    <div className="border border-gray-300 rounded-lg py-6 px-8 shadow mb-8 flex flex-col">
-      <h2 className="text-xl font-semibold mb-6">Zone de danger</h2>
-      <div className="mt-6">
+    <div className="border border-red-500 rounded-lg py-6 px-8 shadow mb-8 flex flex-col bg-red-50">
+      <h2 className="text-xl font-semibold mb-6 text-red-600">Zone de danger</h2>
+      <div className="mt-4">
         <button
           onClick={handleDelete}
-          className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700"
+          className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 cursor-pointer transition-all ease-in-out duration-300"
           disabled={loading}
         >
           {loading ? "Suppression..." : "Supprimer l'établissement"}

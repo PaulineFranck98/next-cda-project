@@ -52,14 +52,21 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ loca
         const body = await req.json();
         const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, website } = body;
 
+        const lat = parseFloat(latitude);
+        const lon = parseFloat(longitude);
+
         const updatedLocation = await db.location.update({
             where: { id: locationId },
             data: {
                 locationName,
                 description,
                 address,
-                latitude,
-                longitude, 
+                latitude: lat,
+                longitude: lon, 
+                geo: {
+                    type: "Point",
+                    coordinates: [lon, lat],
+                },
                 city,
                 zipcode,
                 phoneNumber,

@@ -79,7 +79,7 @@ export function UserNav() {
           <SignOutButton>
             <button className=" flex items-center">
               <LogOut className="w-4 h-4 mr-3 text-muted-foreground" />
-              Sign out
+              Déconnexion
             </button>
           </SignOutButton>
         </DropdownMenuItem>

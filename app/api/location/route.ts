@@ -59,13 +59,20 @@ export async function POST(req: NextRequest) {
 
     const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, website } = await req.json();
 
+    const lat = parseFloat(latitude);
+    const lon = parseFloat(longitude);
+
     const location = await db.location.create({
       data: {
         locationName,
         description,
         address,
-        latitude: parseFloat(latitude),
-        longitude: parseFloat(longitude),
+        latitude: lat,
+        longitude: lon,
+        geo: {
+          type: "Point",
+          coordinates: [lon, lat]
+        },
         city,
         zipcode,
         phoneNumber,

@@ -71,6 +71,11 @@ export interface LocationType {
 
     userId: string;
 
+    geo?: {
+        type: "Point";
+        coordinates: [number, number];
+    }
+
     type?: TypeType | null; 
     duration?: DurationType | null;   
     price?: PriceType | null; 

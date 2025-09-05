@@ -6,6 +6,7 @@ import { DiscountType } from "@/types/types";
 import { cn } from "@/lib/utils/utils";
 import TailwindSwitch from "@/components/ui/switch";
 import { useDiscounts } from "@/hooks/use-discounts";
+import { Trash2, SquarePen } from 'lucide-react';
 import Link from "next/link";
 
 interface DiscountCardProps {
@@ -58,14 +59,17 @@ const DiscountCard = ({ discounts, locationId }: DiscountCardProps) => {
               <BadgePercent size={20} className="text-violet-500" />
               <span className="text-lg font-bold">{discount.percentage}%</span>
             </div>
-            <div className="text-gray-700 mb-1">
-              <strong>Code :</strong> {discount.code}
+            <div className="mb-1 flex justify-between">
+             <p><strong>Code :</strong> {discount.code}</p>
+             
             </div>
-            <div className="text-gray-700 mb-1">
-              <strong>Début :</strong> {formatDate(new Date(discount.startDate))}
+            <div className="flex justify-between mb-1">
+              <p className="text-gray-700"><strong>Début :</strong> {formatDate(new Date(discount.startDate))}</p>
+              <SquarePen size={20} className="text-violet-500" />
             </div>
-            <div className="text-gray-700">
-              <strong>Fin :</strong> {formatDate(new Date(discount.endDate))}
+            <div className="flex justify-between">
+              <p className="text-gray-700"><strong>Fin :</strong> {formatDate(new Date(discount.endDate))}</p>
+              <Trash2 size={20} color="#ee5353" />
             </div>
           </div>
         ))}

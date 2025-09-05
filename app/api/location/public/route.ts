@@ -18,12 +18,11 @@ export async function GET(req: Request) {
         const priceId = searchParams.get("priceId") ?? undefined;
         const confortId = searchParams.get("confortId") ?? undefined;
         const intensityId = searchParams.get("intensityId") ?? undefined;
+        const city = searchParams.get("city") ?? undefined;
 
-      
         const themeIds = parseArrayParam(searchParams.get("themeIds") ?? undefined);
         const companionIds = parseArrayParam(searchParams.get("companionIds") ?? undefined);
 
-    
         const where: Record<string, unknown> = {};
         if (locationName) {
             where.locationName = { contains: locationName, mode: "insensitive" };
@@ -43,19 +42,14 @@ export async function GET(req: Request) {
         if (intensityId) {
             where.intensityId = intensityId;
         }
+        if (city) {
+            where.city = { contains: city, mode: "insensitive" };
+        }
         if (themeIds.length > 0) {
-            where.themes = {
-                some: {
-                    themeId: { in: themeIds },
-                },
-            };
+            where.themeIds = { hasSome: themeIds };
         }
         if (companionIds.length > 0) {
-            where.companions = {
-                some: {
-                    companionId: { in: companionIds },
-                },
-            };
+            where.companionIds = { hasSome: companionIds };
         }
 
         const locations = await db.location.findMany({
