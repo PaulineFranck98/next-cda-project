@@ -16,6 +16,14 @@ jobs:
             echo "DATABASE_URL=${DATABASE_URL_TEST}" > .env.local
 
       - node/install-packages
+      
+      - run:
+          name: Prisma DB Push
+          command: npx prisma db push
+
+      - run:
+          name: Create 2dsphere index on geo
+          command: node scripts/create-2dsphere-index.js
 
       - run:
           name: Run tests
