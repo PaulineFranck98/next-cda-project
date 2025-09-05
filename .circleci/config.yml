@@ -10,13 +10,13 @@ jobs:
       
     environment:
       DATABASE_URL: ${DATABASE_URL_TEST}
-      
+
     steps:
       - checkout
 
       - run:
-          name: Debug DATABASE_URL length
-          command: echo -n "$DATABASE_URL" | wc -c
+          name: Debug DATABASE_URL
+          command: echo "$DATABASE_URL" 
       
       - run:
           name: Set up environment file
