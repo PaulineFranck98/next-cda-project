@@ -8,7 +8,7 @@ type Props = {
 };
 
 const PromoStatsCard: React.FC<Props> = ({ establishments }) => {
-    const maxDisplay = 3;
+    const maxDisplay = 2;
     const displayed = establishments.slice(0, maxDisplay);
 
     return (

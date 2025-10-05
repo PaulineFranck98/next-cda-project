@@ -8,10 +8,6 @@ export interface DurationType {
     onSiteTime: number;
 }
 
-export interface PriceType {
-    id: string;
-    priceRange: string;
-}
 
 export interface ConfortType {
     id: string;
@@ -68,6 +64,8 @@ export interface LocationType {
     zipcode: string;
     phoneNumber: string;
     website: string;
+    minPrice?: number;
+    maxPrice?: number;
 
     userId: string;
 
@@ -78,7 +76,6 @@ export interface LocationType {
 
     type?: TypeType | null; 
     duration?: DurationType | null;   
-    price?: PriceType | null; 
     confort?: ConfortType | null; 
     intensity?: IntensityType | null; 
 

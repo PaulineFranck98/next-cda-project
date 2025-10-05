@@ -21,7 +21,11 @@ const AdvancedInfoCard = ({ location }: { location: LocationType }) => {
 
             <li className="flex items-center gap-2">
                 <BadgeDollarSign size={18} className="text-violet-500" />
-                <span><strong>Prix :</strong> {location.price?.priceRange ?? "Non complété"}</span>
+                {location.minPrice && location.maxPrice  ? (
+                    <span><strong>Prix :</strong> {location.minPrice} € - {location.maxPrice} €</span>
+                ): (
+                    <span><strong>Prix :</strong> Non complété</span>
+                )}
             </li>
 
             <li className="flex items-center gap-2">

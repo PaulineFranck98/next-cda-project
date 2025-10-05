@@ -1,7 +1,7 @@
 import React, {useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import TypeSelector from '@/components/location/TypeSelector';
-import { Type, Duration, Price, Confort, Intensity, Theme, Companion } from '@prisma/client';
+import { Type, Duration,  Confort, Intensity, Theme, Companion } from '@prisma/client';
 import DurationSelector from '@/components/location/DurationSelector';
 import PriceSelector from '@/components/location/PriceSelector';
 import ConfortSelector from '@/components/location/ConfortSelector';
@@ -21,19 +21,19 @@ interface Props {
 type UpdateLocationData = {
     typeId?: string;
     durationId?: string;
-    priceId?: string;
     confortId?: string;
     intensityId?: string;
     themeIds?: string[];
     companionIds?: string[];
     deletedImagesUrls?: string[];
+    minPrice?: number;
+    maxPrice?: number;
+    
   };
 
 const CompleteLocation: React.FC<Props> = ({ locationId }) => {
 
     const { userId } = useAuth();
-
-
     const router = useRouter();
 
     const [types, setTypes] = useState<Type[]>([]);
@@ -42,8 +42,8 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
     const [durations, setDurations] = useState<Duration[]>([]);
     const [selectedDurationId, setSelectedDurationId] = useState<string>('');
 
-    const [prices, setPrices] = useState<Price[]>([]);
-    const [selectedPriceId, setSelectedPriceId] = useState<string>('');
+    const [minPrice, setMinPrice] = useState<number | ''>('');
+    const [maxPrice, setMaxPrice] = useState<number | ''>('');
 
     const [conforts, setConforts] = useState<Confort[]>([]);
     const [selectedConfortId, setSelectedConfortId] = useState<string>('');
@@ -86,15 +86,6 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
             }
         };
 
-        const fetchPrices = async () => {
-            try {
-                const response = await fetch('/api/price');
-                const data = await response.json();
-                setPrices(data);
-            } catch(error) {
-                console.error("Error while fetching prices: ", error);
-            };
-        }
 
         const fetchConforts = async () => {
             try {
@@ -138,7 +129,6 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
 
         fetchTypes();
         fetchDurations();
-        fetchPrices();
         fetchConforts();
         fetchIntensities();
         fetchThemes();
@@ -154,13 +144,13 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                 const location = await response.json();
                 setSelectedTypeId(location.typeId ?? '');
                 setSelectedDurationId(location.durationId ?? '');
-                setSelectedPriceId(location.priceId ?? '');
+                setMinPrice(location.minPrice ?? '');
+                setMaxPrice(location.maxPrice ?? '');
                 setSelectedConfortId(location.confortId ?? '');
                 setSelectedIntensityId(location.intensityId ?? '');
                 setSelectedThemeIds(location.themes?.map((theme: ThemeLocationType) => theme.themeId) ?? []);
                 setSelectedCompanionIds(location.companions?.map((companion: CompanionLocationType) => companion.companionId) ?? []);
                 setUploadedImages(location.images?.map((img: ImageType) => img.imageName) ?? []);
-
             } catch(error)
             {
                 console.error("Error fetching location: ", error);
@@ -174,8 +164,6 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
         }
     }, [locationId, userId, setLoading])
 
-
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if(locationId == null) return;
@@ -187,7 +175,10 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
             const updateData: UpdateLocationData = {};
             if(selectedTypeId) updateData.typeId = selectedTypeId;
             if(selectedDurationId) updateData.durationId = selectedDurationId;
-            if(selectedPriceId) updateData.priceId = selectedPriceId;
+            if(minPrice !== '' && maxPrice !== '' && minPrice <= maxPrice) {
+                updateData.minPrice = Number(minPrice);
+                updateData.maxPrice = Number(maxPrice);    
+            }
             if(selectedConfortId) updateData.confortId = selectedConfortId;
             if(selectedIntensityId) updateData.intensityId = selectedIntensityId;
             if(selectedThemeIds.length > 0) updateData.themeIds = selectedThemeIds;
@@ -195,7 +186,6 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
             if(deletedImagesUrls.length > 0 ) updateData.deletedImagesUrls = deletedImagesUrls;
 
             console.log("Deleted images : ", deletedImagesUrls); // TODO : delete
-
       
             const response = await fetch(`/api/location/${locationId}/completeLocation`, {
                 method: 'PUT',
@@ -235,8 +225,14 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
 
     };
 
+    const handlePriceChange = (field: "minPrice" | "maxPrice", value: number |"") => {
+        if(field === "minPrice") {
+            setMinPrice(value);
+        } else {
+            setMaxPrice(value);
+        }
+    }
 
-        
     return(
         <div className="max-w-6xl mx-auto p-4">
             <h1 className='text-2xl font-bold mb-4 text-center'>Compléter les informations du lieu</h1>
@@ -253,9 +249,9 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                         onChange={(id) => setSelectedDurationId(id)}
                     />
                     <PriceSelector
-                        prices={prices}
-                        selectedPriceId={selectedPriceId}
-                        onChange={(id) => setSelectedPriceId(id)}
+                       minPrice={minPrice}
+                       maxPrice={maxPrice}
+                       onChange={handlePriceChange}
                     />
                     <ConfortSelector
                         conforts={conforts}

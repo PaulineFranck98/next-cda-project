@@ -21,7 +21,6 @@ export async function GET ()
             include: {
                 type: true,
                 duration: true,
-                price: true,
                 confort: true,
                 intensity: true,
                 images: true,
@@ -61,6 +60,7 @@ export async function POST(req: NextRequest) {
 
     const lat = parseFloat(latitude);
     const lon = parseFloat(longitude);
+
 
     const location = await db.location.create({
       data: {

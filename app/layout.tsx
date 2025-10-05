@@ -35,10 +35,10 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <LoadingProvider>
           <Loading/>
-          <header className="flex gap-2">
+          <header className="flex gap-6 border-b border-b-gray-200 py-2 px-4 font-semibold">
             <SignedOut>
-              <Link href='/sign-up'><p>Sign up</p></Link>
-              <Link href='/sign-in'><p>Sign in</p></Link>
+              <Link href='/sign-up' className="text-violet-800 "><p>Inscription</p></Link>
+              <Link href='/sign-in' className="text-violet-800"><p>Connexion</p></Link>
             </SignedOut>
           </header>
           <main>

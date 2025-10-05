@@ -14,7 +14,6 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
             include: {
                 type: true,
                 duration: true,
-                price: true,
                 confort: true,
                 intensity: true,
                 themes: {

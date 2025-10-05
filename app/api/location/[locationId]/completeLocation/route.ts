@@ -13,14 +13,15 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ loca
         }
         const { locationId } = await params
         const body = await req.json();
-        const { typeId, durationId, priceId, confortId, intensityId, themeIds = [], companionIds = [] } = body;
+        const { typeId, durationId, minPrice, maxPrice, confortId, intensityId, themeIds = [], companionIds = [] } = body;
 
         const updatedLocation = await db.location.update({
             where: { id: locationId },
             data: {
                 typeId, 
                 durationId, 
-                priceId, 
+                minPrice,
+                maxPrice, 
                 confortId,
                 intensityId
             },

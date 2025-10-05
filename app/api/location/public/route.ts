@@ -14,42 +14,30 @@ export async function GET(req: Request) {
 
         const locationName = searchParams.get("locationName") ?? undefined;
         const typeId = searchParams.get("typeId") ?? undefined;
-        const durationId = searchParams.get("durationId") ?? undefined;
-        const priceId = searchParams.get("priceId") ?? undefined;
-        const confortId = searchParams.get("confortId") ?? undefined;
+        const durationIds = parseArrayParam(searchParams.getAll("durationId[]"));
+        const priceMin = searchParams.get("priceMin") ?? undefined;
+        const priceMax = searchParams.get("priceMax") ?? undefined;
+        const confortIds = parseArrayParam(searchParams.getAll("confortId[]"));
         const intensityId = searchParams.get("intensityId") ?? undefined;
         const city = searchParams.get("city") ?? undefined;
 
-        const themeIds = parseArrayParam(searchParams.get("themeIds") ?? undefined);
-        const companionIds = parseArrayParam(searchParams.get("companionIds") ?? undefined);
+        const themeIds = parseArrayParam(searchParams.getAll("themeIds[]"));
+        const companionIds = parseArrayParam(searchParams.getAll("companionIds[]"));
 
         const where: Record<string, unknown> = {};
-        if (locationName) {
-            where.locationName = { contains: locationName, mode: "insensitive" };
-        }
-        if (typeId) {
-            where.typeId = typeId;
-        }
-        if (durationId) {
-            where.durationId = durationId;
-        }
-        if (priceId) {
-            where.priceId = priceId;
-        }
-        if (confortId) {
-            where.confortId = confortId;
-        }
-        if (intensityId) {
-            where.intensityId = intensityId;
-        }
-        if (city) {
-            where.city = { contains: city, mode: "insensitive" };
-        }
-        if (themeIds.length > 0) {
-            where.themeIds = { hasSome: themeIds };
-        }
-        if (companionIds.length > 0) {
-            where.companionIds = { hasSome: companionIds };
+        if (locationName) where.locationName = { contains: locationName, mode: "insensitive" };
+        if (typeId) where.typeId = typeId;
+        if (durationIds.length > 0) where.durationId = { in: durationIds };
+        if (confortIds.length > 0) where.confortId = { in: confortIds };
+        if (intensityId) where.intensityId = intensityId;
+        if (city) where.city = { contains: city, mode: "insensitive" };
+        if (themeIds.length > 0)  where.themes = { some: { themeId: { in: themeIds } } };
+        if (companionIds.length > 0) where.companions = { some: { companionId: { in: companionIds } } };
+        if (priceMin || priceMax) {
+            where.AND = [
+                priceMin ? { maxPrice: { gte: Number(priceMin) } } : {},
+                priceMax ? { minPrice: { lte: Number(priceMax) } } : {},
+            ].filter(obj => Object.keys(obj).length > 0);
         }
 
         const locations = await db.location.findMany({
@@ -58,7 +46,6 @@ export async function GET(req: Request) {
             include: {
                 type: true,
                 duration: true,
-                price: true,
                 confort: true,
                 intensity: true,
                 images: true,
