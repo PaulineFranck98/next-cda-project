@@ -79,18 +79,10 @@ return (
         <div className="grid grid-cols-3 gap-4">
             {selectedImages.map((url, index) => (
                 <div key={index} className="relative">
-                <img
-                    src={url}
-                    alt={`Image ${index + 1}`}
-                    className="w-full h-auto rounded shadow"
-                />
-                <button
-                    type="button"
-                    onClick={() => handleRemove(url)}
-                    className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 text-xs"
-                >
-                    ✕
-                </button>
+                  <img src={url} alt={`Image ${index + 1}`} className="w-full h-auto rounded shadow" />
+                  <button type="button" onClick={() => handleRemove(url)} className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 text-xs">
+                      ✕
+                  </button>
                 </div>
             ))}
         </div>

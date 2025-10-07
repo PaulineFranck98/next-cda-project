@@ -14,15 +14,20 @@ export async function GET(req: Request) {
 
         const locationName = searchParams.get("locationName") ?? undefined;
         const typeId = searchParams.get("typeId") ?? undefined;
-        const durationIds = parseArrayParam(searchParams.getAll("durationId[]"));
+        const durationIds = parseArrayParam(searchParams.getAll("durationIds"));
         const priceMin = searchParams.get("priceMin") ?? undefined;
         const priceMax = searchParams.get("priceMax") ?? undefined;
-        const confortIds = parseArrayParam(searchParams.getAll("confortId[]"));
+        const confortIds = parseArrayParam(searchParams.getAll("confortIds"));
         const intensityId = searchParams.get("intensityId") ?? undefined;
         const city = searchParams.get("city") ?? undefined;
 
-        const themeIds = parseArrayParam(searchParams.getAll("themeIds[]"));
-        const companionIds = parseArrayParam(searchParams.getAll("companionIds[]"));
+        const themeIds = parseArrayParam(searchParams.getAll("themeIds"));
+        const companionIds = parseArrayParam(searchParams.getAll("companionIds"));
+
+        // Pagination 
+        const page = parseInt(searchParams.get("page") || "1", 10);
+        const limit = parseInt(searchParams.get("limit") || "10", 10);
+        const skip = (page - 1) * limit;
 
         const where: Record<string, unknown> = {};
         if (locationName) where.locationName = { contains: locationName, mode: "insensitive" };
@@ -40,9 +45,12 @@ export async function GET(req: Request) {
             ].filter(obj => Object.keys(obj).length > 0);
         }
 
+        // compte total pour pagination
+        const total = await db.location.count({ where });
+
         const locations = await db.location.findMany({
             where,
-            orderBy: { locationName: "asc" },
+            orderBy: { city: "asc" },
             include: {
                 type: true,
                 duration: true,
@@ -53,9 +61,12 @@ export async function GET(req: Request) {
                 companions: { include: { companion: true } },
                 discounts: true,
             },
+            skip,
+            take: limit,
         });
 
-        return NextResponse.json(locations);
+        return NextResponse.json({ data: locations, page, limit, total, totalPages: Math.ceil(total / limit) });
+        // return NextResponse.json(locations);
     } catch (error) {
         console.log("[LOCATIONS_PUBLIC]", error);
         return new NextResponse("Internal Error", { status: 500 });
