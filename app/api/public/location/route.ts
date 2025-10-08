@@ -66,7 +66,6 @@ export async function GET(req: Request) {
         });
 
         return NextResponse.json({ data: locations, page, limit, total, totalPages: Math.ceil(total / limit) });
-        // return NextResponse.json(locations);
     } catch (error) {
         console.log("[LOCATIONS_PUBLIC]", error);
         return new NextResponse("Internal Error", { status: 500 });

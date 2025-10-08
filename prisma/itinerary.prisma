@@ -1,7 +1,0 @@
-// model Itinerary {
-//     id String @id @default(auto()) @map("_id") @db.ObjectId
-//     title String 
-//     description String
-
-//     locations ItineraryLocation[]
-// }
