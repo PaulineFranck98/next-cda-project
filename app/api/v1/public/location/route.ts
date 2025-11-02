@@ -6,12 +6,21 @@ import * as z from "zod";
 
 const searchSchema = z.object({
     page: z.coerce.number().min(1).default(1),
-    limit: z.coerce.number().min(1).max(200).default(10),
-    priceMin: z.coerce.number().optional(),
+    pageSize: z.coerce.number().min(1).max(200).default(10),
+    priceMin: z.coerce.number().min(1).optional(),
     priceMax: z.coerce.number().optional(),
     city: z.coerce.string().max(50).optional(),
     locationName: z.coerce.string().max(50).optional(),
-});
+    // superRefine permet d'ajouter une validation personnalisée
+    }).superRefine((data, ctx) => { // data contient toutes les valeurs validées du schema
+        if (data.priceMin && data.priceMax && data.priceMax <= data.priceMin) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: 'Le prix maximum doit être supérieur au prix minimum',
+                path: ['priceMax'],
+            });
+        }
+    });
 
 // laisse passer la requête si Unkey est indisponible
 const fallback = () => ({ success: true, limit: 0, reset: 0, remaining: 0});
@@ -37,16 +46,27 @@ function parseArrayParam(param: string | null | undefined): string[] {
 }
 
 export async function GET(req: NextRequest) {
+    // pour le calcul de la latence du endpoint
+    const start = performance.now();
     try {
         const identifier = req.headers.get("x-forwarded-for")?.split(",")[0] || "Unknown";
         
         if(identifier) {
             // Vérifie le quota
-            const success = await rateLimiter.limit(identifier);
-            if(!success){
+            const rateLimit = await rateLimiter.limit(identifier);
+            if(!rateLimit.success){
+                // rateLimit.reset : timestamp où le quota se réinitialise
+                const retryAfter = Math.ceil((rateLimit.reset - Date.now()) / 1000);
+
                 return NextResponse.json (
-                    { error: "Trop de requêtes. Réessayez dans quelques secondes." }, 
-                    { status: 429 }  // 429 = too many request
+                    { 
+                        error: `Trop de requêtes. Réessayez dans ${retryAfter} secondes.` ,
+                        retryAfter
+                    }, 
+                    { 
+                        status: 429, // 429 = too many request
+                        headers: { "Retry-After": retryAfter.toString() }
+                    }  
                 );
             }
         }
@@ -56,7 +76,7 @@ export async function GET(req: NextRequest) {
         // validation zod
         const parsedData = searchSchema.safeParse({
             page: searchParams.get("page") ?? undefined,
-            limit: searchParams.get("limit") ?? undefined,
+            pageSize: searchParams.get("pageSize") ?? undefined,
             priceMin: searchParams.get("priceMin") ?? undefined,
             priceMax: searchParams.get("priceMax") ?? undefined,
             city: searchParams.get("city") ?? undefined,
@@ -64,11 +84,15 @@ export async function GET(req: NextRequest) {
         });
 
         if(!parsedData.success) {
-            return NextResponse.json({ error: "Paramètres invalides" }, { status: 400 });
+            const zodErrors = parsedData.error.errors.map(e => e.message);
+            return NextResponse.json({
+                error: "Paramètres invalides",
+                details: zodErrors
+            }, { status: 400 });
         }
 
         // récupération des valeurs validées
-        const { page, limit, priceMin, priceMax, city, locationName } = parsedData.data;
+        const { page, pageSize, priceMin, priceMax, city, locationName } = parsedData.data;
 
         const typeIds = parseArrayParam(searchParams.get("typeIds"));
         const durationIds = parseArrayParam(searchParams.get("durationIds"));
@@ -78,7 +102,7 @@ export async function GET(req: NextRequest) {
         const companionIds = parseArrayParam(searchParams.get("companionIds"));
 
         // Pagination 
-        const skip = (page - 1) * limit;
+        const skip = (page - 1) * pageSize;
 
         const where: Record<string, unknown> = {};
         if (locationName) where.locationName = { contains: locationName, mode: "insensitive" };
@@ -119,14 +143,29 @@ export async function GET(req: NextRequest) {
                 },
                 minPrice: true,
                 maxPrice: true,
+                type: {
+                    select: {
+                        typeName: true,
+                    }
+                }
             },
             skip,
-            take: limit,
+            take: pageSize,
         });
 
-        return NextResponse.json({ data: locations, page, limit, total, totalPages: Math.ceil(total / limit) });
+    
+        return NextResponse.json({ data: locations, page, pageSize, total, totalPages: Math.ceil(total / pageSize) });
     } catch (error) {
-        console.log("[LOCATIONS_PUBLIC]", error);
-        return new NextResponse("Internal Error", { status: 500 });
+        // calcul de la latence
+        const latency = performance.now() - start;
+        console.error(`[LOCATIONS_PUBLIC] Erreur après ${latency.toFixed(2)}`, error);
+
+        return NextResponse.json(
+            {
+               error:  "Internal Error",
+               latency: `${latency.toFixed(2)} ms`
+            },
+            { status: 500 }
+        )
     }
 }
