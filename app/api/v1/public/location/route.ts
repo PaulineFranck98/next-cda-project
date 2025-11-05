@@ -11,6 +11,7 @@ const searchSchema = z.object({
     priceMax: z.coerce.number().optional(),
     city: z.coerce.string().max(50).optional(),
     locationName: z.coerce.string().max(50).optional(),
+    hasDiscount: z.coerce.boolean().optional(),
     // superRefine permet d'ajouter une validation personnalisée
     }).superRefine((data, ctx) => { // data contient toutes les valeurs validées du schema
         if (data.priceMin && data.priceMax && data.priceMax <= data.priceMin) {
@@ -81,6 +82,7 @@ export async function GET(req: NextRequest) {
             priceMax: searchParams.get("priceMax") ?? undefined,
             city: searchParams.get("city") ?? undefined,
             locationName: searchParams.get("locationName") ?? undefined,
+            hasDiscount: searchParams.get("hasDiscount") ?? undefined,
         });
 
         if(!parsedData.success) {
@@ -92,7 +94,7 @@ export async function GET(req: NextRequest) {
         }
 
         // récupération des valeurs validées
-        const { page, pageSize, priceMin, priceMax, city, locationName } = parsedData.data;
+        const { page, pageSize, priceMin, priceMax, city, locationName, hasDiscount } = parsedData.data;
 
         const typeIds = parseArrayParam(searchParams.get("typeIds"));
         const durationIds = parseArrayParam(searchParams.get("durationIds"));
@@ -121,6 +123,12 @@ export async function GET(req: NextRequest) {
             ].filter(obj => Object.keys(obj).length > 0);
         }
 
+        if (hasDiscount) {
+            where.discounts = {
+                some: { isActive: true },
+            };
+        }
+
         // compte total pour la pagination
         const total = await db.location.count({ where });
 
@@ -147,7 +155,11 @@ export async function GET(req: NextRequest) {
                     select: {
                         typeName: true,
                     }
-                }
+                },
+                discounts: {
+                    where: { isActive: true },
+                    select: { percentage: true },
+                },
             },
             skip,
             take: pageSize,

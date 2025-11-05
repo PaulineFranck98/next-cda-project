@@ -3,7 +3,7 @@ import { Menu } from "@/components/admin-panel/menu";
 import { SidebarToggle } from "@/components/admin-panel/sidebar-toggle";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/hooks/use-sidebar";
-
+import { useUser } from "@clerk/nextjs"; 
 import { cn } from "@/lib/utils/utils";
 import { PanelsTopLeft } from "lucide-react";
 import Link from "next/link";
@@ -11,9 +11,14 @@ import Link from "next/link";
 export function Sidebar() {
 
   const sidebar = useSidebar();
+  const { user, isLoaded } = useUser();
 
   if (!sidebar) return null;
+  if (!isLoaded) return null;
+
   const { isOpen, toggleOpen, getOpenState, setIsHover, settings } = sidebar;
+  const isAdmin = user?.publicMetadata?.role === "admin";
+
   return (
     <aside
       className={cn(
@@ -50,7 +55,7 @@ export function Sidebar() {
             </h1>
           </Link>
         </Button>
-        <Menu isOpen={getOpenState()} />
+        <Menu isOpen={getOpenState()} isAdmin={isAdmin} />
       </div>
     </aside>
   );

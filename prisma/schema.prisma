@@ -122,6 +122,7 @@ model Location {
     longitude Float
     minPrice Int?
     maxPrice Int?
+    createdAt DateTime? @default(now())
 
     geo Json?
 

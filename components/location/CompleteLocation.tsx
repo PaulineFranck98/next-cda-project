@@ -290,14 +290,9 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                 </div>
 
                 <div className="mt-6 flex justify-center">
-                    <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="bg-violet-800 text-white px-6 py-3 rounded-md disabled:opacity-50 cursor-pointer hover:opacity-80 transition-all"
-                    >
+                    <button type="submit" disabled={isSubmitting} className="bg-violet-800 text-white px-6 py-3 rounded-md disabled:opacity-50 cursor-pointer hover:opacity-80 transition-all">
                         {isSubmitting ? 'Enregistrement ...' : 'Enregistrer'}
-
-                </button>
+                    </button>
                 </div>
             </form>
         </div>    

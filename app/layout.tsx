@@ -35,12 +35,12 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
         <LoadingProvider>
           <Loading/>
-          <header className="flex gap-6 border-b border-b-gray-200 py-2 px-4 font-semibold">
             <SignedOut>
-              <Link href='/sign-up' className="text-violet-800 "><p>Inscription</p></Link>
-              <Link href='/sign-in' className="text-violet-800"><p>Connexion</p></Link>
+              <header className="flex gap-6 border-b border-b-gray-200 py-2 px-4 font-semibold">
+                  <Link href='/sign-up' className="text-violet-800 "><p>Inscription</p></Link>
+                  <Link href='/sign-in' className="text-violet-800"><p>Connexion</p></Link>
+              </header>
             </SignedOut>
-          </header>
           <main>
              <Toaster position="top-center" />
             {children}

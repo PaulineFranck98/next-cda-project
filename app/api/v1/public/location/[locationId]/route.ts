@@ -35,5 +35,4 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
         console.error("[LOCATION]", error);
         return new NextResponse("Internal Server Error", { status: 500 })
     }
-
 }

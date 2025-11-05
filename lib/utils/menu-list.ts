@@ -1,25 +1,83 @@
-import { Building2, CalendarCheck, CircleUser, LayoutGrid, LucideIcon } from "lucide-react";
+import { Building2, CalendarCheck, CircleUser, LayoutGrid, LucideIcon, Users, Settings } from "lucide-react";
 
 type Submenu = {
-  href: string;
-  label: string;
-  active?: boolean;
+	href: string;
+	label: string;
+	active?: boolean;
 };
 
 type Menu = {
-  href: string;
-  label: string;
-  active: boolean;
-  icon: LucideIcon;
-  submenus?: Submenu[];
+	href: string;
+	label: string;
+	active: boolean;
+	icon: LucideIcon;
+	submenus?: Submenu[];
 };
 
 type Group = {
-  groupLabel: string;
-  menus: Menu[];
+	groupLabel: string;
+	menus: Menu[];
 };
 
-export function getMenuList(pathname: string): Group[] {
+export function getMenuList(pathname: string, isAdmin: boolean): Group[] {
+
+  if (isAdmin) {
+    return [
+      {
+        groupLabel: "",
+        menus: [
+          {
+            href: "/dashboard",
+            label: "Dashboard",
+            icon: LayoutGrid,
+            active: pathname === "/dashboard",
+            submenus: [],
+          },
+        ],
+      },
+    {
+        groupLabel: "",
+        menus: [
+            {
+				href: "",
+				label: "Gestion",
+				icon: Users,
+				active: pathname.startsWith("/admin"),
+				submenus: [
+					{
+						href: "/admin/location",
+						label: "Liste des établissements",
+					},
+					{
+						href: "/admin/user",
+						label: "Liste des utilisateurs",
+					},
+            	],
+            },
+            {
+				href: "/admin/configuration",
+				label: "Configuration",
+				icon: Settings,
+				active: pathname.startsWith("/admin/configuration"),
+				submenus: [],
+            },
+        ],
+	},
+      {
+        groupLabel: "Paramètres",
+        menus: [
+          {
+            href: "/dashboard/profile",
+            label: "Profil",
+            icon: CircleUser,
+            active: pathname.startsWith("/dashboard/profile"),
+          },
+        ],
+      },
+    ];
+  }
+
+
   return [
     {
       groupLabel: "",
@@ -29,9 +87,9 @@ export function getMenuList(pathname: string): Group[] {
           label: "Dashboard",
           icon: LayoutGrid,
           active: pathname === "/dashboard",
-          submenus: []
-        }
-      ]
+          submenus: [],
+        },
+      ],
     },
     {
       groupLabel: "",
@@ -44,13 +102,13 @@ export function getMenuList(pathname: string): Group[] {
           submenus: [
             {
               href: "/dashboard/location",
-              label: "Mes établissements"
+              label: "Mes établissements",
             },
             {
               href: "/dashboard/location/new-location",
-              label: "Nouvel établissement"
-            }
-          ]
+              label: "Nouvel établissement",
+            },
+          ],
         },
         {
           href: "",
@@ -60,19 +118,19 @@ export function getMenuList(pathname: string): Group[] {
           submenus: [
             {
               href: "/posts",
-              label: "Voir l'abonnement"
+              label: "Voir l'abonnement",
             },
             {
               href: "/posts/new",
-              label: "Paiements"
+              label: "Paiements",
             },
             {
               href: "/posts/new",
-              label: "Factures PDF"
-            }
-          ]
+              label: "Factures PDF",
+            },
+          ],
         },
-      ]
+      ],
     },
     {
       groupLabel: "Paramètres",
@@ -82,8 +140,8 @@ export function getMenuList(pathname: string): Group[] {
           label: "Profil",
           icon: CircleUser,
           active: pathname.startsWith("/dashboard/profile"),
-        }
-      ]
-    }
+        },
+      ],
+    },
   ];
 }

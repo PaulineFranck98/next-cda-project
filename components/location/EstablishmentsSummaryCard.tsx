@@ -7,7 +7,7 @@ type Props = {
 };
 
 const EstablishmentsSummaryCard: React.FC<Props> = ({ establishments }) => {
-    const maxDisplay = 3;
+    const maxDisplay = 2;
     const displayed = establishments.slice(0, maxDisplay);
 
     return (
@@ -22,11 +22,11 @@ const EstablishmentsSummaryCard: React.FC<Props> = ({ establishments }) => {
                 </Link>
             </div>
             <p className="mb-4">Total : <span className="font-bold">{establishments.length}</span></p>
-            <ul className="mb-4">
-                {displayed.map(e => (
-                    <li key={e.id} className="flex justify-between items-center mb-2">
-                    <span>{e.locationName} – {e.city}</span>
-                    <Link href={`/dashboard/location/${e.id}`} className="text-violet-600 hover:underline">Voir</Link>
+            <ul className="mb-3">
+                {displayed.map(establishment => (
+                    <li key={establishment.id} className="flex justify-between items-center mb-2">
+                        <span>{establishment.locationName} – {establishment.city}</span>
+                        <Link href={`/dashboard/location/${establishment.id}`} className="text-violet-600 hover:underline">Voir</Link>
                     </li>
                 ))}
             </ul>

@@ -29,11 +29,8 @@ const AddDiscount: React.FC<Props> = ({ locationId }) => {
                 endDate,
                 percentage: parseInt(percentage, 10),
                 code: code,
-                isActive: false,
             };
-
-            console.log("discountPayload : ", discountPayload)
-
+ 
             const response = await fetch(`/api/discount`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json'},
@@ -61,8 +58,6 @@ const AddDiscount: React.FC<Props> = ({ locationId }) => {
             <h1 className="text-2xl font-bold mb-6 text-center">Ajouter une promotion</h1>
             <form onSubmit={handleSubmit} className="flex flex-col gap-6 items-center">
                 <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6 w-full mx-auto">           
-                    
-
                     <div className="flex flex-col gap-2">
                         <label htmlFor="percentage">Pourcentage de remise</label>
                         <input
@@ -111,7 +106,7 @@ const AddDiscount: React.FC<Props> = ({ locationId }) => {
                             className="bg-gray-100 rounded-md border border-gray-300 h-9 px-3"
                         />
                     </div>                
-                    {/* TODO : ajouter switch pour isActive */}
+                 
                 </div>        
                <div className="mt-6 flex justify-center">
                     <button

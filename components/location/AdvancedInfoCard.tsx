@@ -55,27 +55,22 @@ const AdvancedInfoCard = ({ location }: { location: LocationType }) => {
                 </span>
             </li>
         </ul>
-        <div className="mt-6">
+              <div className="mt-6">
         <div className="flex items-center gap-2 mb-2">
-            <Images size={18} className="text-violet-600" />
-            <h3 className="text-lg font-semibold">Images</h3>
+          <Images size={18} className="text-violet-600" />
+          <h3 className="text-lg font-semibold">Images</h3>
         </div>
 
-        {location.images?.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+       {location.images?.length > 0 ? (
+        <div className="flex flex-wrap gap-3">
             {location.images.map((image) => (
-                <Image
-                    key={image.id}
-                    src={image.imageName}
-                    alt="Image du lieu"
-                    width={150}
-                    height={150}
-                    className="rounded object-cover"
-                />
+                <div key={image.id} className="relative w-[110px] h-[110px] overflow-hidden rounded-lg border border-gray-200" >
+                    <Image src={image.imageName} alt="Image du lieu" fill  className="object-cover" />
+                </div>
             ))}
-            </div>
+        </div>
         ) : (
-            <p className="text-gray-500">Aucune image disponible.</p>
+        <p className="text-gray-500">Aucune image.</p>
         )}
         </div>
 

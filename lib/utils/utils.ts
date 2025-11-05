@@ -3,14 +3,14 @@ import { twMerge } from "tailwind-merge"
 import { format } from "date-fns";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+	return twMerge(clsx(inputs))
 }
 
 
 export function formatDate(date: Date): string {
-  try {
-    return format(new Date(date), "dd/MM/yyyy");
-  } catch {
-    return "Date not available";
-  }
+	try {
+		return format(new Date(date), "dd/MM/yyyy");
+	} catch {
+		return "Date not available";
+	}
 }

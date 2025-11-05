@@ -12,10 +12,13 @@ import Link from "next/link";
 interface DiscountCardProps {
   discounts: DiscountType[];
   locationId: string;
+  isActive?: boolean;
 }
 
-const DiscountCard = ({ discounts, locationId }: DiscountCardProps) => {
+const DiscountCard = ({ discounts, locationId, isActive }: DiscountCardProps) => {
   const { localDiscounts, toggleDiscount } = useDiscounts(discounts);
+
+  const disabled = !isActive;
 
   if (!localDiscounts || localDiscounts.length === 0) {
     return (
@@ -51,7 +54,8 @@ const DiscountCard = ({ discounts, locationId }: DiscountCardProps) => {
             <div className="absolute top-2 right-2">
               <TailwindSwitch
                 checked={discount.isActive}
-                onChange={(checked) => toggleDiscount(discount.id, locationId, checked)}
+                onChange={(checked) => !disabled && toggleDiscount(discount.id, locationId, checked)}
+                disabled={disabled}
               />
             </div>
 

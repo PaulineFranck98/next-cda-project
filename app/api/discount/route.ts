@@ -6,10 +6,35 @@ import { auth } from "@clerk/nextjs/server";
 export async function GET(req: NextRequest, { params }: { params: Promise<{ locationId: string}>}) {
     try {
         const { locationId } = await params
+
+        const now = new Date();
+
+        // to activate all discounts whose start date has not yet passed
+        await db.discount.updateMany({
+            where: {
+                locationId,
+                startDate: { lte: now },
+                endDate: { gte: now },
+                isActive: false,
+            },
+            data: { isActive: true },
+        });
+
+        // to deactivate all discounts whose end date has passed
+        await db.discount.updateMany({
+            where: {
+                locationId,
+                endDate: { lt: now },
+                isActive: true,
+            },
+            data: { isActive: false },
+        });
+
         const discounts = await db.discount.findMany({
             where: { locationId },
             orderBy: { endDate: "asc" }
         });
+
         return NextResponse.json(discounts);
     } catch (error) {
         console.error("[DISCOUNTS_BY_LOCATION]", error);
@@ -26,12 +51,18 @@ export async function POST(req: NextRequest)
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
-        const { locationId, startDate, endDate, percentage, code, isActive } = await req.json();
+        const { locationId, startDate, endDate, percentage, code } = await req.json();
 
         if(percentage < 1 || percentage > 100 )
         {
             return new NextResponse("Percentage must be beteween 1 and 100", { status: 400 });
         }
+
+        const now = new Date();
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+
+        const isActive = now >= start && now <= end;
 
         const discount = await db.discount.create({
             data: {

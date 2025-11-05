@@ -66,6 +66,8 @@ export interface LocationType {
     website: string;
     minPrice?: number;
     maxPrice?: number;
+    createdAt?: Date;
+    isActive: boolean;
 
     userId: string;
 

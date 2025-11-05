@@ -1,5 +1,6 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/auth/require-admin";
 
 export async function GET () {
     try {
@@ -13,5 +14,23 @@ export async function GET () {
     } catch(error) {
         console.log("[CONFORTS]", error)
         return new NextResponse("Internal Error", { status: 500 })
+    }
+}
+
+export async function POST(req: Request) {
+    try {
+        const { authorized, response } = await requireAdmin();
+        if (!authorized) return response;
+
+        const { confortLevel } = await req.json();
+
+        const confort = await db.confort.create({
+            data: { confortLevel },
+        });
+
+        return NextResponse.json(confort, { status: 201 });
+    } catch (error) {
+        console.error("[CONFORTS_POST]", error);
+        return new NextResponse("Internal Server Error", { status: 500 });
     }
 }
