@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Nunito } from "next/font/google";
+import { Nunito, Poppins } from "next/font/google";
 import "./globals.css";
 // import Link from "next/link";
 import { LoadingProvider } from "@/context/LoadingContext";
@@ -12,11 +12,18 @@ import Link from "next/link";
 import { Toaster } from "react-hot-toast";
 
 
-const nunito = Nunito({
+// const nunito = Nunito({
+//   subsets: ['latin'],
+//   weight: ['400', '600', '700'],
+//   display: 'swap',
+//   variable: '--font-nunito' 
+// });
+
+const poppins = Poppins({
   subsets: ['latin'],
   weight: ['400', '600', '700'],
   display: 'swap',
-  variable: '--font-nunito'
+  variable: '--font-nunito' 
 });
 
 export const metadata: Metadata = {
@@ -29,7 +36,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
   return (
       <html lang="fr" suppressHydrationWarning>
         <body
-          className={`${nunito.className} antialiased`}
+          className={`${poppins.className} antialiased`}
         >
     <ClerkProvider localization={frFR} afterSignOutUrl='/'>
        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>

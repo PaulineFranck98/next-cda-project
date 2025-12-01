@@ -61,7 +61,7 @@ const DiscountCard = ({ discounts, locationId, isActive }: DiscountCardProps) =>
 
             <div className="flex items-center gap-2 mb-2">
               <BadgePercent size={20} className="text-violet-500" />
-              <span className="text-lg font-bold">{discount.percentage}%</span>
+              <span className="text-lg font-semibold">{discount.percentage}%</span>
             </div>
             <div className="mb-1 flex justify-between">
              <p><strong>Code :</strong> {discount.code}</p>
