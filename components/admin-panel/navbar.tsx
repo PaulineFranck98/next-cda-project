@@ -17,7 +17,7 @@ export function Navbar({ title, isAdmin }: NavbarProps) {
           <h1 className="font-semibold">{title}</h1>
         </div>
         <div className="flex flex-1 items-center justify-end">
-          {!isAdmin && <SubscriptionStatusCard renewalDate="2025-08-25" compact />}
+          {!isAdmin && <SubscriptionStatusCard renewalDate="2026-03-26" compact />}
           <ModeToggle />
           <UserNav />
         </div>

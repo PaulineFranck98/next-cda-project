@@ -27,7 +27,7 @@ export function SheetMenu() {
             asChild
           >
             <Link href="/dashboard" className="flex items-center gap-2">
-              <SheetTitle className="font-bold text-lg text-violet-800">ShareMyWay</SheetTitle>
+              <SheetTitle className="font-bold text-lg text-violet-700">ShareMyWay</SheetTitle>
             </Link>
           </Button>
         </SheetHeader>

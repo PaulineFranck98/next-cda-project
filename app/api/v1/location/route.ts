@@ -6,15 +6,14 @@ export async function GET ()
 {
     try {
 
-        const { userId } = await auth();
+        // const { userId } = await auth();
 
-        if(!userId){
-            return new NextResponse("Unauthorized", { status: 401 });
-        }
+        // if(!userId){
+        //     return new NextResponse("Unauthorized", { status: 401 });
+        // }
 
 
         const locations = await db.location.findMany({
-            where: { userId },
             orderBy: {
                locationName: "asc"
             },
@@ -38,52 +37,52 @@ export async function GET ()
     }
 }
 
-export async function POST(req: NextRequest) {
-  try {
-    // détecte si on est en mode Cypress
-    const isCypressTesting = process.env.CYPRESS_TESTING === 'true';
+// export async function POST(req: NextRequest) {
+//   try {
+//     // détecte si on est en mode Cypress
+//     const isCypressTesting = process.env.CYPRESS_TESTING === 'true';
 
-    let userId;
+//     let userId;
 
-    if (isCypressTesting) {
-      userId = "cypress-test-user"; // faux userId pour le test Cypress
-    } else {
-      const authResult = await auth();
-      userId = authResult.userId;
-    }
+//     if (isCypressTesting) {
+//       userId = "cypress-test-user"; // faux userId pour le test Cypress
+//     } else {
+//       const authResult = await auth();
+//       userId = authResult.userId;
+//     }
 
-    if (!userId) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
+//     if (!userId) {
+//       return new NextResponse("Unauthorized", { status: 401 });
+//     }
 
-    const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, website } = await req.json();
+//     const { locationName, description, address, latitude, longitude, city, zipcode, phoneNumber, website } = await req.json();
 
-    const lat = parseFloat(latitude);
-    const lon = parseFloat(longitude);
+//     const lat = parseFloat(latitude);
+//     const lon = parseFloat(longitude);
 
 
-    const location = await db.location.create({
-      data: {
-        locationName,
-        description,
-        address,
-        latitude: lat,
-        longitude: lon,
-        geo: {
-          type: "Point",
-          coordinates: [lon, lat]
-        },
-        city,
-        zipcode,
-        phoneNumber,
-        website,
-        userId,
-      },
-    });
+//     const location = await db.location.create({
+//       data: {
+//         locationName,
+//         description,
+//         address,
+//         latitude: lat,
+//         longitude: lon,
+//         geo: {
+//           type: "Point",
+//           coordinates: [lon, lat]
+//         },
+//         city,
+//         zipcode,
+//         phoneNumber,
+//         website,
+//         userId,
+//       },
+//     });
 
-    return NextResponse.json(location, { status: 201 });
-  } catch (error) {
-    console.error("[POST_LOCATION]", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
-  }
-}
+//     return NextResponse.json(location, { status: 201 });
+//   } catch (error) {
+//     console.error("[POST_LOCATION]", error);
+//     return new NextResponse("Internal Server Error", { status: 500 });
+//   }
+// }

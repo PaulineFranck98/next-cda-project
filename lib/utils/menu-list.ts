@@ -117,15 +117,15 @@ export function getMenuList(pathname: string, isAdmin: boolean): Group[] {
           active: pathname.startsWith("/dashboard/subscription"),
           submenus: [
             {
-              href: "/posts",
+              href: "/subscription",
               label: "Voir l'abonnement",
             },
             {
-              href: "/posts/new",
+              href: "payments",
               label: "Paiements",
             },
             {
-              href: "/posts/new",
+              href: "/invoices",
               label: "Factures PDF",
             },
           ],
