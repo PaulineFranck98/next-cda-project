@@ -36,6 +36,10 @@ jobs:
           command: node scripts/create-2dsphere-index.js
 
       - run:
+          name: Lint code
+          command: npm run lint
+
+      - run:
           name: Run tests
           command: npm run test
 

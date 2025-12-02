@@ -41,9 +41,10 @@ export function Sidebar() {
 					asChild
 				>
 					<Link href="/dashboard" className="flex items-center gap-2">
+						
 						<h1
 							className={cn(
-								"font-bold text-violet-700 text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300",
+								"font-semibold text-violet-700 text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300",
 								!getOpenState()
 									? "-translate-x-96 opacity-0 hidden"
 									: "translate-x-0 opacity-100"
