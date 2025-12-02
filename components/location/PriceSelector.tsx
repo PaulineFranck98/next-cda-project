@@ -1,49 +1,49 @@
 import React from "react";
 
 interface Props {
-   minPrice: number | "";
-   maxPrice: number | "";
-   onChange: (field:"minPrice" | "maxPrice", value: number | "") => void;
+    minPrice: number | "";
+    maxPrice: number | "";
+    onChange: (field: "minPrice" | "maxPrice", value: number | "") => void;
 
 }
 
-const PriceSelector: React.FC<Props> = ({ minPrice, maxPrice, onChange}) => {
+const PriceSelector: React.FC<Props> = ({ minPrice, maxPrice, onChange }) => {
 
     const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value ? Number(e.target.value) : "";
         onChange("minPrice", value);
     };
 
-      const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleMaxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value ? Number(e.target.value) : "";
         onChange("maxPrice", value);
     };
 
 
-    return(
+    return (
         <div>
             <label className="block mb-1 font-medium">Fourchette de prix (€)</label>
             <div className="flex gap-3">
                 <div className="flex-1">
-                <input
-                    type="number"
-                    min={0}
-                    value={minPrice}
-                    onChange={handleMinChange}
-                    placeholder="Prix min"
-                    className="border border-gray-300 p-2 rounded w-full"
-                />
+                    <input
+                        type="number"
+                        min={0}
+                        value={minPrice}
+                        onChange={handleMinChange}
+                        placeholder="Prix min"
+                        className="border border-gray-300 p-2 rounded w-full"
+                    />
                 </div>
 
                 <div className="flex-1">
-                <input
-                    type="number"
-                    min={0}
-                    value={maxPrice}
-                    onChange={handleMaxChange}
-                    placeholder="Prix max"
-                    className="border border-gray-300 p-2 rounded w-full"
-                />
+                    <input
+                        type="number"
+                        min={0}
+                        value={maxPrice}
+                        onChange={handleMaxChange}
+                        placeholder="Prix max"
+                        className="border border-gray-300 p-2 rounded w-full"
+                    />
                 </div>
             </div>
 

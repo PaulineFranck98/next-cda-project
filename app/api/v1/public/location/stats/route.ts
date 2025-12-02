@@ -40,7 +40,7 @@ export async function GET() {
 			}
 		});
 
-		return NextResponse.json({total, thisWeek, lastWeek, latest });
+		return NextResponse.json({ total, thisWeek, lastWeek, latest });
 	} catch (error) {
 		console.error("[LOCATION_STATS_ERROR]", error);
 		return NextResponse.json(

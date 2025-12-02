@@ -15,8 +15,8 @@
 
 // Import commands.js using ES2015 syntax:
 Cypress.on('uncaught:exception', (err) => {
-  if (err.message.includes('NEXT_REDIRECT')) {
-    return false; // On ignore l'exception
-  }
-  return true; // On fail toutes les autres
+	if (err.message.includes('NEXT_REDIRECT')) {
+		return false; // On ignore l'exception
+	}
+	return true; // On fail toutes les autres
 });

@@ -30,12 +30,12 @@ export function useCityAutocomplete(query: string) {
                     lat: item.centre.coordinates[1],
                     lon: item.centre.coordinates[0],
                 })
-            );
-            setSuggestions(cities);
+                );
+                setSuggestions(cities);
             })
             .catch(() => setError('Erreur de recherche'))
             .finally(() => setLoading(false));
     }, [query]);
 
-  return { suggestions, loading, error };
+    return { suggestions, loading, error };
 }

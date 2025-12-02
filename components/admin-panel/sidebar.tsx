@@ -3,58 +3,58 @@ import { Menu } from "@/components/admin-panel/menu";
 import { SidebarToggle } from "@/components/admin-panel/sidebar-toggle";
 import { Button } from "@/components/ui/button";
 import { useSidebar } from "@/hooks/use-sidebar";
-import { useUser } from "@clerk/nextjs"; 
+import { useUser } from "@clerk/nextjs";
 import { cn } from "@/lib/utils/utils";
 import Link from "next/link";
 
 export function Sidebar() {
 
-  const sidebar = useSidebar();
-  const { user, isLoaded } = useUser();
+	const sidebar = useSidebar();
+	const { user, isLoaded } = useUser();
 
-  if (!sidebar) return null;
-  if (!isLoaded) return null;
+	if (!sidebar) return null;
+	if (!isLoaded) return null;
 
-  const { isOpen, toggleOpen, getOpenState, setIsHover, settings } = sidebar;
-  const isAdmin = user?.publicMetadata?.role === "admin";
+	const { isOpen, toggleOpen, getOpenState, setIsHover, settings } = sidebar;
+	const isAdmin = user?.publicMetadata?.role === "admin";
 
-  return (
-    <aside
-      className={cn(
-        "fixed top-0 left-0 z-20 h-screen -translate-x-full lg:translate-x-0 transition-[width] ease-in-out duration-300",
-        !getOpenState() ? "w-[90px]" : "w-72",
-        settings.disabled && "hidden"
-      )}
-    >
-      <SidebarToggle isOpen={isOpen} setIsOpen={toggleOpen} />
-      <div
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}
-        className="relative h-full flex flex-col px-3 py-4 overflow-y-auto shadow-md dark:shadow-zinc-400"
-      >
-        <Button
-          className={cn(
-            "transition-transform ease-in-out duration-300 mb-1",
-            !getOpenState() ? "translate-x-1" : "translate-x-0"
-          )}
-          variant="link"
-          asChild
-        >
-          <Link href="/dashboard" className="flex items-center gap-2">
-            <h1
-              className={cn(
-                "font-bold text-violet-700 text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300",
-                !getOpenState()
-                  ? "-translate-x-96 opacity-0 hidden"
-                  : "translate-x-0 opacity-100"
-              )}
-            >
-              ShareMyWay
-            </h1>
-          </Link>
-        </Button>
-        <Menu isOpen={getOpenState()} isAdmin={isAdmin} />
-      </div>
-    </aside>
-  );
+	return (
+		<aside
+			className={cn(
+				"fixed top-0 left-0 z-20 h-screen -translate-x-full lg:translate-x-0 transition-[width] ease-in-out duration-300",
+				!getOpenState() ? "w-[90px]" : "w-72",
+				settings.disabled && "hidden"
+			)}
+		>
+			<SidebarToggle isOpen={isOpen} setIsOpen={toggleOpen} />
+			<div
+				onMouseEnter={() => setIsHover(true)}
+				onMouseLeave={() => setIsHover(false)}
+				className="relative h-full flex flex-col px-3 py-4 overflow-y-auto shadow-md dark:shadow-zinc-400"
+			>
+				<Button
+					className={cn(
+						"transition-transform ease-in-out duration-300 mb-1",
+						!getOpenState() ? "translate-x-1" : "translate-x-0"
+					)}
+					variant="link"
+					asChild
+				>
+					<Link href="/dashboard" className="flex items-center gap-2">
+						<h1
+							className={cn(
+								"font-bold text-violet-700 text-lg whitespace-nowrap transition-[transform,opacity,display] ease-in-out duration-300",
+								!getOpenState()
+									? "-translate-x-96 opacity-0 hidden"
+									: "translate-x-0 opacity-100"
+							)}
+						>
+							ShareMyWay
+						</h1>
+					</Link>
+				</Button>
+				<Menu isOpen={getOpenState()} isAdmin={isAdmin} />
+			</div>
+		</aside>
+	);
 }

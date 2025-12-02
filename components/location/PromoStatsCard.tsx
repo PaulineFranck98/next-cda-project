@@ -4,7 +4,7 @@ import { formatDate } from "@/lib/utils/utils";
 import { BadgePercent } from 'lucide-react';
 
 type Props = {
-  establishments: LocationType[];
+    establishments: LocationType[];
 };
 
 const PromoStatsCard: React.FC<Props> = ({ establishments }) => {
@@ -21,35 +21,35 @@ const PromoStatsCard: React.FC<Props> = ({ establishments }) => {
                 {displayed.map(establishment => {
                     const activePromo = establishment.discounts?.find(discount => discount.isActive);
                     return (
-                    <li key={establishment.id} className="flex justify-between items-center mb-2">
-                        <div>
-                            <p className="font-semibold">{establishment.locationName}</p>
-                            {activePromo ? (
-                                <div className="flex gap-3">
-                                    <span className="text-violet-600">
-                                        <b>{activePromo.percentage}%</b>
-                                    </span>
+                        <li key={establishment.id} className="flex justify-between items-center mb-2">
+                            <div>
+                                <p className="font-semibold">{establishment.locationName}</p>
+                                {activePromo ? (
+                                    <div className="flex gap-3">
+                                        <span className="text-violet-600">
+                                            <b>{activePromo.percentage}%</b>
+                                        </span>
+                                        <span className="text-gray-500">
+                                            <b>{formatDate(activePromo.startDate)}</b> –{" "}
+                                            <b>{formatDate(activePromo.endDate)}</b>
+                                        </span>
+                                    </div>
+                                ) : (
                                     <span className="text-gray-500">
-                                        <b>{formatDate(activePromo.startDate)}</b> –{" "}
-                                        <b>{formatDate(activePromo.endDate)}</b>
+                                        Aucun code promo en cours
                                     </span>
-                                </div>
-                            ) : (
-                                <span className="text-gray-500">
-                                    Aucun code promo en cours
-                                </span>
-                            )}
-                        </div>
-                        <Link href={`/dashboard/location/${establishment.id}#discount-section`} className="text-violet-600 hover:underline ml-2 whitespace-nowrap" >
-                            Voir
-                        </Link>
-                    </li>
+                                )}
+                            </div>
+                            <Link href={`/dashboard/location/${establishment.id}#discount-section`} className="text-violet-600 hover:underline ml-2 whitespace-nowrap" >
+                                Voir
+                            </Link>
+                        </li>
                     );
                 })}
             </ul>
             {establishments.length > maxDisplay && (
                 <div className="flex justify-end">
-                    <Link  href="/dashboard/location" className="text-violet-600 hover:underline">
+                    <Link href="/dashboard/location" className="text-violet-600 hover:underline">
                         Voir tout
                     </Link>
                 </div>

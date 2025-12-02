@@ -2,8 +2,7 @@ import { db } from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
 
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ locationId: string}>}) 
-{
+export async function GET(req: NextRequest, { params }: { params: Promise<{ locationId: string }> }) {
     try {
         const { locationId } = await params
 
@@ -31,7 +30,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
             }
         })
         return NextResponse.json(location)
-     } catch(error) {
+    } catch (error) {
         console.error("[LOCATION]", error);
         return new NextResponse("Internal Server Error", { status: 500 })
     }

@@ -1,88 +1,83 @@
 datasource db {
-    provider = "mongodb"
-    url = env("DATABASE_URL")
+    provider     = "mongodb"
+    url          = env("DATABASE_URL")
     relationMode = "prisma"
 }
-
 
 generator client {
     provider = "prisma-client-js"
 }
 
+model Type {
+    id       String @id @default(auto()) @map("_id") @db.ObjectId
+    typeName String
 
-
-model Type{
-    id String @id @default(auto()) @map("_id") @db.ObjectId
-    typeName String 
-    
     locations Location[]
 }
 
-model Duration{
-    id String @id @default(auto()) @map("_id") @db.ObjectId
+model Duration {
+    id         String @id @default(auto()) @map("_id") @db.ObjectId
     onSiteTime Int
 
     locations Location[]
 }
 
-model Confort{
-    id String @id @default(auto()) @map("_id") @db.ObjectId
+model Confort {
+    id           String @id @default(auto()) @map("_id") @db.ObjectId
     confortLevel String
 
     locations Location[]
 }
 
-model Intensity{
-    id String @id @default(auto()) @map("_id") @db.ObjectId
+model Intensity {
+    id             String @id @default(auto()) @map("_id") @db.ObjectId
     intensityLevel String
 
     locations Location[]
 }
 
-
-
-model Theme{
-    id String @id @default(auto()) @map("_id") @db.ObjectId
+model Theme {
+    id        String @id @default(auto()) @map("_id") @db.ObjectId
     themeName String
 
     locations ThemeLocation[]
 }
 
-model ThemeLocation{
+model ThemeLocation {
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
     locationId String? @db.ObjectId
-    themeId String? @db.ObjectId
+    themeId    String? @db.ObjectId
 
     location Location? @relation(fields: [locationId], references: [id], onDelete: Cascade)
-    theme Theme? @relation(fields: [themeId], references: [id], onDelete: Cascade)
+    theme    Theme?    @relation(fields: [themeId], references: [id], onDelete: Cascade)
 
     @@index([locationId, themeId])
     @@index([themeId, locationId])
 }
 
-model Companion{
-    id String @id @default(auto()) @map("_id") @db.ObjectId
+model Companion {
+    id            String @id @default(auto()) @map("_id") @db.ObjectId
     companionName String
 
     locations CompanionLocation[]
 }
 
-model CompanionLocation{
+model CompanionLocation {
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    locationId String? @db.ObjectId
+    locationId  String? @db.ObjectId
     companionId String? @db.ObjectId
 
-    location Location? @relation(fields: [locationId], references: [id], onDelete: Cascade)
+    location  Location?  @relation(fields: [locationId], references: [id], onDelete: Cascade)
     companion Companion? @relation(fields: [companionId], references: [id], onDelete: Cascade)
 
     @@index([locationId, companionId])
     @@index([companionId, locationId])
 }
 
-model Image{
-    id String @id @default(auto()) @map("_id") @db.ObjectId
+model Image {
+    id        String @id @default(auto()) @map("_id") @db.ObjectId
     imageName String
 
     locationId String @db.ObjectId
@@ -92,37 +87,35 @@ model Image{
     @@index([locationId])
 }
 
-
-model Discount{
-    id String @id @default(auto()) @map("_id") @db.ObjectId
-    startDate DateTime
-    endDate DateTime
+model Discount {
+    id         String   @id @default(auto()) @map("_id") @db.ObjectId
+    startDate  DateTime
+    endDate    DateTime
     percentage Int
-    code String
-    isActive    Boolean  @default(false) 
+    code       String
+    isActive   Boolean  @default(false)
 
-    locationId String @db.ObjectId 
+    locationId String @db.ObjectId
 
     location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
 
-    @@index([locationId])   
+    @@index([locationId])
 }
 
-
 model Location {
-    id String @id @default(auto()) @map("_id") @db.ObjectId
+    id           String    @id @default(auto()) @map("_id") @db.ObjectId
     locationName String
-    description String 
-    address String
-    city String
-    zipcode String
-    phoneNumber String
-    website String
-    latitude Float 
-    longitude Float
-    minPrice Int?
-    maxPrice Int?
-    createdAt DateTime? @default(now())
+    description  String
+    address      String
+    city         String
+    zipcode      String
+    phoneNumber  String
+    website      String
+    latitude     Float
+    longitude    Float
+    minPrice     Int?
+    maxPrice     Int?
+    createdAt    DateTime? @default(now())
 
     geo Json?
 
@@ -130,43 +123,41 @@ model Location {
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     isApproved Boolean? @default(false)
-    isActive Boolean? @default(false)
+    isActive   Boolean? @default(false)
 
-    @@index([isApproved, isActive])
-
-    typeId String? @db.ObjectId
-    durationId String? @db.ObjectId
-    confortId String? @db.ObjectId
+    typeId      String? @db.ObjectId
+    durationId  String? @db.ObjectId
+    confortId   String? @db.ObjectId
     intensityId String? @db.ObjectId
 
-    type Type? @relation(fields: [typeId], references: [id], onDelete: Cascade)
-    duration Duration? @relation(fields: [durationId], references: [id], onDelete: Cascade)
-    confort Confort? @relation(fields: [confortId], references: [id], onDelete: Cascade)
+    type      Type?      @relation(fields: [typeId], references: [id], onDelete: Cascade)
+    duration  Duration?  @relation(fields: [durationId], references: [id], onDelete: Cascade)
+    confort   Confort?   @relation(fields: [confortId], references: [id], onDelete: Cascade)
     intensity Intensity? @relation(fields: [intensityId], references: [id], onDelete: Cascade)
 
+    images     Image[]
+    themes     ThemeLocation[]
+    companions CompanionLocation[]
+
+    themeIds     String[] @db.ObjectId
+    companionIds String[] @db.ObjectId
+
+    discounts Discount[]
+
+    @@index([isApproved, isActive])
     @@index([typeId])
     @@index([confortId])
     @@index([intensityId])
     @@index([durationId])
     @@index([city])
-
-    images Image[]
-    themes ThemeLocation[]
-    companions CompanionLocation[]
-
-    themeIds String[] @db.ObjectId
-    companionIds String[] @db.ObjectId
-
     @@index([themeIds])
     @@index([companionIds])
-
-    discounts Discount[]
 }
 
 model User {
-    id String @id @map("_id")
-    isSubscribed Boolean @default(false)
-    createdAt DateTime @default(now())
+    id           String   @id @map("_id")
+    isSubscribed Boolean  @default(false)
+    createdAt    DateTime @default(now())
     endTrialDate DateTime
 
     membership Membership?
@@ -177,11 +168,11 @@ model User {
 model Membership {
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    userId String @unique 
-    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    userId String @unique
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     startedAt DateTime
-    endsAt DateTime
+    endsAt    DateTime
 
     invoices Invoice[]
 }
@@ -189,14 +180,12 @@ model Membership {
 model Invoice {
     id String @id @default(auto()) @map("_id") @db.ObjectId
 
-    membershipId String @db.ObjectId
-    membership Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
+    membershipId String     @db.ObjectId
+    membership   Membership @relation(fields: [membershipId], references: [id], onDelete: Cascade)
 
     invoiceNumber String @unique
-    amount Int
+    amount        Int
 }
-
-
 
 // npx prisma generate
 // npx prisma db push

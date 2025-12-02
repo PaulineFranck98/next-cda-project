@@ -9,36 +9,36 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 
 export default function AccountPage() {
 
-   const { locationId } = useParams(); 
-  
-    
-    if (!locationId || typeof locationId !== "string") {
-      return;
-    }
-  return (
-    <ContentLayout title="Profil">
-      <Breadcrumb>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/dashboard">Home</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="/dashboard">Dashboard</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Ajouter une promotion</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-      <div className="mt-6">
-        <AddDiscount locationId={locationId} />
-      </div>
-    </ContentLayout>
-  );
+	const { locationId } = useParams();
+
+
+	if (!locationId || typeof locationId !== "string") {
+		return;
+	}
+	return (
+		<ContentLayout title="Profil">
+			<Breadcrumb>
+				<BreadcrumbList>
+					<BreadcrumbItem>
+						<BreadcrumbLink asChild>
+							<Link href="/dashboard">Home</Link>
+						</BreadcrumbLink>
+					</BreadcrumbItem>
+					<BreadcrumbSeparator />
+					<BreadcrumbItem>
+						<BreadcrumbLink asChild>
+							<Link href="/dashboard">Dashboard</Link>
+						</BreadcrumbLink>
+					</BreadcrumbItem>
+					<BreadcrumbSeparator />
+					<BreadcrumbItem>
+						<BreadcrumbPage>Ajouter une promotion</BreadcrumbPage>
+					</BreadcrumbItem>
+				</BreadcrumbList>
+			</Breadcrumb>
+			<div className="mt-6">
+				<AddDiscount locationId={locationId} />
+			</div>
+		</ContentLayout>
+	);
 }

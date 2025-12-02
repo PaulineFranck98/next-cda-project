@@ -7,11 +7,11 @@ interface Props {
     onChange: (id: string) => void;
 }
 
-const IntensitySelector: React.FC<Props> = ({ intensities, selectedIntensityId, onChange}) => {
-    return(
+const IntensitySelector: React.FC<Props> = ({ intensities, selectedIntensityId, onChange }) => {
+    return (
         <div>
             <label htmlFor="intensity" className="block mb-1 font-medium">Niveau d&apos;intensité</label>
-            <select 
+            <select
                 id="intensity"
                 value={selectedIntensityId}
                 onChange={(e) => onChange(e.target.value)}

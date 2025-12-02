@@ -2,8 +2,8 @@ import React from "react";
 import { CalendarCheck2 } from 'lucide-react';
 
 interface SubscriptionStatusCardProps {
-  renewalDate: string;
-  compact?: boolean;
+    renewalDate: string;
+    compact?: boolean;
 }
 
 const getStatusClass = (daysLeft: number) => {
@@ -21,11 +21,11 @@ const SubscriptionStatusCard: React.FC<SubscriptionStatusCardProps> = ({ renewal
     if (compact) {
         return (
             <button className={`flex items-center px-3 py-1 rounded-lg mx-4 cursor-pointer ${statusClass}`}>
-            <CalendarCheck2 className="mr-2" size={18} />
-            <span className="font-semibold">
-                {daysLeft > 0 ? `${daysLeft} jours` :
-                daysLeft === 1 ? `${daysLeft} jour` : "Expiré"}
-            </span>
+                <CalendarCheck2 className="mr-2" size={18} />
+                <span className="font-semibold">
+                    {daysLeft > 0 ? `${daysLeft} jours` :
+                        daysLeft === 1 ? `${daysLeft} jour` : "Expiré"}
+                </span>
             </button>
         );
     }
@@ -35,7 +35,7 @@ const SubscriptionStatusCard: React.FC<SubscriptionStatusCardProps> = ({ renewal
             <CalendarCheck2 className="mr-2" size={18} />
             <span className="font-semibold">
                 {daysLeft > 0 ? `${daysLeft} jours restants` :
-                 daysLeft === 1 ? `${daysLeft} jour restant` : "Expiré"}
+                    daysLeft === 1 ? `${daysLeft} jour restant` : "Expiré"}
             </span>
         </button>
 

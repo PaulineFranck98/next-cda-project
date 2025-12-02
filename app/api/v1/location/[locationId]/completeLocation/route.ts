@@ -2,13 +2,12 @@ import { db } from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@clerk/nextjs/server";
 
-  
-export async function PUT(req: NextRequest, { params }: { params: Promise<{ locationId: string}>})
-{
-    try{
+
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ locationId: string }> }) {
+    try {
         const { userId } = await auth();
 
-        if(!userId){
+        if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
         const { locationId } = await params
@@ -18,27 +17,27 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ loca
         const updatedLocation = await db.location.update({
             where: { id: locationId },
             data: {
-                typeId, 
-                durationId, 
+                typeId,
+                durationId,
                 minPrice,
-                maxPrice, 
+                maxPrice,
                 confortId,
                 intensityId
             },
         });
 
-        await db.themeLocation.deleteMany({ where: {locationId} });
+        await db.themeLocation.deleteMany({ where: { locationId } });
 
-        if(themeIds.length > 0) {
+        if (themeIds.length > 0) {
             await db.themeLocation.createMany({
                 data: themeIds.map((themeId: string) => ({ locationId, themeId })),
             });
         }
 
-        
-        await db.companionLocation.deleteMany({ where: {locationId} });
 
-        if(companionIds.length > 0) {
+        await db.companionLocation.deleteMany({ where: { locationId } });
+
+        if (companionIds.length > 0) {
             await db.companionLocation.createMany({
                 data: companionIds.map((companionId: string) => ({ locationId, companionId })),
             });
@@ -54,7 +53,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ loca
 
 
         return NextResponse.json(updatedLocation, { status: 200 })
-    } catch(error) {
+    } catch (error) {
         console.log("[PUT_LOCATION]", error)
         return new NextResponse("Internal Server Error", { status: 500 })
     }

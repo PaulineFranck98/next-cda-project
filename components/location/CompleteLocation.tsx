@@ -1,7 +1,7 @@
-import React, {useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import TypeSelector from '@/components/location/TypeSelector';
-import { Type, Duration,  Confort, Intensity, Theme, Companion } from '@prisma/client';
+import { Type, Duration, Confort, Intensity, Theme, Companion } from '@prisma/client';
 import DurationSelector from '@/components/location/DurationSelector';
 import PriceSelector from '@/components/location/PriceSelector';
 import ConfortSelector from '@/components/location/ConfortSelector';
@@ -28,8 +28,8 @@ type UpdateLocationData = {
     deletedImagesUrls?: string[];
     minPrice?: number;
     maxPrice?: number;
-    
-  };
+
+};
 
 const CompleteLocation: React.FC<Props> = ({ locationId }) => {
 
@@ -58,7 +58,7 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
     const [selectedCompanionIds, setSelectedCompanionIds] = useState<string[]>([]);
 
     const [uploadedImages, setUploadedImages] = useState<string[]>([]);
-    const [deletedImagesUrls, setDeletedImagesUrls] =  useState<string[]>([]);
+    const [deletedImagesUrls, setDeletedImagesUrls] = useState<string[]>([]);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -71,17 +71,17 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                 const response = await fetch('/api/type');
                 const data = await response.json();
                 setTypes(data)
-            } catch(error) {
+            } catch (error) {
                 console.error("Error fetching types: ", error);
             }
         };
 
         const fetchDurations = async () => {
-            try{
+            try {
                 const response = await fetch('/api/duration');
                 const data = await response.json();
                 setDurations(data);
-            } catch(error){
+            } catch (error) {
                 console.error("Error fetching durations: ", error);
             }
         };
@@ -92,7 +92,7 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                 const response = await fetch('/api/confort');
                 const data = await response.json();
                 setConforts(data);
-            } catch(error) {
+            } catch (error) {
                 console.error("Error fetching conforts: ", error);
             };
         }
@@ -102,7 +102,7 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                 const response = await fetch('/api/intensity');
                 const data = await response.json();
                 setIntensities(data)
-            } catch(error) {
+            } catch (error) {
                 console.error("Error fetching intensities: ", error)
             };
         }
@@ -112,7 +112,7 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                 const response = await fetch('/api/theme');
                 const data = await response.json();
                 setThemes(data);
-            } catch(error) {
+            } catch (error) {
                 console.error("Error fetching themes: ", error);
             }
         }
@@ -122,7 +122,7 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                 const response = await fetch('/api/companion')
                 const data = await response.json();
                 setCompanions(data);
-            } catch(error) {
+            } catch (error) {
                 console.error("Error fetching companions: ", error);
             }
         }
@@ -151,68 +151,67 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                 setSelectedThemeIds(location.themes?.map((theme: ThemeLocationType) => theme.themeId) ?? []);
                 setSelectedCompanionIds(location.companions?.map((companion: CompanionLocationType) => companion.companionId) ?? []);
                 setUploadedImages(location.images?.map((img: ImageType) => img.imageName) ?? []);
-            } catch(error)
-            {
+            } catch (error) {
                 console.error("Error fetching location: ", error);
             } finally {
                 setLoading(false)
             }
         };
 
-        if(locationId){
+        if (locationId) {
             fetchLocation()
         }
     }, [locationId, userId, setLoading])
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if(locationId == null) return;
+        if (locationId == null) return;
 
         setIsSubmitting(true);
 
         try {
             // pour permettre d'enregistrer sans tout ajouter
             const updateData: UpdateLocationData = {};
-            if(selectedTypeId) updateData.typeId = selectedTypeId;
-            if(selectedDurationId) updateData.durationId = selectedDurationId;
-            if(minPrice !== '' && maxPrice !== '' && minPrice <= maxPrice) {
+            if (selectedTypeId) updateData.typeId = selectedTypeId;
+            if (selectedDurationId) updateData.durationId = selectedDurationId;
+            if (minPrice !== '' && maxPrice !== '' && minPrice <= maxPrice) {
                 updateData.minPrice = Number(minPrice);
-                updateData.maxPrice = Number(maxPrice);    
+                updateData.maxPrice = Number(maxPrice);
             }
-            if(selectedConfortId) updateData.confortId = selectedConfortId;
-            if(selectedIntensityId) updateData.intensityId = selectedIntensityId;
-            if(selectedThemeIds.length > 0) updateData.themeIds = selectedThemeIds;
-            if(selectedCompanionIds.length > 0) updateData.companionIds = selectedCompanionIds;
-            if(deletedImagesUrls.length > 0 ) updateData.deletedImagesUrls = deletedImagesUrls;
+            if (selectedConfortId) updateData.confortId = selectedConfortId;
+            if (selectedIntensityId) updateData.intensityId = selectedIntensityId;
+            if (selectedThemeIds.length > 0) updateData.themeIds = selectedThemeIds;
+            if (selectedCompanionIds.length > 0) updateData.companionIds = selectedCompanionIds;
+            if (deletedImagesUrls.length > 0) updateData.deletedImagesUrls = deletedImagesUrls;
 
             console.log("Deleted images : ", deletedImagesUrls); // TODO : delete
-      
+
             const response = await fetch(`/api/location/${locationId}/completeLocation`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(updateData)
             });
 
-            if(response.ok){
+            if (response.ok) {
                 for (const url of deletedImagesUrls) {
                     const publicId = extractPublicIdFromUrl(url);
-                    console.log('public ID' , publicId);
-                    if(publicId){
+                    console.log('public ID', publicId);
+                    if (publicId) {
                         await fetch('/api/image/delete', {
                             method: 'POST',
-                            headers: {'Content-Type': 'application/json'},
-                            body: JSON.stringify({publicId}),
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ publicId }),
                         });
                     }
-                }                    
-                router.push(`/dashboard/location/${locationId}`); 
+                }
+                router.push(`/dashboard/location/${locationId}`);
             } else {
                 console.error('Error updating')
             }
-        } catch(error) {
+        } catch (error) {
             console.error('Error during request :', error)
-            toast.error('Erreur lors de la modification', { duration: 3000,  style: { background: '#FFC8C9' } });
-        } finally { 
+            toast.error('Erreur lors de la modification', { duration: 3000, style: { background: '#FFC8C9' } });
+        } finally {
             toast.success('Enregistré avec succès', { duration: 3000 });
             setIsSubmitting(false)
         }
@@ -225,15 +224,15 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
 
     };
 
-    const handlePriceChange = (field: "minPrice" | "maxPrice", value: number |"") => {
-        if(field === "minPrice") {
+    const handlePriceChange = (field: "minPrice" | "maxPrice", value: number | "") => {
+        if (field === "minPrice") {
             setMinPrice(value);
         } else {
             setMaxPrice(value);
         }
     }
 
-    return(
+    return (
         <div className="max-w-6xl mx-auto p-4">
             <h1 className='text-2xl font-bold mb-4 text-center'>Compléter les informations du lieu</h1>
             <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -249,9 +248,9 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                         onChange={(id) => setSelectedDurationId(id)}
                     />
                     <PriceSelector
-                       minPrice={minPrice}
-                       maxPrice={maxPrice}
-                       onChange={handlePriceChange}
+                        minPrice={minPrice}
+                        maxPrice={maxPrice}
+                        onChange={handlePriceChange}
                     />
                     <ConfortSelector
                         conforts={conforts}
@@ -263,13 +262,13 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                         selectedIntensityId={selectedIntensityId}
                         onChange={(id) => setSelectedIntensityId(id)}
                     />
-              
+
                     <div className="lg:col-span-2">
-                    <ThemeCheckboxGroup
-                        themes={themes}
-                        selectedThemeIds={selectedThemeIds}
-                        onChange={setSelectedThemeIds}
-                    />
+                        <ThemeCheckboxGroup
+                            themes={themes}
+                            selectedThemeIds={selectedThemeIds}
+                            onChange={setSelectedThemeIds}
+                        />
                     </div>
                     <div className="lg:col-span-2">
                         <CompanionCheckboxGroup
@@ -295,7 +294,7 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                     </button>
                 </div>
             </form>
-        </div>    
+        </div>
     )
 }
 

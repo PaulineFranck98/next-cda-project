@@ -4,17 +4,17 @@ import { Duration } from '@prisma/client';
 interface Props {
     durations: Duration[];
     selectedDurationId: string;
-    onChange: (id:string) => void;
+    onChange: (id: string) => void;
 }
 
 const formatDurationLabel = (duration: Duration) => {
     const { onSiteTime } = duration;
-    switch(onSiteTime) {
+    switch (onSiteTime) {
         case 1:
             return 'Environ 1h';
         case 2:
             return 'Environ 2h';
-        case 3: 
+        case 3:
             return 'Environ 3h';
         case 12:
             return 'Environ une demi-journée';

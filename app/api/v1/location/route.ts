@@ -1,12 +1,11 @@
 import { db } from "@/lib/db"
 import { NextResponse } from "next/server"
 
-export async function GET ()
-{
+export async function GET() {
     try {
         const locations = await db.location.findMany({
             orderBy: {
-               locationName: "asc"
+                locationName: "asc"
             },
             include: {
                 type: true,
@@ -21,8 +20,7 @@ export async function GET ()
         })
 
         return NextResponse.json(locations)
-    } catch(error)
-    {
+    } catch (error) {
         console.log("[LOCATIONS]", error)
         return new NextResponse("Internal Error", { status: 500 })
     }

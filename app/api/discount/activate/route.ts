@@ -6,7 +6,7 @@ export async function PATCH(req: Request) {
     const { discountId, locationId, isActive } = await req.json();
 
     if (isActive) {
-    
+
       await db.discount.updateMany({
         where: {
           locationId: locationId,
@@ -17,7 +17,7 @@ export async function PATCH(req: Request) {
       });
     }
 
-  
+
     await db.discount.update({
       where: {
         id: discountId,

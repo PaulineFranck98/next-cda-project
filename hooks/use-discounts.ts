@@ -26,12 +26,12 @@ export function useDiscounts(initialDiscounts: DiscountType[]) {
 						isActive: false,
 					};
 				}
-			return discount;
+				return discount;
 			}
 		});
 
-    	setLocalDiscounts(updatedDiscounts);
-  	};
+		setLocalDiscounts(updatedDiscounts);
+	};
 
 	return {
 		localDiscounts,

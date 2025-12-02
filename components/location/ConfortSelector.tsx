@@ -7,11 +7,11 @@ interface Props {
     onChange: (id: string) => void;
 }
 
-const ConfortSelector: React.FC<Props> = ({ conforts, selectedConfortId, onChange}) => {
-    return(
+const ConfortSelector: React.FC<Props> = ({ conforts, selectedConfortId, onChange }) => {
+    return (
         <div>
             <label htmlFor="confort" className="block mb-1 font-medium">Niveau de confort</label>
-            <select 
+            <select
                 id="confort"
                 value={selectedConfortId}
                 onChange={(e) => onChange(e.target.value)}

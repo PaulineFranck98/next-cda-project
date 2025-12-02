@@ -33,11 +33,11 @@ export interface ThemeLocationType {
     themeId?: string;
     locationId?: string;
     theme: {
-      id: string;
-      themeName: string;
+        id: string;
+        themeName: string;
     } | null;
-  }
-  
+}
+
 export interface CompanionLocationType {
     id: string;
     companionId?: string;
@@ -52,11 +52,11 @@ export interface ImageType {
     id: string;
     imageName: string;
 }
-  
+
 export interface LocationType {
     id: string;
     locationName: string;
-    description: string; 
+    description: string;
     address: string;
     latitude: number;
     longitude: number;
@@ -76,10 +76,10 @@ export interface LocationType {
         coordinates: [number, number];
     }
 
-    type?: TypeType | null; 
-    duration?: DurationType | null;   
-    confort?: ConfortType | null; 
-    intensity?: IntensityType | null; 
+    type?: TypeType | null;
+    duration?: DurationType | null;
+    confort?: ConfortType | null;
+    intensity?: IntensityType | null;
 
     themes: ThemeLocationType[];
     companions: CompanionLocationType[];

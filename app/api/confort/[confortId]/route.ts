@@ -27,7 +27,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ c
     try {
         const { authorized, response } = await requireAdmin();
         if (!authorized) return response;
-        
+
         const { confortId } = await params;
 
         await db.confort.delete({

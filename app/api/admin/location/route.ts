@@ -16,14 +16,14 @@ export async function GET() {
         });
 
         // enrich with Clerk data
-       const usersMap: Record<string, { name: string | null }> = {};
+        const usersMap: Record<string, { name: string | null }> = {};
 
         // retrieve all unique user IDs
         const userIds = [...new Set(locations.map((location) => location.userId))];
 
         for (const id of userIds) {
             try {
-                const client = await clerkClient(); 
+                const client = await clerkClient();
                 const user = await client.users.getUser(id);
 
                 usersMap[id] = {
@@ -36,7 +36,7 @@ export async function GET() {
         }
 
         // merge user information with each location
-        const enrichedLocations = locations.map((location) => ({ ...location, owner: usersMap[location.userId] ?? {  name: null } }));
+        const enrichedLocations = locations.map((location) => ({ ...location, owner: usersMap[location.userId] ?? { name: null } }));
 
         return NextResponse.json(enrichedLocations);
     } catch (error) {

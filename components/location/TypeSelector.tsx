@@ -7,11 +7,11 @@ interface Props {
     onChange: (id: string) => void;
 }
 
-const TypeSelector: React.FC<Props> = ({ types, selectedTypeId, onChange}) => {
-    return(
+const TypeSelector: React.FC<Props> = ({ types, selectedTypeId, onChange }) => {
+    return (
         <div>
             <label htmlFor="type" className="block mb-1 font-medium">Type de lieu</label>
-            <select 
+            <select
                 id="type"
                 value={selectedTypeId}
                 onChange={(e) => onChange(e.target.value)}

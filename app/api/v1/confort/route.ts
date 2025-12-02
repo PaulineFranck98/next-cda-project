@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export async function GET () {
+export async function GET() {
     try {
         const conforts = await db.confort.findMany({
             orderBy: {
@@ -10,7 +10,7 @@ export async function GET () {
         })
 
         return NextResponse.json(conforts)
-    } catch(error) {
+    } catch (error) {
         console.log("[CONFORTS]", error)
         return new NextResponse("Internal Error", { status: 500 })
     }

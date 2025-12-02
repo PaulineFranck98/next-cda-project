@@ -9,7 +9,7 @@ export async function requireAdmin() {
     }
 
     try {
-        const client = await clerkClient(); 
+        const client = await clerkClient();
         const user = await client.users.getUser(userId);
         const role = user.publicMetadata?.role ?? "user";
 

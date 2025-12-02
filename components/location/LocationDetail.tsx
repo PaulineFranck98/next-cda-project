@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils/utils";
 import { AlertTriangle } from "lucide-react";
 
 interface LocationDetailProps {
-  location: LocationType | null;
+    location: LocationType | null;
 
 }
 

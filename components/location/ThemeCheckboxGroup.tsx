@@ -8,9 +8,9 @@ interface Props {
 }
 
 const ThemeCheckboxGroup: React.FC<Props> = ({ themes, selectedThemeIds, onChange }) => {
-    
+
     const handleToggle = (id: string) => {
-        if(selectedThemeIds.includes(id)) {
+        if (selectedThemeIds.includes(id)) {
             onChange(selectedThemeIds.filter(themeId => themeId !== id));
         } else {
             onChange([...selectedThemeIds, id]);
@@ -23,11 +23,11 @@ const ThemeCheckboxGroup: React.FC<Props> = ({ themes, selectedThemeIds, onChang
             <div className="grid grid-cols-2 gap-2">
                 {themes.map(theme => (
                     <label key={theme.id} className="flex items-center gap-2">
-                        <input 
+                        <input
                             type="checkbox"
                             value={theme.id}
                             checked={selectedThemeIds.includes(theme.id)}
-                            onChange={() => handleToggle(theme.id)} 
+                            onChange={() => handleToggle(theme.id)}
                             className="cursor-pointer accent-violet-700"
                         />
                         {theme.themeName}

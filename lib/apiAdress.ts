@@ -11,7 +11,7 @@ export async function searchAdresses(query: string, city?: string): Promise<Adre
     if (city) url += `&city=${encodeURIComponent(city)}`;
     const response = await fetch(url);
 
-    if (!response.ok) 
+    if (!response.ok)
         throw new Error('Erreur API Adresse');
 
     const data = await response.json();

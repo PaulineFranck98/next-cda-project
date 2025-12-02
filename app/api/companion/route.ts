@@ -2,7 +2,7 @@ import { db } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth/require-admin";
 
-export async function GET () {
+export async function GET() {
     try {
         const companions = await db.companion.findMany({
             orderBy: {
@@ -11,7 +11,7 @@ export async function GET () {
         })
 
         return NextResponse.json(companions)
-    } catch(error) {
+    } catch (error) {
         console.log("[COMPANIONS]", error)
         return new NextResponse("Internal Error", { status: 500 })
     }

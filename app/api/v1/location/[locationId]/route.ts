@@ -2,8 +2,7 @@ import { db } from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server"
 import { auth } from "@clerk/nextjs/server"
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ locationId: string}>}) 
-{
+export async function GET(req: NextRequest, { params }: { params: Promise<{ locationId: string }> }) {
     try {
         const { locationId } = await params
 
@@ -31,19 +30,18 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
             }
         })
         return NextResponse.json(location)
-     } catch(error) {
+    } catch (error) {
         console.error("[LOCATION]", error);
         return new NextResponse("Internal Server Error", { status: 500 })
     }
 }
 
-export async function PUT(req: NextRequest, { params }: { params: Promise<{ locationId: string}>})
-{
-    try{
+export async function PUT(req: NextRequest, { params }: { params: Promise<{ locationId: string }> }) {
+    try {
         const { locationId } = await params
         const { userId } = await auth();
 
-        if(!userId){
+        if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
@@ -61,7 +59,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ loca
                 description,
                 address,
                 latitude: lat,
-                longitude: lon, 
+                longitude: lon,
                 geo: {
                     type: "Point",
                     coordinates: [lon, lat],
@@ -74,20 +72,19 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ loca
         })
 
         return NextResponse.json(updatedLocation, { status: 200 })
-    } catch(error) {
+    } catch (error) {
 
         console.log("[PUT_LOCATION]", error)
         return new NextResponse("Internal Server Error", { status: 500 })
     }
 }
 
-export async function DELETE(req: NextRequest, { params }: { params: Promise<{ locationId: string}>})
-{
+export async function DELETE(req: NextRequest, { params }: { params: Promise<{ locationId: string }> }) {
     try {
         const { locationId } = await params;
         const { userId } = await auth();
 
-        if(!userId){
+        if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
@@ -97,8 +94,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ l
         })
 
         return new NextResponse("Location deleted", { status: 204 })
-    } catch(error)
-    {
+    } catch (error) {
         console.log("[DELETE_LOCATION]", error)
         return new NextResponse("Internal Server Error", { status: 500 })
     }

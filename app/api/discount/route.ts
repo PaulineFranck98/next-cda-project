@@ -3,7 +3,7 @@ import { NextResponse, NextRequest } from "next/server"
 import { auth } from "@clerk/nextjs/server";
 
 
-export async function GET(req: NextRequest, { params }: { params: Promise<{ locationId: string}>}) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ locationId: string }> }) {
     try {
         const { locationId } = await params
 
@@ -42,19 +42,17 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
     }
 }
 
-export async function POST(req: NextRequest)
-{
+export async function POST(req: NextRequest) {
     try {
         const { userId } = await auth();
-        
-        if(!userId){
+
+        if (!userId) {
             return new NextResponse("Unauthorized", { status: 401 });
         }
 
         const { locationId, startDate, endDate, percentage, code } = await req.json();
 
-        if(percentage < 1 || percentage > 100 )
-        {
+        if (percentage < 1 || percentage > 100) {
             return new NextResponse("Percentage must be beteween 1 and 100", { status: 400 });
         }
 
@@ -76,7 +74,7 @@ export async function POST(req: NextRequest)
         })
 
         return NextResponse.json(discount, { status: 201 })
-    } catch(error) {
+    } catch (error) {
         console.error("[POST_DISCOUNT]", error);
         return new NextResponse("Internal Server Error", { status: 500 });
     }
