@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Nunito, Poppins } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 // import Link from "next/link";
 import { LoadingProvider } from "@/context/LoadingContext";
@@ -11,13 +11,6 @@ import { frFR } from '@clerk/localizations'
 import Link from "next/link";
 import { Toaster } from "react-hot-toast";
 
-
-// const nunito = Nunito({
-//   subsets: ['latin'],
-//   weight: ['400', '600', '700'],
-//   display: 'swap',
-//   variable: '--font-nunito' 
-// });
 
 const poppins = Poppins({
   subsets: ['latin'],
