@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Poppins, Nunito } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 // import Link from "next/link";
 import { LoadingProvider } from "@/context/LoadingContext";
