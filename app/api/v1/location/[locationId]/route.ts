@@ -29,12 +29,6 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
             }
         })
 
-         if (location) {
-            // retire userId de la réponse
-            const { userId, ...locationWithoutUserId } = location
-            return NextResponse.json(locationWithoutUserId)
-        }
-
         return NextResponse.json(location)
     } catch (error) {
         console.error("[LOCATION]", error);

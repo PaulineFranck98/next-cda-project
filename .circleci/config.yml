@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Set up environment file
           command: |
-            echo "DATABASE_URL=${DATABASE_URL_TEST}" > .env.local
+            echo "DATABASE_URL=${DATABASE_URL_TEST}" > .env
 
       - node/install-packages
 
@@ -52,7 +52,7 @@ jobs:
       - run:
           name: Set up environment file
           command: |
-            echo "DATABASE_URL=${DATABASE_URL_TEST}" > .env.local
+            echo "DATABASE_URL=${DATABASE_URL_TEST}" > .env
 
       - run:
           name: Install Dependencies
