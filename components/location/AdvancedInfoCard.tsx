@@ -27,7 +27,6 @@ const AdvancedInfoCard = ({ location }: { location: LocationType }) => {
                         <span><strong>Prix :</strong> Non complété</span>
                     )}
                 </li>
-
                 <li className="flex items-center gap-2">
                     <Sofa size={18} className="text-violet-500" />
                     <span><strong>Confort :</strong> {location.confort?.confortLevel ?? "Non complété"}</span>
