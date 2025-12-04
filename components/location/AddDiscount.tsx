@@ -17,7 +17,6 @@ const AddDiscount: React.FC<Props> = ({ locationId }) => {
 
     const [isSubmitting, setIsSubmitting] = useState(false);
 
-
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
