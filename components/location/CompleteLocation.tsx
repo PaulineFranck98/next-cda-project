@@ -262,7 +262,6 @@ const CompleteLocation: React.FC<Props> = ({ locationId }) => {
                         selectedIntensityId={selectedIntensityId}
                         onChange={(id) => setSelectedIntensityId(id)}
                     />
-
                     <div className="lg:col-span-2">
                         <ThemeCheckboxGroup
                             themes={themes}
