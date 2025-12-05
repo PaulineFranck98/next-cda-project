@@ -33,9 +33,9 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ t
             where: { id: themeId },
         });
 
-        return new NextResponse("Theme deleted", { status: 204 });
+        return new NextResponse(null, { status: 204 });
     } catch (error) {
-        console.error("[THEME_DELETE]", error);
+        console.error(null, error);
         return new NextResponse("Internal Server Error", { status: 500 });
     }
 }

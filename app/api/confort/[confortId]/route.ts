@@ -34,7 +34,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ c
             where: { id: confortId },
         });
 
-        return new NextResponse("Confort deleted", { status: 204 });
+        return new NextResponse(null, { status: 204 });
     } catch (error) {
         console.error("[CONFORT_DELETE]", error);
         return new NextResponse("Internal Server Error", { status: 500 });

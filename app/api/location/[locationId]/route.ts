@@ -93,9 +93,9 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ l
             where: { id: locationId }
         })
 
-        return new NextResponse("Location deleted", { status: 204 })
+        return new NextResponse(null, { status: 204 })
     } catch (error) {
-        console.log("[DELETE_LOCATION]", error)
+        console.log(null, error)
         return new NextResponse("Internal Server Error", { status: 500 })
     }
 }

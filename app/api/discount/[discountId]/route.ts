@@ -57,7 +57,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ d
             where: { id: discountId },
         });
 
-        return NextResponse.json("Discount deleted", { status: 204 });
+        return NextResponse.json(null, { status: 204 });
     } catch (error) {
         console.error("[DISCOUNT_DELETE]", error);
         return new NextResponse("Internal Server Error", { status: 500 });

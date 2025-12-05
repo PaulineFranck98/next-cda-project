@@ -34,7 +34,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ c
             where: { id: companionId },
         });
 
-        return new NextResponse("Companion deleted", { status: 204 });
+        return new NextResponse(null, { status: 204 });
     } catch (error) {
         console.error("[COMPANION_DELETE]", error);
         return new NextResponse("Internal Server Error", { status: 500 });

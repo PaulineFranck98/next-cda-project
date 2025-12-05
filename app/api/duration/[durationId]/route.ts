@@ -34,7 +34,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ d
             where: { id: durationId },
         });
 
-        return new NextResponse("Duration deleted", { status: 204 });
+        return new NextResponse(null, { status: 204 });
     } catch (error) {
         console.error("[DURATION_DELETE]", error);
         return new NextResponse("Internal Server Error", { status: 500 });

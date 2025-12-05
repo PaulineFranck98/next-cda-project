@@ -33,9 +33,9 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ t
             where: { id: typeId },
         });
 
-        return new NextResponse("Type deleted", { status: 204 });
+        return new NextResponse(null, { status: 204 });
     } catch (error) {
-        console.error("[TYPE_DELETE]", error);
+        console.error(null, error);
         return new NextResponse("Internal Server Error", { status: 500 });
     }
 }

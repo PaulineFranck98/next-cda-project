@@ -33,7 +33,7 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
             where: { id: intensityId },
         });
 
-        return new NextResponse("Intensity deleted", { status: 204 });
+        return new NextResponse(null, { status: 204 });
     } catch (error) {
         console.error("[INTENSITY_DELETE]", error);
         return new NextResponse("Internal Server Error", { status: 500 });
