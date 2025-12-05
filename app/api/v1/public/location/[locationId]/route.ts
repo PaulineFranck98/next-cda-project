@@ -29,7 +29,16 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ loca
                 discounts: true,
             }
         })
+
+        if (!location) {
+            return NextResponse.json(
+                { error: "Location not found" },
+                { status: 404 }
+            );
+        }
+
         return NextResponse.json(location)
+
     } catch (error) {
         console.error("[LOCATION]", error);
         return new NextResponse("Internal Server Error", { status: 500 })
