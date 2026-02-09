@@ -29,10 +29,10 @@ const fallback = () => ({ success: true, limit: 0, reset: 0, remaining: 0});
 const rateLimiter = new Ratelimit({
     rootKey: process.env.UNKEY_ROOT_KEY!,
     namespace: "location_search",
-    limit: 20, // 20 requêtes max
-    duration:"1m", // sur 1 min
+    limit: 20,
+    duration:"1m", 
     timeout: {
-        ms: 3000, // 3s max avant fallback
+        ms: 3000,
         fallback
     },
     onError: (error, identifier) => {
@@ -47,16 +47,12 @@ function parseArrayParam(param: string | null | undefined): string[] {
 }
 
 export async function GET(req: NextRequest) {
-    // pour le calcul de la latence du endpoint
     const start = performance.now();
     try {
         const identifier = req.headers.get("x-forwarded-for")?.split(",")[0] || "Unknown";
-        
         if(identifier) {
-            // Vérifie le quota
             const rateLimit = await rateLimiter.limit(identifier);
             if(!rateLimit.success){
-                // rateLimit.reset : timestamp où le quota se réinitialise
                 const retryAfter = Math.ceil((rateLimit.reset - Date.now()) / 1000);
 
                 return NextResponse.json (
@@ -65,7 +61,7 @@ export async function GET(req: NextRequest) {
                         retryAfter
                     }, 
                     { 
-                        status: 429, // 429 = too many request
+                        status: 429, 
                         headers: { "Retry-After": retryAfter.toString() }
                     }  
                 );
@@ -168,7 +164,7 @@ export async function GET(req: NextRequest) {
     
         return NextResponse.json({ data: locations, page, pageSize, total, totalPages: Math.ceil(total / pageSize) });
     } catch (error) {
-        // calcul de la latence
+
         const latency = performance.now() - start;
         console.error(`[LOCATIONS_PUBLIC] Erreur après ${latency.toFixed(2)}`, error);
 

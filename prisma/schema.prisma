@@ -11,7 +11,6 @@ generator client {
 model Type {
     id       String @id @default(auto()) @map("_id") @db.ObjectId
     typeName String
-
     locations Location[]
 }
 
@@ -123,7 +122,7 @@ model Location {
     user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     isApproved Boolean? @default(false)
-    isActive   Boolean? @default(false)
+    isActive   Boolean? @default(true)
 
     typeId      String? @db.ObjectId
     durationId  String? @db.ObjectId

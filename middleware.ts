@@ -1,46 +1,29 @@
-import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
-import { NextResponse } from 'next/server'
-import { isCypressTest, redirectTo } from './lib/middleware/utils'
+import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { NextResponse } from "next/server";
+import { isCypressTest, redirectTo } from "./lib/middleware/utils";
 
-type SessionClaims = {
-	metadata?: {
-		role?: string;
-	};
-};
+const isAdminRoute = createRouteMatcher(["/admin(.*)"]);
+const isDashboardRoute = createRouteMatcher(["/dashboard(.*)"]);
 
-// Création des matchers
-const isAdminRoute = createRouteMatcher(['/admin(.*)']);
-const isDashboardRoute = createRouteMatcher(['/dashboard(.*)']);
+export default clerkMiddleware(async (auth, request) => {
+  if (isCypressTest()) return NextResponse.next();
 
-// Définition des règles
-const routeRules = [
-	{
-		matcher: isAdminRoute, allowIf: (claims: SessionClaims) => {
-			const role = claims?.metadata?.role ?? 'user';
-			return role === 'admin';
-		}, redirectTo: '/',
-	},
-	{ matcher: isDashboardRoute, allowIf: (_claims: SessionClaims, userId: string | null) => !!userId, redirectTo: '/sign-in' },
-];
+  const { userId, sessionClaims } = await auth();
+  const role = sessionClaims?.metadata?.role ?? "user";
 
-export default clerkMiddleware(async (auth, req) => {
-	if (isCypressTest()) return NextResponse.next();
+  if (isAdminRoute(request) && role !== "admin") {
+    return redirectTo("/", request);
+  }
 
-	const { userId, sessionClaims } = await auth();
+  if (isDashboardRoute(request) && !userId) {
+    return redirectTo("/sign-in", request);
+  }
 
-	for (const rule of routeRules) {
-		if (rule.matcher(req) && !rule.allowIf(sessionClaims ?? {}, userId)) {
-			return redirectTo(rule.redirectTo, req);
-		}
-	}
-
-	return NextResponse.next();
+  return NextResponse.next();
 });
 
 export const config = {
-	matcher: [
-		'/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-		'/(api|trpc)(.*)',
-	],
+  matcher: [
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+  ],
 };
-

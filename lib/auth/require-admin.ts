@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function requireAdmin() {
     const { userId } = await auth();
-
+    
     if (!userId) {
         return { authorized: false, response: new NextResponse("Unauthorized", { status: 401 }) };
     }

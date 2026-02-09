@@ -182,8 +182,8 @@ const EditLocation: React.FC<Props> = ({ locationId }) => {
                             className="bg-gray-100 rounded-md resize-none border border-gray-300 px-3 py-2"
                         />
                     </div>
-                    {/* TODO hide section  */}
-                    <div className="">
+
+                    <div className="hidden">
                         <label htmlFor="latitude">Latitude</label>
                         <input
                             id="latitude"
@@ -192,7 +192,7 @@ const EditLocation: React.FC<Props> = ({ locationId }) => {
                             onChange={(e) => setLatitude(e.target.value)}
                         />
                     </div>
-                    <div className="">
+                    <div className="hidden">
                         <label htmlFor="longitude">Longitude</label>
                         <input
                             id="longitude"
