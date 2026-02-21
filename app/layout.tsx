@@ -34,7 +34,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 				className={`${poppins.className} antialiased`}
 			>
 				<ClerkProvider localization={frFR} afterSignOutUrl='/'>
-					<ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+					<ThemeProvider attribute="class" defaultTheme="light">
 						<LoadingProvider>
 							<Loading />
 							<SignedOut>
@@ -43,32 +43,11 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
 									<Link href='/sign-in' className="text-violet-800"><p>Connexion</p></Link>
 								</header>
 							</SignedOut>
-							<main>
+							<main className="bg-white">
 								<Toaster position="top-center" />
 								{children}
 							</main>
-							 {/* <footer class="border-t border-gray-200 bg-gray-100 text-violet-700 py-6">
-								<div class="max-w-6xl mx-auto px-6 flex flex-col items-center justify-between gap-4 text-sm">
-									<div class="flex items-center gap-2">
-										{# <span class="text-xl">logo</span> #}
-
-										<span class="font-semibold">ShareMyWay</span>
-									</div>
-									<nav class="flex flex-wrap items-center justify-center gap-4 text-violet-700" role="navigation">
-										<a href="{{ path('cgu') }}" class="hover:underline" target="_blank">CGU</a>
-										<a href="{{ path('politique_confidentialite') }}" class="hover:underline" target="_blank">Politique de
-											confidentialité</a>
-										<a href="{{ path('politique_cookies') }}" class="hover:underline" target="_blank">Politique de
-											cookies</a>
-										<a href="#tarteaucitron" class="hover:underline" target="_blank">Gérer mes cookies</a>
-										<a href="{{ path('mentions_legales') }}" class="hover:underline" target="_blank">Mentions légales</a>
-										<a href="{{ path('contact') }}" class="hover:underline" target="_blank">Contact</a>
-									</nav>
-									<div class="text-gray-500 text-xs">
-										© {{ "now"|date("Y") }} ShareMyWay — Tous droits réservés
-									</div>
-								</div>
-							</footer> */}
+							
 						</LoadingProvider>
 					</ThemeProvider>
 				</ClerkProvider>

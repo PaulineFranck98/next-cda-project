@@ -120,7 +120,6 @@ const LocationForm: React.FC<LocationFormProps> = ({
 						type="text"
 						value={website}
 						onChange={onChange}
-						required
 						className="bg-gray-100 rounded-md border border-gray-300 h-9 px-3"
 					/>
 				</div>
